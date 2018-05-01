@@ -67,10 +67,10 @@
         
         public function mostraInformazioni() {
             echo "numero righe     : ".$this->numeroRighe."\n";
-            echo "scontrini Nimis  : ".$this->numeroScontriniNimis."\n";
-            echo "totale Nimis     : ".($this->totaleNimis/100)."\n";
             echo "scontrini        : ".$this->numeroScontrini."\n";
+            echo "scontrini Nimis  : ".$this->numeroScontriniNimis."\n";           
             echo "totale           : ".($this->totale/100)."\n";
+            echo "totale Nimis     : ".($this->totaleNimis/100)."\n";
         }
     
         function __destruct() {}
