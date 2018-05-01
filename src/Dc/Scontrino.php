@@ -6,47 +6,59 @@
     class Scontrino {
         private $righe = array();
         
-        private $negozio = '';
-        private $data = '';
-        private $cassa = '';
-        private $numero = '';
+        public $societa = '';
+        public $negozio = '';
+        public $cassa = '';
+        public $data = '';
+        public $ora = '';
+        public $numero = '';
+        public $totale = 0;
+        public $numeroPezzi = 0;
+        public $carta = '';
+        public $nimis = false;
+        public $numeroRighe = 0;
         
-        private $vendite = array();
+        public $vendite = array();
         
         function __construct($righe) {
            $this->righe = $righe;
-           $this->caricaVendite();
+           $this->carica();
         }
         
-        private function caricaVendite() {
-            $righe = array();
+        private function carica() {
+            // testata scontrino
+            if (preg_match('/^(\d{2})(\d{2}):(\d{3}):(\d{2})(\d{2})(\d{2}):(\d{2})(\d{2})(\d{2}):(\d{4}):(\d{3}):H:1/', $this->righe[0], $matches)) {
+                $this->societa = $matches[1];
+                $this->negozio = $matches[1].$matches[2];
+                $this->cassa = $matches[3];
+                $this->data = '20'+$matches[4].'-'.$matches[5].'-'.$matches[6];
+                $this->ora = $matches[7].':'.$matches[8].':'.$matches[9];
+                $this->numero = $matches[10];
+            }
+            
             foreach ($this->righe as $riga) {
-                if (preg_match('/^.{31}:S:(\d)(\d)(\d):(\d{4}):.{3}(.{13})((?:\+|\-)\d{4})(\d|\.)(\d{3})(\+|\-|\*)(\d{9})$/', $riga, $matches)) {
-                    array_push($righe, $riga);
-                    
-                    $codice1 = $matches[1];
-                    $codice3 = $matches[2];
-                    $codice3 = $matches[3];
-                    $reparto = $matches[4];
-                    $plu = trim($matches[5]);
-                    if ('.' == $matches[7]) {
-                        $quantita = ($matches[6].'.'.$matches[8])*1;
-                        $unitaImballo = 0.0;
-                    } else {
-                        $quantita = $matches[6]*1;
-                        $unitaImballo = $matches[8]/10;
+                // numero di righe del datacollect
+                if (preg_match('/^.{31}:.:1/', $riga)) {
+                    $this->numeroRighe += 1;
+                }
+                
+                // carta nimis
+                if (preg_match('/^.{31}:k:1.{11}(\d{3})(\d{10})/', $riga, $matches)) {
+                    $this->carta = $matches[1].$matches[2];
+                    if($matches[1] == '046') {
+                        $this->nimis = true;
                     }
-                    $importoUnitario = 1;
-                    $importoTotale = 1;
-                    if ('*' == $matches[9]) {
-                        $importoUnitario = $matches[10]*1;
-                        $importoTotale = $quantita*$importoUnitario;
-                    } else {
-                        $importoUnitario = ($matches[9].$matches[10])*1;
-                        $importoTotale = $importoUnitario;
-                    }
-                    
-                    array_push($this->vendite, new Vendita($codice1, $codice2, $codice3, $reparto, $plu, $quantita, $unitaImballo, $importoUnitario, $importoTotale));
+                }
+                
+                // totale scontrino
+                if (preg_match('/^.{31}:F:1.{27}((?:\+|\-)\d{5})((?:\+|\-)\d{9})$/', $riga, $matches)) {
+                    $this->pezzi = $matches[1]*1;
+                    $this->totale = $matches[2]/100;          
+                }
+                
+                // carico le vendite
+                if (preg_match('/^.{31}:S:1/', $riga)) {
+                    $this->vendite[] = new Vendita($riga);
                 } 
             }
         }
