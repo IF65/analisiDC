@@ -18,6 +18,7 @@
         
         private $scontrini = array();
         private $plu = array();
+        private $formePagamento = array();
         
         function __construct(string $fileName) {
             try {
@@ -35,7 +36,7 @@
         
         final private function caricaRighe(string $fileName) {
             $righe = file($fileName, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-            if (false === $this->righe) {
+            if (false === $righe) {
                 throw new Exception(
                     sprintf("Errore leggendo il file %s", $fileName)
                 );
@@ -53,9 +54,9 @@
                     $this->numeroScontriniNimis++;
                     $this->totaleNimis += $scontrino->totale;
                 }
-                $this->$numeroPezzi += $scontrino->numeroPezzi;
+                $this->numeroPezzi += $scontrino->numeroPezzi;
                 
-                // analizzo i plu venduti
+                // determino i plu venduti
                 foreach ($scontrino->vendite as $vendita) {
                     if (array_key_exists($vendita->plu, $this->plu)) {
                         $this->plu[$vendita->plu]['quantita'] += $vendita->quantita;
@@ -63,10 +64,18 @@
                         $this->plu[$vendita->plu] = ['quantita' => $vendita->quantita];
                     }
                 }
+                ksort($this->plu, SORT_STRING);
+                
+                // determino le forme di pagamento
+                foreach ($scontrino->formePagamento as $formaPagamento => $importo) {
+                    if (array_key_exists($formaPagamento, $this->formePagamento)) {
+                        $this->formePagamento[$formaPagamento] += $importo;
+                    } else {
+                        $this->formePagamento[$formaPagamento] = $importo;
+                    }
+                }
             }
-            
-            // e li riordino 
-            ksort($this->plu, SORT_STRING);
+            ksort($this->formePagamento, SORT_STRING);
         }
         
         private function caricaScontrini($righe) {
@@ -85,15 +94,21 @@
         }
         
         public function mostraInformazioni() {
-            echo "numero righe     : ".$this->numeroRighe."\n";
-            echo "scontrini        : ".$this->numeroScontrini."\n";
-            echo "scontrini Nimis  : ".$this->numeroScontriniNimis."\n";           
-            echo "totale           : ".$this->totale."\n";
-            echo "totale Nimis     : ".$this->totaleNimis."\n";
-            
-            foreach( $this->plu as $key => $row) {
-                echo sprintf("barcode: %13s quantita': %.3f\n", $key, $row['quantita']);
+            echo "- TOTALI:\n";
+            echo sprintf("numero righe     : %7d\n", $this->numeroRighe);
+            echo sprintf("scontrini        : %7d\n", $this->numeroScontrini);
+            echo sprintf("scontrini Nimis  : %7d\n", $this->numeroScontriniNimis);
+            echo sprintf("importo          : %10.2f\n", $this->totale);
+            echo sprintf("importo Nimis    : %10.2f\n", $this->totaleNimis);
+            echo "\n";
+            echo "- FORME DI PAGAMENTO:\n";
+            foreach( $this->formePagamento as $formaPagamento => $importo ) {
+                echo sprintf("codice: %3s importo: %10.2f\n", $formaPagamento, $importo);
             }
+            echo "\n";
+            /*foreach( $this->plu as $key => $row) {
+                echo sprintf("barcode: %13s quantita': %.3f\n", $key, $row['quantita']);
+            }*/
         }
     
         function __destruct() {}

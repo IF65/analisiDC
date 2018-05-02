@@ -19,6 +19,7 @@
         public $numeroRighe = 0;
         
         public $vendite = array();
+        public $formePagamento = array();
         
         function __construct($righe) {
            $this->righe = $righe;
@@ -59,7 +60,16 @@
                 // carico le vendite
                 if (preg_match('/^.{31}:S:1/', $riga)) {
                     $this->vendite[] = new Vendita($riga);
-                } 
+                }
+                
+                // carico le forme di pagamento
+                if (preg_match('/^.*:T:1.{25}(\d\d).{6}((?:\+|\-)\d{9})$/', $riga, $matches)) {
+                    if (array_key_exists($matches[1], $this->formePagamento)) {
+                        $this->formePagamento[$matches[1]] += $matches[2]/100;
+                    } else {
+                        $this->formePagamento[$matches[1]] = $matches[2]/100;
+                    }
+                }
             }
         }
         
