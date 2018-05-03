@@ -9,7 +9,7 @@ $sqlDetails = array(
 	"password" 	=> "mela",
 	"host" 		=> "10.11.14.78",
 	"port" 		=> "",
-	"db"   		=> "dc",
+	"db"   		=> ['archivi', 'dc', 'dimensioni'],
 	"dsn" 		=> "",
 	"pdoAttr" 	=> array()
 );

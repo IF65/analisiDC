@@ -1,5 +1,5 @@
 <?php
-    namespace Database\Tables;
+    namespace Database\Archivi;
 
 	use Database\Database;
 
@@ -18,7 +18,7 @@
 
         public function creaTabella() {
         	try {
-                $sql = "CREATE TABLE `anagdafi` (
+                $sql = "CREATE TABLE `dc`.`anagdafi` (
                             `data` date NOT NULL,
                             `anno` smallint(5) unsigned NOT NULL DEFAULT '0',
                             `codice` varchar(7) NOT NULL DEFAULT '',
@@ -46,7 +46,7 @@
              try {
                 $this->pdo->beginTransaction();
 
-				$sql = "insert into anagdafi
+				$sql = "insert into `dc`.anagdafi
 							( data,anno,codice,negozio,bloccato,dataBlocco,tipo,prezzoOfferta,dataFineOfferta,prezzoVendita,prezzoVenditaLocale,dataRiferimento )
 						values
 							( :data,:anno, :codice,:negozio,:bloccato,:dataBlocco,:tipo,:prezzoOfferta,:dataFineOfferta,:prezzoVendita,:prezzoVenditaLocale,:dataRiferimento )
@@ -89,7 +89,7 @@
             try {
                 $this->pdo->beginTransaction();
 
-                $sql = "delete from anagdafi where data = :data and codice => :codice and negozio = :negozio";
+                $sql = "delete from `dc`.`anagdafi` where data = :data and codice => :codice and negozio = :negozio";
                 $stmt = $this->pdo->prepare($sql);
                 $stmt->execute(array(":data" => $data, ":codice" => $codice, ":negozio" => $negozio));
                 $stmt->closeCursor();
@@ -161,20 +161,20 @@
                 $tempTableName = uniqid('temp', true);
                 
                 // creo la tabella temporanea
-                $stmt = $this->pdo->query(" create table `$tempTableName` (PRIMARY KEY(negozio,codice,data)) ENGINE=MEMORY 
+                $stmt = $this->pdo->query(" create table `dc`.`$tempTableName` (PRIMARY KEY(negozio,codice,data)) ENGINE=MEMORY 
                                             select a.`negozio`, a.`codice`,max(a.`data`) `data`
-                                            from anagdafi as a
+                                            from `dc`.anagdafi as a
                                             where a.`negozio`= '$negozio' and a.`data`<= '$data'
                                             group by 1,2;")->closeCursor();
                 
                 $stmt = $this->pdo->prepare("   select a.*
-                                                from `$tempTableName` as d join anagdafi as a on d.`negozio`=a.`negozio` and d.`codice`=a.`codice` and d.`data`=a.`data`
+                                                from `dc`.`$tempTableName` as d join `dc`.anagdafi as a on d.`negozio`=a.`negozio` and d.`codice`=a.`codice` and d.`data`=a.`data`
                                                 order by a.`codice`;");
                 $stmt->execute();
                 $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
                 $stmt->closeCursor();
                 
-                $this->pdo->query("drop table if exists `$tempTableName`;")->closeCursor();
+                $this->pdo->query("drop table if exists `dc`.`$tempTableName`;")->closeCursor();
 
 				return array("recordsTotal"=>count($data),"data"=>$data);
 
@@ -197,7 +197,7 @@
             	$ordinamento = $query["ordinamento"];
 
 				if ($dataIniziale != $dataFinale and preg_match("/^\d{7}$/",$codice)) {
-					$sql = "select SQL_CALC_FOUND_ROWS a.* from anagdafi as a where a.`negozio`= :negozio and a.`data`>=:dataIniziale and a.`data`<=:dataFinale and a.`codice`=:codice";
+					$sql = "select SQL_CALC_FOUND_ROWS a.* from `dc`.anagdafi as a where a.`negozio`= :negozio and a.`data`>=:dataIniziale and a.`data`<=:dataFinale and a.`codice`=:codice";
 
 					if (count($ordinamento)) {
 						$sqlOrdinamento = array();
@@ -216,10 +216,10 @@
 					$sql = "select SQL_CALC_FOUND_ROWS a.*
 							from (
 									select a.`negozio`, a.`codice`,max(a.`data`) `data`
-									from anagdafi as a
+									from `dc`.anagdafi as a
 									where a.`negozio`= :negozio and a.`data`<=:data
 									group by 1,2
-								) as d join anagdafi as a on d.`negozio`=a.`negozio` and d.`codice`=a.`codice` and d.`data`=a.`data`";
+								) as d join `dc`.anagdafi as a on d.`negozio`=a.`negozio` and d.`codice`=a.`codice` and d.`data`=a.`data`";
 
 					if (preg_match("/^\d{7}$/",$codice)) {
 						$sql = "$sql\nwhere a.`codice`='$codice'";

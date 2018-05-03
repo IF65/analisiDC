@@ -22,11 +22,13 @@
         public function createDatabase($db) {
         	try {
 					//creo il database
-                    $this->pdo->exec("create database if not exists `$db`;")
-                        or die(print_r($this->pdo->errorInfo(), true));
+                    foreach ($db as $schema) {
+                        $this->pdo->exec("create database if not exists `$schema`;")
+                            or die(print_r($this->pdo->errorInfo(), true));
+                    }
 
 					//.. e lo imposto come db di default
-					$this->pdo->exec("use `$db`;");
+					//$this->pdo->exec("use `$db`;");
 
                     return true;
             } catch (PDOException $e) {
