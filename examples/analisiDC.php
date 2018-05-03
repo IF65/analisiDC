@@ -12,7 +12,6 @@
 
 	$anagdafi = new Anagdafi($sqlDetails);
     
-    $prezzi = $anagdafi->prezziDelGiorno('2018-05-02', '0101');
-    print_r($prezzi);
+    $prezziLocali = $anagdafi->prezziDelGiorno('2018-05-02', '0102');
 	
 ?>

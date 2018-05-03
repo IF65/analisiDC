@@ -154,20 +154,27 @@
 
             file_put_contents ( "/anagdafi/export.txt" , $csv);
         }
-
-		public function prezziDelGiorno($data, $negozio) {
+        
+        public function prezziDelGiorno($data, $negozio) {
         	try {
-                $sql = "select a.*
-                        from (
-                                select a.`negozio`, a.`codice`,max(a.`data`) `data`
-                                from anagdafi as a
-                                where a.`negozio`= :negozio and a.`data`<=:data
-                                group by 1,2
-                            ) as d join anagdafi as a on d.`negozio`=a.`negozio` and d.`codice`=a.`codice` and d.`data`=a.`data`
-                        order by a.`codice`";
-                $stmt = $this->pdo->prepare($sql);
-				$stmt->execute(array(":data" => $data,":negozio" => $negozio) );
+                
+                $tempTableName = uniqid('temp', true);
+                
+                // creo la tabella temporanea
+                $stmt = $this->pdo->query(" create table `$tempTableName` (PRIMARY KEY(negozio,codice,data)) ENGINE=MEMORY 
+                                            select a.`negozio`, a.`codice`,max(a.`data`) `data`
+                                            from anagdafi as a
+                                            where a.`negozio`= '$negozio' and a.`data`<= '$data'
+                                            group by 1,2;")->closeCursor();
+                
+                $stmt = $this->pdo->prepare("   select a.*
+                                                from `$tempTableName` as d join anagdafi as a on d.`negozio`=a.`negozio` and d.`codice`=a.`codice` and d.`data`=a.`data`
+                                                order by a.`codice`;");
+                $stmt->execute();
                 $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                $stmt->closeCursor();
+                
+                $this->pdo->query("drop table if exists `$tempTableName`;")->closeCursor();
 
 				return array("recordsTotal"=>count($data),"data"=>$data);
 
