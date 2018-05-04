@@ -93,7 +93,7 @@
             }
         }
         
-        public function mostraInformazioni() {
+        public function mostraInformazioni(&$prezziLocali, &$articoli, &$barcode) {
             echo "- TOTALI:\n";
             echo sprintf("numero righe     : %7d\n", $this->numeroRighe);
             echo sprintf("scontrini        : %7d\n", $this->numeroScontrini);
@@ -106,9 +106,27 @@
                 echo sprintf("codice: %3s importo: %10.2f\n", $formaPagamento, $importo);
             }
             echo "\n";
-            /*foreach( $this->plu as $key => $row) {
-                echo sprintf("barcode: %13s quantita': %.3f\n", $key, $row['quantita']);
-            }*/
+            
+            if ($barcode != null) {
+                echo sprintf("|%s|\n", str_repeat("-",77));
+                foreach( $this->plu as $key => $row) {
+                    $codice = '';
+                    if(array_key_exists($key,$barcode)) {
+                        $codice = $barcode[$key]['codice'];
+                    } else {
+                        if(array_key_exists(substr($key,0,7),$barcode)) {
+                            $codice = $barcode[substr($key,0,7)]['codice'];
+                        }
+                    }
+                    
+                    $descrizione = '';
+                    if(array_key_exists($codice,$articoli)) {
+                            $descrizione = $articoli[$codice]['descrizione'];
+                    }
+                    echo sprintf("| %13s | %07s | %-40s | %+.3f |\n", $key, $codice, $descrizione, $row['quantita']);
+                }
+                echo sprintf("|%s|\n", str_repeat("-",77));
+            }
         }
     
         function __destruct() {}

@@ -480,6 +480,41 @@
             }
         }
         
+        public function anagraficaArticoli() {
+        	try {                
+                $stmt = $this->pdo->prepare("select
+                                                a.`COD-ART2` `codice`,
+                                                a.`DES-ART2` `descrizione`,
+                                                ifnull(d.`REPARTO_CASSE`,1) `reparto`,
+                                                case when a.`COD-IVA-ART2` = 2100 then 2200 else a.`COD-IVA-ART2` end `codiceIva` ,
+                                                a.`IVA-ART2` `aliquotaIva`
+                                            from archivi.articox2 as a left join dimensioni.articolo as d on a.`COD-ART2`=d.`CODICE_ARTICOLO`
+                                            order by 1;");
+                if ($stmt->execute()) {
+                     $arrayData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                     return array("recordsTotal"=>count($arrayData),"data"=>$arrayData);
+                }
+                
+                return array("recordsTotal"=>0,"data"=>null);
+            } catch (PDOException $e) {
+                die($e->getMessage());
+            }
+        }
+        
+        public function barcode() {
+        	try {                
+                $stmt = $this->pdo->prepare("select b.`CODCIN-BAR2` `codice`, b.`BAR13-BAR2` `barcode` from archivi.barartx2 as b order by 1; ");
+                if ($stmt->execute()) {
+                     $arrayData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                     return array("recordsTotal"=>count($arrayData),"data"=>$arrayData);
+                }
+                
+                return array("recordsTotal"=>0,"data"=>null);
+            } catch (PDOException $e) {
+                die($e->getMessage());
+            }
+        }
+        
         public function __destruct() {
             $this->pdo = null;
         }
