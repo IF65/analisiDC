@@ -108,7 +108,7 @@
             echo "\n";
             
             if ($barcode != null) {
-                echo sprintf("|%s|\n", str_repeat("-",77));
+                echo sprintf("|%s|\n", str_repeat("-",78));
                 foreach( $this->plu as $key => $row) {
                     $codice = '';
                     if(array_key_exists($key,$barcode)) {
@@ -123,9 +123,11 @@
                     if(array_key_exists($codice,$articoli)) {
                             $descrizione = $articoli[$codice]['descrizione'];
                     }
-                    echo sprintf("| %13s | %07s | %-40s | %+.3f |\n", $key, $codice, $descrizione, $row['quantita']);
+                    
+                    $quantita = number_format ( $row['quantita'] , 3 , "," , "." );
+                    echo sprintf("| %-13s | %07s | %-35s | %12s |\n", $key, $codice, $descrizione, $quantita);
                 }
-                echo sprintf("|%s|\n", str_repeat("-",77));
+                echo sprintf("|%s|\n", str_repeat("-",78));
             }
         }
     
