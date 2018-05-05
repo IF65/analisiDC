@@ -2,11 +2,12 @@
     @ini_set('memory_limit','512M');
 
     require '../vendor/autoload.php';
-    include('../src/Database/bootstrap.php');
+    require('../src/Database/bootstrap.php');
+    require('../src/Datacollect/bootstrap.php');
 
-    require_once '../src/Dc/Dc.php';
+    //require_once '../src/Datacollect/Datacollect.php';
 
-    use Dc\Dc;
+    use Datacollect\Datacollect;
     use Database\Database;
 
 	$db = new Database($sqlDetails);
@@ -32,7 +33,7 @@
     }
     unset($elencoBarcode);
 
-    $test = new Dc("../examples/data/3152_20180407_180407_DC.TXT");
+    $test = new Datacollect("../examples/data/3152_20180407_180407_DC.TXT");
     $test->mostraInformazioni($prezziLocali, $articoli, $barcode);
 ?>
 

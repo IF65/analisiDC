@@ -1,5 +1,5 @@
 <?php
-    namespace Dc;
+    namespace Datacollect\Transazioni\Componenti;
 	
 	/*
 	 *RECORD 'S'

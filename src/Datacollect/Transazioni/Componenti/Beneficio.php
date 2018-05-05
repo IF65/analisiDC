@@ -1,12 +1,13 @@
 <?php
-	namespace Dc;
+	namespace Datacollect\Transazioni\Componenti;
 	
-	class Promozione {
+	class Beneficio {
 		private $tipo = '';
 		private $transazionale = false;
 		private $plu = '';
 		private $reparto = '';
 		
+		private $punti = 0;
 		private $quantita = 0.0;
 		private $importo = 0.0;
 		
