@@ -91,21 +91,43 @@
             }
         }
 
-        public function mostraInformazioni(&$prezziLocali, &$articoli, &$barcode) {
+        public function mostraInformazioni(&$prezziLocali, &$dimensioni, &$articoli, &$barcode) {
             echo "- TOTALI:\n";
-            echo sprintf("numero righe     : %7d\n", $this->numeroRighe);
-            echo sprintf("transazioni        : %7d\n", $this->numeroTransazioni);
-            echo sprintf("transazioni Nimis  : %7d\n", $this->numeroTransazioniNimis);
-            echo sprintf("importo          : %10.2f\n", $this->totale);
-            echo sprintf("importo Nimis    : %10.2f\n", $this->totaleNimis);
+            echo sprintf("numero righe       : %12s\n", number_format ( $this->numeroRighe , 0 , "," , "." ));
+            echo sprintf("transazioni Nimis  : %12s\n", number_format ( $this->numeroTransazioniNimis , 0 , "," , "." ));
+            echo sprintf("transazioni Totali : %12s\n", number_format ( $this->numeroTransazioni , 0 , "," , "." ));
+            echo sprintf("importo Nimis      : %12s\n", number_format ( $this->totaleNimis , 2 , "," , "." ));
+            echo sprintf("importo Totale     : %12s\n", number_format ( $this->numeroRighe , 2 , "," , "." ));
+            
             echo "\n";
             echo "- FORME DI PAGAMENTO:\n";
             foreach( $this->formePagamento as $formaPagamento => $importo ) {
-                echo sprintf("codice: %3s importo: %10.2f\n", $formaPagamento, $importo);
+                echo sprintf("codice: %3s importo: %12s\n", $formaPagamento, number_format ( $importo , 2 , "," , "." ));
             }
             echo "\n";
+            
+            if ($barcode != null and $dimensioni != null and false) {
+                echo "- RIPARTIZIONE REPARTI;\n";
+                foreach( $this->transazioni as $key => $row) {
+                    $codice = '';
+                    if(array_key_exists($key,$barcode)) {
+                        $codice = $barcode[$key]['articoloCodice'];
+                    } else {
+                        if(array_key_exists(substr($key,0,7),$barcode)) {
+                            $codice = $barcode[substr($key,0,7)]['articoloCodice'];
+                        }
+                    }
 
-            if ($barcode != null) {
+                    $codiceReparto = 1;
+                    if(array_key_exists($codice,$dimensioni)) {
+                            $codiceReparto = $articoli[$codice]['codiceReparto'];
+                    }
+
+                    $quantita = number_format ( $row['quantita'] , 3 , "," , "." );
+                }
+            }
+            
+            if ($barcode != null and false) {
                 echo sprintf("|%s|\n", str_repeat("-",78));
                 foreach( $this->plu as $key => $row) {
                     $codice = '';
