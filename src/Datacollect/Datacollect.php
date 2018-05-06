@@ -110,16 +110,16 @@
                 foreach( $this->plu as $key => $row) {
                     $codice = '';
                     if(array_key_exists($key,$barcode)) {
-                        $codice = $barcode[$key]['codice'];
+                        $codice = $barcode[$key]['articoloCodice'];
                     } else {
                         if(array_key_exists(substr($key,0,7),$barcode)) {
-                            $codice = $barcode[substr($key,0,7)]['codice'];
+                            $codice = $barcode[substr($key,0,7)]['articoloCodice'];
                         }
                     }
 
                     $descrizione = '';
                     if(array_key_exists($codice,$articoli)) {
-                            $descrizione = $articoli[$codice]['descrizione'];
+                            $descrizione = $articoli[$codice]['articoloDescrizione'];
                     }
 
                     $quantita = number_format ( $row['quantita'] , 3 , "," , "." );
