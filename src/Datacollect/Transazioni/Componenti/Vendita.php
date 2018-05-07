@@ -11,9 +11,14 @@
 		public $codice1 = 1;
 		public $codice2 = 0;
 		public $codice3 = 1;
-		public $reparto = '0000';
+		public $repartoCassa = '0000';
+        public $repartoCodice = '';
         public $plu = '';
         public $pluPeso = False;
+        public $articoloCodice = '';
+        public $articoloDescrizione = '';
+        public $ivaAliquota = '';
+        public $ivaCodice = '';
         public $quantita = 0.0;
 		public $unitaImballo = 0;
         public $importoUnitario = 0.0;
@@ -24,7 +29,7 @@
                 $this->codice1 = $matches[1];
                 $this->codice2 = $matches[2];
                 $this->codice3 = $matches[3];
-                $this->reparto = $matches[4];
+                $this->repartoCassa = $matches[4];
                 $this->plu = trim($matches[5]);
                 if ('.' == $matches[7]) {
                     $this->quantita = ($matches[6].'.'.$matches[8])*1;

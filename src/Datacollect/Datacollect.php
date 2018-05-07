@@ -18,11 +18,11 @@
         private $plu = array();
         private $formePagamento = array();
 
-        function __construct(string $fileName) {
+        function __construct(string $fileName, &$prezziLocali, &$dimensioni, &$articoli, &$barcode) {
             try {
                 $righe = $this->caricaRighe($fileName);
                 if (count($righe) > 0) {
-                    $this->caricaTransazioni($righe);
+                    $this->caricaTransazioni($righe, $prezziLocali, $dimensioni, $articoli, $barcode);
                     if(count($this->transazioni) > 0) {
                         $this->recuperaInformazioni();
                     }
@@ -76,14 +76,14 @@
             ksort($this->formePagamento, SORT_STRING);
         }
 
-        private function caricaTransazioni($righe) {
+        private function caricaTransazioni($righe, &$prezziLocali, &$dimensioni, &$articoli, &$barcode) {
             foreach ($righe as $riga) {
                 if (preg_match('/^\d{4}:\d{3}:\d{6}:\d{6}:\d{4}:\d{3}:.:1/', $riga)) {
                     if (preg_match('/^.{31}:H:1/', $riga, $matches)) {
                         $righeTransazione = [$riga];
                     } elseif (preg_match('/^.{31}:F:1/', $riga)) {
                         $righeTransazione[] = $riga;
-                        $this->transazioni[] = New Transazione($righeTransazione);
+                        $this->transazioni[] = New Transazione($righeTransazione, $prezziLocali, $dimensioni, $articoli, $barcode);
                     } else {
                         $righeTransazione[] = $riga;
                     }

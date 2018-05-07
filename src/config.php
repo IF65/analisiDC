@@ -14,4 +14,8 @@ $sqlDetails = array(
 	"pdoAttr" 	=> array()
 );
 
+$dcDetails = array(
+	"dcFolder" => "/data/datacollect"
+);
+
 ?>
