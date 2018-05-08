@@ -4,6 +4,7 @@
     use Datacollect\Transazioni\Transazione;
 
     class Datacollect {
+        protected $db = null;
 
         // tutti le variabili sono valorizzate tenendo conto solo degli transazioni validi
         private $numeroRighe = 0; // rughe del file di testo
@@ -18,11 +19,12 @@
         private $plu = array();
         private $formePagamento = array();
 
-        function __construct(string $fileName, &$prezziLocali, &$dimensioni, &$articoli, &$barcode) {
+        function __construct(string $fileName, &$db = null) {
             try {
+                $this->db = $db;
                 $righe = $this->caricaRighe($fileName);
                 if (count($righe) > 0) {
-                    $this->caricaTransazioni($righe, $prezziLocali, $dimensioni, $articoli, $barcode);
+                    $this->caricaTransazioni($righe);
                     if(count($this->transazioni) > 0) {
                         $this->recuperaInformazioni();
                     }
@@ -42,6 +44,21 @@
             return $righe;
         }
 
+        private function caricaTransazioni($righe) {
+            foreach ($righe as $riga) {
+                if (preg_match('/^\d{4}:\d{3}:\d{6}:\d{6}:\d{4}:\d{3}:.:1/', $riga)) {
+                    if (preg_match('/^.{31}:H:1/', $riga, $matches)) {
+                        $righeTransazione = [$riga];
+                    } elseif (preg_match('/^.{31}:F:1/', $riga)) {
+                        $righeTransazione[] = $riga;
+                        $this->transazioni[] = New Transazione($righeTransazione, $this->db);
+                    } else {
+                        $righeTransazione[] = $riga;
+                    }
+                }
+            }
+        }
+        
         private function recuperaInformazioni() {
             foreach ($this->transazioni as $transazione) {
                 // informazioni di testata
@@ -74,21 +91,6 @@
                 }
             }
             ksort($this->formePagamento, SORT_STRING);
-        }
-
-        private function caricaTransazioni($righe, &$prezziLocali, &$dimensioni, &$articoli, &$barcode) {
-            foreach ($righe as $riga) {
-                if (preg_match('/^\d{4}:\d{3}:\d{6}:\d{6}:\d{4}:\d{3}:.:1/', $riga)) {
-                    if (preg_match('/^.{31}:H:1/', $riga, $matches)) {
-                        $righeTransazione = [$riga];
-                    } elseif (preg_match('/^.{31}:F:1/', $riga)) {
-                        $righeTransazione[] = $riga;
-                        $this->transazioni[] = New Transazione($righeTransazione, $prezziLocali, $dimensioni, $articoli, $barcode);
-                    } else {
-                        $righeTransazione[] = $riga;
-                    }
-                }
-            }
         }
 
         public function mostraInformazioni(&$prezziLocali, &$dimensioni, &$articoli, &$barcode) {

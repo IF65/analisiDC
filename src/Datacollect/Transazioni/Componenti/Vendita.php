@@ -8,6 +8,8 @@
 	 *code3 = 0 Manual entry, 1 Scanner entry, 8 Manual entry (special sale), 9 Scanner entry (special sale)
     */
     class Vendita {
+        protected $db;
+        
 		public $codice1 = 1;
 		public $codice2 = 0;
 		public $codice3 = 1;
@@ -24,7 +26,9 @@
         public $importoUnitario = 0.0;
 		public $importoTotale = 0.0;
 		
-        function __construct(string $riga) {
+        function __construct(string $riga, &$db) {
+            $this->db = $db;
+            
             if (preg_match('/^.{31}:S:(\d)(\d)(\d):(\d{4}):.{3}(.{13})((?:\+|\-)\d{4})(\d|\.)(\d{3})(\+|\-|\*)(\d{9})$/', $riga, $matches)) {
                 $this->codice1 = $matches[1];
                 $this->codice2 = $matches[2];
@@ -47,6 +51,12 @@
                 } else {
                     $this->importoUnitario = ($matches[9].$matches[10])*1;
                     $this->importoTotale = $this->importoUnitario;
+                }
+                
+                if (! is_null($db)) {
+                    if (array_key_exists($this->plu, $db->barcode['data'])) {
+                        $this->articoloCodice = $db->barcode['data'][$this->plu];
+                    }
                 }
             }
         }

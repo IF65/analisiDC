@@ -12,11 +12,17 @@
 
         protected $pdo = null;
         
-        public $articox2;
-        public $barartx2;
-        public $negozi;
-        public $anagdafi;
+        public $articoli;
+        public $barcode;
         public $dimensioni;
+        public $negozi;
+        
+        private $tableArticoli;
+        private $tableBarcode;
+        private $tableNegozi;
+        private $tableDimensioni;
+        
+        private $tableAnagdafi;
 
         public function __construct($sqlDetails) {
             $conStr = sprintf("mysql:host=%s", $sqlDetails['host']);
@@ -37,21 +43,29 @@
                 // ----------------------------------------------------------
                 $stmt = $this->pdo->prepare("create database if not exists `archivi`;");
                 $stmt->execute() or die(print_r($this->pdo->errorInfo(), true));
-                $this->articox2 = new Articox2($this->pdo);
-                $this->barartx2 = new Barartx2($this->pdo);
-                $this->negozi = new Negozi($this->pdo);
-                            
-                // dc
-                // ----------------------------------------------------------
-                $stmt = $this->pdo->prepare("create database if not exists `dc`;");
-                $stmt->execute() or die(print_r($this->pdo->errorInfo(), true));
-                $this->anagdafi = new Anagdafi($this->pdo);
-                    
+                $this->tableArticoli = new Articox2($this->pdo);
+                $this->tableBarcode = new Barartx2($this->pdo);
+                $this->tableNegozi = new Negozi($this->pdo);
+                 
+                $this->articoli = $this->tableArticoli->ricerca([]);
+                $this->barcode = $this->tableBarcode->ricerca([]);
+                $this->negozi = $this->tableNegozi->ricerca([]);
+                     
                 // dimensioni
                 // ----------------------------------------------------------
                 $stmt = $this->pdo->prepare("create database if not exists `dimensioni`;");
                 $stmt->execute() or die(print_r($this->pdo->errorInfo(), true));
-                $this->dimensioni = new Dimensioni($this->pdo);  
+                $this->tableDimensioni = new Dimensioni($this->pdo);
+                
+                $this->dimensioni = $this->tableDimensioni->ricerca([]);
+                
+                // dc
+                // ----------------------------------------------------------
+                $stmt = $this->pdo->prepare("create database if not exists `dc`;");
+                $stmt->execute() or die(print_r($this->pdo->errorInfo(), true));
+                $this->tableAnagdafi = new Anagdafi($this->pdo);
+                    
+                
             
                 return true;
             } catch (PDOException $e) {

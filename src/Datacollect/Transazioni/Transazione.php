@@ -6,6 +6,7 @@
 
     class Transazione {
         private $righe = array();
+        protected $db;
 
         public $societa = '';
         public $negozio = '';
@@ -22,9 +23,10 @@
         public $vendite = array();
         public $formePagamento = array();
 
-        function __construct($righe) {
-           $this->righe = $righe;
-           $this->carica();
+        function __construct(array $righe, &$db) {
+            $this->db = $db;    
+            $this->righe = $righe;
+            $this->carica();
         }
 
         private function carica() {
@@ -60,7 +62,7 @@
 
                 // carico le vendite
                 if (preg_match('/^.{31}:S:1/', $riga)) {
-                    $this->vendite[] = new Vendita($riga);
+                    $this->vendite[] = new Vendita($riga, $this->db);
                 }
 
                 // carico le forme di pagamento

@@ -13,28 +13,15 @@
     // creo il database
 	$db = new Database($sqlDetails);
 
-    // carico in memoria le tabelle di lookup
-    echo '- Caricamento articoli           : '.(new \DateTime())->setTimezone($timeZone)->format('H:i:s')."\n";
-    $articoli = $db->articox2->ricerca([]);
-
-    echo '- Caricamento barcode            : '.(new \DateTime())->setTimezone($timeZone)->format('H:i:s')."\n";
-    $barcode = $db->barartx2->ricerca([]);
-
-    echo '- Caricamento negozi             : '.(new \DateTime())->setTimezone($timeZone)->format('H:i:s')."\n";
-    $negozi = $db->negozi->ricerca([]);
-
-    echo '- Caricamento dimensioni articolo: '.(new \DateTime())->setTimezone($timeZone)->format('H:i:s')."\n";
-    $dimensioni = $db->dimensioni->ricerca([]);
-
     echo '- Caricamento prezzi locali      : '.(new \DateTime())->setTimezone($timeZone)->format('H:i:s')."\n";
     //$prezziLocali = $db->anagdafi->ricerca(['codiceNegozio' => '3152', 'data' => '2018-04-07']);
     $prezziLocali = [];
 
     // carico un datacollect
     echo '- Caricamento datacollect        : '.(new \DateTime())->setTimezone($timeZone)->format('H:i:s')."\n\n";
-    $test = new Datacollect(realpath(__DIR__ . '/..')."/examples/data/3152_20180407_180407_DC.TXT");
+    $test = new Datacollect(realpath(__DIR__ . '/..')."/examples/data/3152_20180407_180407_DC.TXT", $db);
 
     // mostro le informazioni
-    $test->mostraInformazioni($prezziLocali['data'], $dimensioni['data'], $articoli['data'], $barcode['data']);
+    $test->mostraInformazioni($prezziLocali['data'], $db->dimensioni['data'], $db->articoli['data'], $db->barcode['data']);
 ?>
 
