@@ -44,13 +44,11 @@
                     $this->quantita = $matches[6]*1;
                     $this->unitaImballo = $matches[8]/10;
                 }
-                $this->importoUnitario = 1;
-                $this->importoTotale = 1;
                 if ('*' == $matches[9]) {
-                    $this->importoUnitario = $matches[10]*1;
+                    $this->importoUnitario = $matches[10]/100;
                     $this->importoTotale = $this->quantita*$this->importoUnitario;
                 } else {
-                    $this->importoUnitario = ($matches[9].$matches[10])*1;
+                    $this->importoUnitario = ($matches[9].$matches[10])/100;
                     $this->importoTotale = $this->importoUnitario;
                 }
                 

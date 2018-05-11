@@ -19,6 +19,7 @@
         public $carta = '';
         public $nimis = false;
         public $numeroRighe = 0;
+        public $totaleCalcolato = 0;
 
         public $vendite = array();
         public $benefici = array();
@@ -132,56 +133,60 @@
                     
                     // sconto reparto
                     if ((($i + 1) < count($righeBeneficio)) and preg_match('/:D:196:.{30}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
-                        $importo = $matches[1];
+                        $parametri = ['tipo' => '0055', 'sconto' => $matches[1]/100];
                         
                         if (preg_match('/:m:1.{7}:0055/', $righeBeneficio[$i + 1])) {
                             $j = $i - 1;
                             $articoli = [];
-                            while ($j >= 0 and preg_match('/:d:1.{7}:P0:(.{13})((?:\-|\+)\d{4}).{4}((?:\*|\+|\-)\d{9})$/', $righeBeneficio[$j], $matches)) {
-                                $articoli[] = ['barcode' => $matches[1], 'quantita' => $matches[2], 'importo' => $matches[3]];
+                            while ($j >= 0 and preg_match('/:d:1.{7}:P0:(.{13})((?:\-|\+)\d{4}).{4}.(\d{9})$/', $righeBeneficio[$j], $matches)) {
+                                $articoli[] = ['plu' => $matches[1], 'quantita' => $matches[2]*1, 'sconto' => $matches[2]*$matches[3]/100];
                                 $j--;
                             }
-                            
+                            $parametri['articoli'] = $articoli;
                             array_splice($righeBeneficio, $i-count($articoli), 2 + count($articoli));
+                            $this->benefici[] = new Beneficio($parametri, $this->db);
                             return true;
                         }
                     }
                     
-                    // sconto catalina
+                    // sconto catalina transazione
                     if ((($i + 1) < count($righeBeneficio)) and preg_match('/:D:197:.{30}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
-                        $importo = $matches[1];
+                         $parametri = ['tipo' => '0503', 'sconto' => $matches[1]/100];
                         
                         if (preg_match('/:w:1.{11}(.{13})/', $righeBeneficio[$i + 1], $matches)) {
                             $barcodeCatalina = $matches[1];
                             
                             array_splice($righeBeneficio, $i, 2);
+                            $this->benefici[] = new Beneficio($parametri, $this->db);
                             return true;
                         }
                     }
                     
                     // sconto catalina a reparto
                     if ((($i + 1) < count($righeBeneficio)) and preg_match('/:D:196:.{30}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
-                        $importo = $matches[1];
+                        $parametri = ['tipo' => '0481', 'sconto' => $matches[1]/100];
                         
                         if (preg_match('/:w:1.{11}(.{13})/', $righeBeneficio[$i + 1])) {
                             $j = $i - 1;
                             $articoli = [];
-                            while ($j >= 0 and preg_match('/:d:1.{7}:P0:(.{13})((?:\-|\+)\d{4}).{4}((?:\*|\+|\-)\d{9})$/', $righeBeneficio[$j], $matches)) {
-                                $articoli[] = ['barcode' => $matches[1], 'quantita' => $matches[2], 'importo' => $matches[3]];
+                            while ($j >= 0 and preg_match('/:d:1.{7}:P0:(.{13})((?:\-|\+)\d{4}).{4}.(\d{9})$/', $righeBeneficio[$j], $matches)) {
+                                $articoli[] = ['plu' => $matches[1], 'quantita' => $matches[2]*1, 'sconto' => $matches[2]*$matches[3]/100];
                                 $j--;
                             }
-                            
+                            $parametri['articoli'] = $articoli;
                             array_splice($righeBeneficio, $i-count($articoli), 2 + count($articoli));
+                            $this->benefici[] = new Beneficio($parametri, $this->db);
                             return true;
                         }
                     }
                     
-                    // sconto dipendenti
+                    // sconto dipendenti transazione
                     if ((($i + 1) < count($righeBeneficio)) and preg_match('/:D:198:.{30}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
-                        $importo = $matches[1];
+                        $parametri = ['tipo' => '0061', 'sconto' => $matches[1]/100];
                         
                         if (preg_match('/:m:1.*0061/', $righeBeneficio[$i + 1])) {
                             array_splice($righeBeneficio, $i, 2);
+                            $this->benefici[] = new Beneficio($parametri, $this->db);
                             return true;
                         }
                     }
@@ -191,7 +196,8 @@
                         $barcode = $matches[1];
                         $punti = $matches[2];
                         $importo = $matches[3];
-                        
+                        $parametri = ['tipo' => '0023', 'plu'  => trim($matches[1]), 'quantita' => $matches[2]*1, 'sconto' => $matches[3]/100];
+                         
                         if (preg_match('/:m:1.{7}:0023/', $righeBeneficio[$i + 1])) {
                             array_splice($righeBeneficio, $i, 2);
                             return true;
@@ -239,6 +245,17 @@
             
             if (count($righeBeneficio) > 0) {
                 echo "errore: $righeBeneficio[0]\n";
+            }
+            
+            foreach ($this->vendite as $vendita) {
+                $this->totaleCalcolato += $vendita->importoTotale;
+            }
+            foreach ($this->benefici as $beneficio) {
+                $this->totaleCalcolato += $beneficio->sconto;
+            }
+            
+            if (round($this->totale,2) != round($this->totaleCalcolato,2)) {
+                echo "$this->totale@$this->totaleCalcolato\n";
             }
         }
 
