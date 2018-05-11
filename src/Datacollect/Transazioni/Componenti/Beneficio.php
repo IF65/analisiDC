@@ -2,24 +2,35 @@
 	namespace Datacollect\Transazioni\Componenti;
 	
 	class Beneficio {
-		private $tipo = '';
-		private $transazionale = false;
-		private $plu = '';
-		private $reparto = '';
+		public $tipo = '';
+		public $transazionale = false;
 		
-		private $punti = 0;
-		private $quantita = 0.0;
-		private $importo = 0.0;
+		public $plu = '';
+		public $repartoCodice = '';
+		public $articoloCodice = '';
 		
-		function __construct($tipo, $parametri) {
-			$this->tipo = $tipo;
+		public $quantita = 0.0;
+		public $punti = 0;
+		public $sconto = 0.0;
+		
+		function __construct(array $parametri, &$db) {
+			$this->tipo = $parametri['tipo'];
 			
-			if ($tipo == '0493') {
-				$this->transazionale = $parametri['transazionale'];
+			if ($parametri['tipo'] == '0027') {
+				$this->transazionale = false;
 				$this->plu = $parametri['plu'];
-				$this->reparto = $parametri['reparto'];
 				$this->quantita = $parametri['quantita'];
-				$this->importo = $parametri['importo'];
+				$this->sconto = $parametri['sconto']/100;
+				$this->punti = $parametri['punti']*1;
+				
+				if (! is_null($db)) {
+                    if (array_key_exists($this->plu, $db->barcode['data'])) {
+						$this->articoloCodice = $db->barcode['data'][$this->plu]['articoloCodice'];
+						if (array_key_exists($this->articoloCodice, $db->dimensioni['data'])) {
+							$this->repartoCodice = $db->dimensioni['data'][$this->articoloCodice]['repartoCodice'];
+						}
+					}
+				}
 			}
         }
 		

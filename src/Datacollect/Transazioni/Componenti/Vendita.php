@@ -39,6 +39,7 @@
                     $this->quantita = ($matches[6].'.'.$matches[8])*1;
                     $this->unitaImballo = 0.0;
                     $this->pluPeso = true;
+                    $this->plu = substr($this->plu,0,7);
                 } else {
                     $this->quantita = $matches[6]*1;
                     $this->unitaImballo = $matches[8]/10;
@@ -55,7 +56,7 @@
                 
                 if (! is_null($db)) {
                     if (array_key_exists($this->plu, $db->barcode['data'])) {
-                        $this->articoloCodice = $db->barcode['data'][$this->plu];
+                        $this->articoloCodice = $db->barcode['data'][$this->plu]['articoloCodice'];
                     }
                 }
             }

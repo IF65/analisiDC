@@ -155,10 +155,10 @@
 
         public function ricerca(array $query) {
             try {
-                $sql = "select `CODICE_ARTICOLO` `negozioCodice`, ifnull(`REPARTO_CASSE`, 1) `repartoCodice`
+                $sql = "select `CODICE_ARTICOLO` `articoloCodice`, ifnull(`REPARTO_CASSE`, 1) `repartoCodice`
                         from dimensioni.articolo ";
-                if (array_key_exists('negozioCodice', $query)) {
-                    $sql .= "where `CODICE_ARTICOLO` = '".$query['negozioCodice']."'";
+                if (array_key_exists('articoloCodice', $query)) {
+                    $sql .= "where `CODICE_ARTICOLO` = '".$query['articoloCodice']."'";
                 }
 
                 $data = [];
@@ -166,9 +166,9 @@
                 $stmt = $this->pdo->prepare( $sql );
                 $stmt->execute();
                 while ($row = $stmt->fetch(\PDO::FETCH_ASSOC, \PDO::FETCH_ORI_NEXT)) {
-                    $negozioCodice = $row['negozioCodice'];
-                    unset($row['negozioCodice']);
-                    $data[$negozioCodice] = $row;
+                    $articoloCodice = $row['articoloCodice'];
+                    unset($row['articoloCodice']);
+                    $data[$articoloCodice] = $row;
                     $recordsCount++;
                 }
                 $stmt = null;

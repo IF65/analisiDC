@@ -29,14 +29,14 @@
             try {
                 $this->pdo = new PDO($conStr, $sqlDetails['user'], $sqlDetails['password']);
 
-                self::createDatabase($sqlDetails['db']);
+                self::createDatabase();
 
             } catch (PDOException $e) {
                 die($e->getMessage());
             }
         }
 
-        public function createDatabase($db) {
+        public function createDatabase() {
         	try {
             
                 // archivi

@@ -21,6 +21,7 @@
         public $numeroRighe = 0;
 
         public $vendite = array();
+        public $benefici = array();
         public $formePagamento = array();
 
         function __construct(array $righe, &$db) {
@@ -63,11 +64,13 @@
 
                 // carico le vendite
                 if (preg_match('/^.{31}:S:1/', $riga)) {
-                    $this->vendite[] = new Vendita($riga, $this->db);
+                    if (! preg_match('/^.{31}:S:1.{11}998011/', $riga)) {
+                        $this->vendite[] = new Vendita($riga, $this->db);
+                    }
                 }
                 
                 // carico le righe che fanno parte di un beneficio per eseguire successivamente l'analisi e il loro caricamento
-                if (preg_match('/^.{31}:(C|D|G|d|m|w):1/', $riga)) {
+                if (preg_match('/^.{31}:(C|D|G|d|m|w):1/', $riga) or preg_match('/^.{31}:S:1.{11}998011/', $riga)) {
                     $righeBeneficio[] = $riga;
                 }                
 
@@ -82,31 +85,161 @@
             }
             
             // carico i benefici
-            $esito = function() use(&$righeBeneficio) {
-                for ( $i = 0 ; $i < count($righeBeneficio); $i++) {
-                    $numeroRigheBlocco = 0;
-                    
-                    if ((($i + 2) < count($righeBeneficio)) and preg_match('/:C:142:\d{4}:P0:(.{13})((?:\-|\+)\d{4}).{4}(\*|\+|\-)(\d{9})$/', $righeBeneficio[$i], $matches)) {
-                        $barcodeC = $matches[1];
-                        $quantitaC = $matches[2];
-                        $operazioneC = $matches[3];
-                        $importoC = $matches[4];
-                        if (preg_match('/:G:131:\d{4}:P0:(.{13}):..((?:\-|\+)\d{5})(\*|\+|\-)(\d{9})$/', $righeBeneficio[$i + 1], $matches)) {
-                            $barcodeG = $matches[1];
-                            $puntiG = $matches[2];
-                            $operazioneG = $matches[3];
-                            $importoG = $matches[4];
+            $esitoCaricamentoBenefici = function() use(&$righeBeneficio) {
+                for ( $i = 0 ; $i < count($righeBeneficio); $i++) {                   
+                    // pago con nimis
+                    if ((($i + 2) < count($righeBeneficio)) and preg_match('/:C:142:\d{4}:P0:(.{13})((?:\-|\+)\d{4}).{4}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
+                        $parametri = ['tipo' => '0027', 'plu' => trim($matches[1]), 'quantita' => $matches[2]*1, 'sconto' => $matches[3]/100];
+                        if (preg_match('/:G:131:\d{4}:P0:(.{13}):..((?:\-|\+)\d{5})((?:\+|\-)\d{9})$/', $righeBeneficio[$i + 1], $matches)) {
+                            $parametri['punti'] = $matches[2]*1;
                             if (preg_match('/:m:1.{7}:0027/', $righeBeneficio[$i + 2])) {
-                                $righeBeneficio = array_slice($righeBeneficio,$i + 3);
+                                array_splice($righeBeneficio, $i, 3);
+                                $this->benefici[] = new Beneficio($parametri, $this->db);
+                                return true;
+                            }
+                        }
+                    }                  
+                    
+                    // sconto articolo semplice (deve sempre essere dopo pago nimis)
+                    if (preg_match('/:C:142:\d{4}:P0:(.{13})((?:\-|\+)\d{4}).{4}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
+                        $parametri = ['tipo' => '0493', 'plu'  => trim($matches[1]), 'quantita' => $matches[2]*1, 'sconto' => $matches[3]/100];
+                        array_splice($righeBeneficio, $i, 1);
+                        $this->benefici[] = new Beneficio($parametri, $this->db);
+                        return true;
+                    }
+                    
+                    // sconto articolo
+                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:C:143:\d{4}:P0:(.{13})((?:\-|\+)\d{4}).{4}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
+                        $parametri = ['tipo' => '0493', 'plu'  => trim($matches[1]), 'quantita' => $matches[2]*1, 'sconto' => $matches[3]/100];
+                        if (preg_match('/:m:1.{7}:0493/', $righeBeneficio[$i + 1])) {
+                            array_splice($righeBeneficio, $i, 2);
+                            $this->benefici[] = new Beneficio($parametri, $this->db);
+                            return true;
+                        }
+                    }
+                    
+                    // e convenienza
+                    if ((($i + 2) < count($righeBeneficio)) and preg_match('/^.{31}:S:1.{11}998011/', $righeBeneficio[$i])) {
+                        if (preg_match('/:C:143:\d{4}:P0:(.{13})((?:\-|\+)\d{4}).{4}((?:\+|\-)\d{9})$/', $righeBeneficio[$i + 1], $matches)) {
+                            $parametri = ['tipo' => '0492', 'plu'  => trim($matches[1]), 'quantita' => $matches[2]*1, 'sconto' => $matches[3]/100];
+                            if (preg_match('/:m:1.{7}:0492/', $righeBeneficio[$i + 2])) {
+                                array_splice($righeBeneficio, $i, 3);
+                                $this->benefici[] = new Beneficio($parametri, $this->db);
                                 return true;
                             }
                         }
                     }
-                    return false;
+                    
+                    // sconto reparto
+                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:D:196:.{30}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
+                        $importo = $matches[1];
+                        
+                        if (preg_match('/:m:1.{7}:0055/', $righeBeneficio[$i + 1])) {
+                            $j = $i - 1;
+                            $articoli = [];
+                            while ($j >= 0 and preg_match('/:d:1.{7}:P0:(.{13})((?:\-|\+)\d{4}).{4}((?:\*|\+|\-)\d{9})$/', $righeBeneficio[$j], $matches)) {
+                                $articoli[] = ['barcode' => $matches[1], 'quantita' => $matches[2], 'importo' => $matches[3]];
+                                $j--;
+                            }
+                            
+                            array_splice($righeBeneficio, $i-count($articoli), 2 + count($articoli));
+                            return true;
+                        }
+                    }
+                    
+                    // sconto catalina
+                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:D:197:.{30}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
+                        $importo = $matches[1];
+                        
+                        if (preg_match('/:w:1.{11}(.{13})/', $righeBeneficio[$i + 1], $matches)) {
+                            $barcodeCatalina = $matches[1];
+                            
+                            array_splice($righeBeneficio, $i, 2);
+                            return true;
+                        }
+                    }
+                    
+                    // sconto catalina a reparto
+                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:D:196:.{30}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
+                        $importo = $matches[1];
+                        
+                        if (preg_match('/:w:1.{11}(.{13})/', $righeBeneficio[$i + 1])) {
+                            $j = $i - 1;
+                            $articoli = [];
+                            while ($j >= 0 and preg_match('/:d:1.{7}:P0:(.{13})((?:\-|\+)\d{4}).{4}((?:\*|\+|\-)\d{9})$/', $righeBeneficio[$j], $matches)) {
+                                $articoli[] = ['barcode' => $matches[1], 'quantita' => $matches[2], 'importo' => $matches[3]];
+                                $j--;
+                            }
+                            
+                            array_splice($righeBeneficio, $i-count($articoli), 2 + count($articoli));
+                            return true;
+                        }
+                    }
+                    
+                    // sconto dipendenti
+                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:D:198:.{30}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
+                        $importo = $matches[1];
+                        
+                        if (preg_match('/:m:1.*0061/', $righeBeneficio[$i + 1])) {
+                            array_splice($righeBeneficio, $i, 2);
+                            return true;
+                        }
+                    }
+                    
+                    // premio
+                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:G:131:\d{4}:P0:(.{13}):00((?:\-|\+)\d{5})((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
+                        $barcode = $matches[1];
+                        $punti = $matches[2];
+                        $importo = $matches[3];
+                        
+                        if (preg_match('/:m:1.{7}:0023/', $righeBeneficio[$i + 1])) {
+                            array_splice($righeBeneficio, $i, 2);
+                            return true;
+                        }
+                    }
+                    
+                    // punti articolo
+                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:G:111:\d{4}:P0:(.{13}):00((?:\-|\+)\d{5})((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
+                        $barcode = $matches[1];
+                        $punti = $matches[2];
+                        $importo = $matches[3];
+                        
+                        if (preg_match('/:m:1.{7}:0022/', $righeBeneficio[$i + 1])) {
+                            array_splice($righeBeneficio, $i, 2);
+                            return true;
+                        }
+                    }
+                    
+                    // punti ACPT
+                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:m:1.{7}:ACPT/', $righeBeneficio[$i])) {
+                        if (preg_match('/:G:111:\d{4}:P1:(.{13}):00((?:\-|\+)\d{5})((?:\+|\-)\d{9})$/', $righeBeneficio[$i + 1], $matches)) {
+                            $barcode = $matches[1];
+                            $punti = $matches[2];
+                            $importo = $matches[3];
+                            
+                            array_splice($righeBeneficio, $i, 2);
+                            return true;
+                        }
+                    }
+                    
+                    // punti su transazione
+                    if (preg_match('/:G:121:.{21}:00((?:\-|\+)\d{5})((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
+                        $punti = $matches[1];
+                        $importo = $matches[2];
+                        if (preg_match('/:m:1.{7}:0034/', $righeBeneficio[$i + 1])) {
+                            array_splice($righeBeneficio, $i, 2);
+                            return true;
+                        }
+                    }
                 }
+                return false;
             };
             
-            while ($esito) {}
+            while ($esitoCaricamentoBenefici($righeBeneficio)) {}
+            
+            if (count($righeBeneficio) > 0) {
+                echo "errore: $righeBeneficio[0]\n";
+            }
         }
 
         function __destruct() {}
