@@ -31,6 +31,15 @@
             $this->righe = $righe;
             $this->carica();
         }
+        
+        protected function cercaVendita(array $parametri, $ricercaEsatta = false) {
+            for ($i=0; $i<count($this->vendite); $i++) {
+                if ($this->vendite[$i]->confronto($parametri, $ricercaEsatta)) {
+                    return $i;
+                }
+            }
+            return -1;
+        }
 
         private function carica() {
             // testata transazione
@@ -42,7 +51,8 @@
                 $this->ora = $matches[7].':'.$matches[8].':'.$matches[9];
                 $this->numero = $matches[10];
             }
-
+            
+            // ora suddivido le righe nei vari tipi di movimento e carico alcuni dati di testata
             $righeVendita = [];
             $righeBeneficio = [];
             $righeFormePagamento = [];
@@ -92,14 +102,6 @@
                 }
             }
             
-            $ricercaVendite = function() use($parametri) {
-                foreach ($vendite as $vendita) {
-                    if ($vendita->plu == $parametri['plu'] and $vendita->importoUnitario == $parametri['importoUnitario']) {
-                        
-                    }
-                }
-            };
-            
             // carico le vendite
             $esitoCaricamentoVendite = function() use(&$righeVendita) {
                 if (count($righeVendita) and preg_match('/^.{31}:S:(\d)(\d)(\d):(\d{4}):.{3}(.{13})((?:\+|\-)\d{4})(\d|\.)(\d{3})(\+|\-|\*)(\d{9})$/', $righeVendita[0], $matches)) {
@@ -112,8 +114,9 @@
                         $parametri['quantita'] = ($matches[6].'.'.$matches[8])*1;
                         $parametri['unitaImballo'] = 0.0;
                         $parametri['pluPeso'] = true;
-                        $parametri['plu'] = substr($this->plu,0,7);
+                        $parametri['plu'] = substr($parametri['plu'],0,7);
                     } else {
+                        $parametri['pluPeso'] = false;
                         $parametri['quantita'] = $matches[6]*1;
                         $parametri['unitaImballo'] = $matches[8]/10;
                     }
@@ -125,7 +128,14 @@
                         $parametri['importoTotale'] = round($parametri['importoUnitario'],2);
                     }
                     array_splice($righeVendita, 0, 1);
-                    $this->vendite[] = New Vendite($parametri, $this->db);
+                    $indiceVendita = $this->cercaVendita($parametri);
+                    if ($indiceVendita < 0) {//-1 == non trovato
+                        $this->vendite[] = New Vendita($parametri, $this->db);
+                    } else {
+                        if (! $this->vendite[$indiceVendita]->sommaVendita($parametri)) {
+                            echo "errore di caricamento\n";
+                        }
+                    }
                     return true;
                 }
                 return false;
@@ -287,16 +297,19 @@
                 return false;
             };
             
+            // chiamo la closure fino a che tutte le vendite siano state caricate
+            while ($esitoCaricamentoVendite($righeVendita)) {}
+             if (count($righeVendita) > 0) {// se aquesto punto l'array che contiene le righe vemdita non è vuoto c'è un errore
+                echo "errore: $righeVendita[0]\n";
+            }
             
             // chiamo la closure fino a che tutti benefici siano stati individuati
             while ($esitoCaricamentoBenefici($righeBeneficio)) {}
-            
-            // se aquesto punto l'array che contiene le righe beneficio non è vuoto c'è un errore
-            if (count($righeBeneficio) > 0) {
+            if (count($righeBeneficio) > 0) {// se aquesto punto l'array che contiene le righe beneficio non è vuoto c'è un errore
                 echo "errore: $righeBeneficio[0]\n";
             }
             
-        }
+        }      
 
         function __destruct() {}
     }
