@@ -19,11 +19,12 @@
         public $carta = '';
         public $nimis = false;
         public $numeroRighe = 0;
-        public $totaleCalcolato = 0;
 
         public $vendite = array();
         public $benefici = array();
         public $formePagamento = array();
+        
+        public $blocchi = array();
 
         function __construct(array $righe, &$db) {
             $this->db = $db;    
@@ -42,7 +43,10 @@
                 $this->numero = $matches[10];
             }
 
+            $righeVendita = [];
             $righeBeneficio = [];
+            $righeFormePagamento = [];
+            $righeRepartiIva = [];
             foreach ($this->righe as $riga) {
                 // numero di righe del datacollect
                 if (preg_match('/^.{31}:.:1/', $riga)) {
@@ -63,27 +67,69 @@
                     $this->totale = $matches[2]/100;
                 }
 
-                // carico le vendite
+                // selezione le righe vendita
                 if (preg_match('/^.{31}:S:1/', $riga)) {
                     if (! preg_match('/^.{31}:S:1.{11}998011/', $riga)) {
-                        $this->vendite[] = new Vendita($riga, $this->db);
+                        $righeVendita[] = $riga;
                     }
                 }
                 
-                // carico le righe che fanno parte di un beneficio per eseguire successivamente l'analisi e il loro caricamento
+                // seleziono le righe beneficio
                 if (preg_match('/^.{31}:(C|D|G|d|m|w):1/', $riga) or preg_match('/^.{31}:S:1.{11}998011/', $riga)) {
                     $righeBeneficio[] = $riga;
                 }                
 
-                // carico le forme di pagamento
+                // seleziono le righe delle forme di pagamento
                 if (preg_match('/^.*:T:1.{25}(\d\d).{6}((?:\+|\-)\d{9})$/', $riga, $matches)) {
                     if (array_key_exists($matches[1], $this->formePagamento)) {
-                        $this->formePagamento[$matches[1]] += $matches[2]/100;
-                    } else {
-                        $this->formePagamento[$matches[1]] = $matches[2]/100;
+                        $righeFormePagamento[] = $riga;
                     }
                 }
+                
+                // seleziono le righe dei reparti iva
+                if (preg_match('/^.*:V:1/', $riga, $matches)) {
+                    $righeRepartiIva[] = $riga;
+                }
             }
+            
+            $ricercaVendite = function() use($parametri) {
+                foreach ($vendite as $vendita) {
+                    if ($vendita->plu == $parametri['plu'] and $vendita->importoUnitario == $parametri['importoUnitario']) {
+                        
+                    }
+                }
+            };
+            
+            // carico le vendite
+            $esitoCaricamentoVendite = function() use(&$righeVendita) {
+                if (count($righeVendita) and preg_match('/^.{31}:S:(\d)(\d)(\d):(\d{4}):.{3}(.{13})((?:\+|\-)\d{4})(\d|\.)(\d{3})(\+|\-|\*)(\d{9})$/', $righeVendita[0], $matches)) {
+                    $parametri['codice1'] = $matches[1];
+                    $parametri['codice2'] = $matches[2];
+                    $parametri['codice3'] = $matches[3];
+                    $parametri['repartoCassa'] = $matches[4];
+                    $parametri['plu'] = trim($matches[5]);
+                    if ('.' == $matches[7]) {
+                        $parametri['quantita'] = ($matches[6].'.'.$matches[8])*1;
+                        $parametri['unitaImballo'] = 0.0;
+                        $parametri['pluPeso'] = true;
+                        $parametri['plu'] = substr($this->plu,0,7);
+                    } else {
+                        $parametri['quantita'] = $matches[6]*1;
+                        $parametri['unitaImballo'] = $matches[8]/10;
+                    }
+                    if ('*' == $matches[9]) {
+                        $parametri['importoUnitario'] = round($matches[10]/100,2);
+                        $parametri['importoTotale'] = round($parametri['quantita']*$parametri['importoUnitario'],2);
+                    } else {
+                        $parametri['importoUnitario'] = round(($matches[9].$matches[10])/100,2);
+                        $parametri['importoTotale'] = round($parametri['importoUnitario'],2);
+                    }
+                    array_splice($righeVendita, 0, 1);
+                    $this->vendite[] = New Vendite($parametri, $this->db);
+                    return true;
+                }
+                return false;
+            };
             
             // carico i benefici
             $esitoCaricamentoBenefici = function() use(&$righeBeneficio) {
@@ -241,22 +287,15 @@
                 return false;
             };
             
+            
+            // chiamo la closure fino a che tutti benefici siano stati individuati
             while ($esitoCaricamentoBenefici($righeBeneficio)) {}
             
+            // se aquesto punto l'array che contiene le righe beneficio non è vuoto c'è un errore
             if (count($righeBeneficio) > 0) {
                 echo "errore: $righeBeneficio[0]\n";
             }
             
-            foreach ($this->vendite as $vendita) {
-                $this->totaleCalcolato += $vendita->importoTotale;
-            }
-            foreach ($this->benefici as $beneficio) {
-                $this->totaleCalcolato += $beneficio->sconto;
-            }
-            
-            if (round($this->totale,2) != round($this->totaleCalcolato,2)) {
-                echo "$this->totale@$this->totaleCalcolato\n";
-            }
         }
 
         function __destruct() {}
