@@ -43,20 +43,31 @@
         
         public function sommaVendita(array $parametri) {
             if ($this->confronto($parametri)) {// devono avere stesso plu e stesso importo unitario
-                $this->quantita += $parametri['quantita'];
-                $this->importoTotale = $this->quantita * $this->importoUnitario;
-                
-                return true;
+                if ($parametri['pluPeso']) {
+                    $this->quantita += $parametri['quantita'];
+                    $this->importoTotale += $parametri['importoUnitario'];
+                } else {
+                    $this->quantita += $parametri['quantita'];
+                    $this->importoTotale = $this->quantita * $this->importoUnitario;
+                }
+                 return true;
             }
+        
             return false;
         }
         
         public function confronto(array $parametri, $ricercaEsatta = false) {
-            if ($parametri['plu'] == $this->plu and round($parametri['importoUnitario'],2) == round($this->importoUnitario,2)) {
-                if ($ricercaEsatta and $parametri['quantita'] != $this->quantita) {
-                    return false;
+            if ($parametri['plu'] == $this->plu) {
+                if ($parametri['pluPeso']) {
+                    return true;
+                } else {
+                    if (round($parametri['importoUnitario'],2) == round($this->importoUnitario,2)) {
+                        if ($ricercaEsatta and $parametri['quantita'] != $this->quantita) {
+                            return false;
+                        }
+                        return true;
+                    }
                 }
-                return true;
             }
             return false;
         }

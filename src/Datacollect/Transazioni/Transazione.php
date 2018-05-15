@@ -197,7 +197,7 @@
                         }
                     }                  
                     
-                    // sconto articolo semplice (deve sempre essere dopo pago nimis)
+                    // sconto articolo semplice (questa parte di codice deve sempre essere dopo pago nimis)
                     if (preg_match('/:C:142:\d{4}:P0:(.{13})((?:\-|\+)\d{4}).{4}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
                         $parametri = ['tipo' => '0493', 'plu'  => trim($matches[1]), 'quantita' => $matches[2]*1, 'sconto' => $matches[3]/100];
                         array_splice($righeBeneficio, $i, 1);
@@ -308,6 +308,24 @@
                         
                         if (preg_match('/:m:1.{7}:0022/', $righeBeneficio[$i + 1])) {
                             array_splice($righeBeneficio, $i, 2);
+                            return true;
+                        }
+                    }
+                    
+                    // acceleratore punti
+                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:G:111:.{24}((?:\+|\-)\d{5})((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
+                        $parametri = ['tipo' => '0505', 'punti' => $matches[1]/100];
+                        
+                        if (preg_match('/:m:1.{7}:0505/', $righeBeneficio[$i + 1])) {
+                            $j = $i - 1;
+                            $articoli = [];
+                            while ($j >= 0 and preg_match('/:d:1.{7}:P0:(.{13})((?:\-|\+)\d{4}).{4}.(\d{9})$/', $righeBeneficio[$j], $matches)) {
+                                $articoli[] = ['plu' => $matches[1], 'quantita' => $matches[2]*1, 'importo' => $matches[2]*$matches[3]/100];
+                                $j--;
+                            }
+                            $parametri['articoli'] = $articoli;
+                            array_splice($righeBeneficio, $i-count($articoli), 2 + count($articoli));
+                            $this->benefici[] = new Beneficio($parametri, $this->db);
                             return true;
                         }
                     }
