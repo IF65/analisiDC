@@ -23,6 +23,7 @@
         public $vendite = array();
         public $benefici = array();
         public $formePagamento = array();
+        public $repartiIva = array();
         
         public $blocchi = array();
 
@@ -40,6 +41,34 @@
             }
             return -1;
         }
+        
+        protected function convalidaTransazione() {
+            $totale = 0;
+            foreach ($this->vendite as $vendita) {
+                $totale += $vendita->importoTotale;
+            }
+            foreach ($this->benefici as $beneficio) {
+                $totale += $beneficio->sconto;
+            }
+            
+            $totaleFormePagamento = 0;
+            foreach ($this->formePagamento as $formaPagamento => $importo) {
+                $totaleFormePagamento += $importo;
+            }
+                
+            $totaleRepartiIva = 0;
+            foreach ($this->repartiIva as $repartoIva => $importo) {
+                $totaleRepartiIva += $importo;
+            }
+            
+            if ((round($totaleRepartiIva,2) != round($totaleFormePagamento,2)) or (round($totaleRepartiIva,2) != round($totale,2)) or (round($totale,2) != round($this->totale,2))) {
+                echo "- ANOMALIA TRANS. $this->cassa/$this->numero\n";
+                echo sprintf("totale      : %12s\n", number_format ( $this->totale , 2 , "," , "." ));
+                echo sprintf("totale calc.: %12s\n", number_format ( $totale , 2 , "," , "." ));
+                echo sprintf("forme pag.  : %12s\n", number_format ( $totaleFormePagamento , 2 , "," , "." ));
+                echo sprintf("reparti iva : %12s\n\n", number_format ( $totaleRepartiIva , 2 , "," , "." ));
+            }
+        }
 
         private function carica() {
             // testata transazione
@@ -55,8 +84,6 @@
             // ora suddivido le righe nei vari tipi di movimento e carico alcuni dati di testata
             $righeVendita = [];
             $righeBeneficio = [];
-            $righeFormePagamento = [];
-            $righeRepartiIva = [];
             foreach ($this->righe as $riga) {
                 // numero di righe del datacollect
                 if (preg_match('/^.{31}:.:1/', $riga)) {
@@ -89,16 +116,22 @@
                     $righeBeneficio[] = $riga;
                 }                
 
-                // seleziono le righe delle forme di pagamento
+                // carico le forme di pagamento (carico direttamente vista la semplicita' dell'informazione)
                 if (preg_match('/^.*:T:1.{25}(\d\d).{6}((?:\+|\-)\d{9})$/', $riga, $matches)) {
                     if (array_key_exists($matches[1], $this->formePagamento)) {
-                        $righeFormePagamento[] = $riga;
+                        $this->formePagamento[$matches[1]] += $matches[2]/100;
+                    } else {
+                        $this->formePagamento[$matches[1]] = $matches[2]/100;
                     }
                 }
                 
-                // seleziono le righe dei reparti iva
-                if (preg_match('/^.*:V:1/', $riga, $matches)) {
-                    $righeRepartiIva[] = $riga;
+                // carico i reparti iva (carico direttamente vista la semplicita' dell'informazione)
+                if (preg_match('/^.*:V:1(\d).{32}((?:\+|\-)\d{9})$/', $riga, $matches)) {
+                    if (array_key_exists($matches[1], $this->repartiIva)) {
+                        $this->repartiIva[$matches[1]] += $matches[2]/100;
+                    } else {
+                        $this->repartiIva[$matches[1]] = $matches[2]/100;
+                    }
                 }
             }
             
@@ -140,6 +173,13 @@
                 }
                 return false;
             };
+            
+            // chiamo la closure fino a che tutte le vendite siano state caricate
+            while ($esitoCaricamentoVendite($righeVendita)) {}
+             if (count($righeVendita) > 0) {// se aquesto punto l'array che contiene le righe vendita non è vuoto c'è un errore
+                echo "errore: $righeVendita[0]\n";
+            }
+            
             
             // carico i benefici
             $esitoCaricamentoBenefici = function() use(&$righeBeneficio) {
@@ -297,17 +337,13 @@
                 return false;
             };
             
-            // chiamo la closure fino a che tutte le vendite siano state caricate
-            while ($esitoCaricamentoVendite($righeVendita)) {}
-             if (count($righeVendita) > 0) {// se aquesto punto l'array che contiene le righe vemdita non è vuoto c'è un errore
-                echo "errore: $righeVendita[0]\n";
-            }
-            
             // chiamo la closure fino a che tutti benefici siano stati individuati
             while ($esitoCaricamentoBenefici($righeBeneficio)) {}
             if (count($righeBeneficio) > 0) {// se aquesto punto l'array che contiene le righe beneficio non è vuoto c'è un errore
                 echo "errore: $righeBeneficio[0]\n";
             }
+            
+            $this->convalidaTransazione();
             
         }      
 

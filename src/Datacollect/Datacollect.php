@@ -18,6 +18,9 @@
         private $transazioni = array();
         private $plu = array();
         private $formePagamento = array();
+        private $totaleFormePagamento = 0;
+        private $repartiIva = array();
+        private $totaleRepartiIva = 0;
 
         function __construct(string $fileName, &$db = null) {
             try {
@@ -88,6 +91,17 @@
                     } else {
                         $this->formePagamento[$formaPagamento] = $importo;
                     }
+                    $this->totaleFormePagamento += $importo;
+                }
+                
+                // determino i reparti iva
+                foreach ($transazione->repartiIva as $repartoIva => $importo) {
+                    if (array_key_exists($repartoIva, $this->repartiIva)) {
+                        $this->repartiIva[$repartoIva] += $importo;
+                    } else {
+                        $this->repartiIva[$repartoIva] = $importo;
+                    }
+                    $this->totaleRepartiIva += $importo;
                 }
             }
             ksort($this->formePagamento, SORT_STRING);
@@ -99,13 +113,22 @@
             echo sprintf("transazioni Nimis  : %12s\n", number_format ( $this->numeroTransazioniNimis , 0 , "," , "." ));
             echo sprintf("transazioni Totali : %12s\n", number_format ( $this->numeroTransazioni , 0 , "," , "." ));
             echo sprintf("importo Nimis      : %12s\n", number_format ( $this->totaleNimis , 2 , "," , "." ));
-            echo sprintf("importo Totale     : %12s\n", number_format ( $this->numeroRighe , 2 , "," , "." ));
+            echo sprintf("importo Totale     : %12s\n", number_format ( $this->totale , 2 , "," , "." ));
             
             echo "\n";
             echo "- FORME DI PAGAMENTO:\n";
             foreach( $this->formePagamento as $formaPagamento => $importo ) {
                 echo sprintf("codice: %3s importo: %12s\n", $formaPagamento, number_format ( $importo , 2 , "," , "." ));
             }
+            echo sprintf("%11s  totale: %12s\n", '', number_format ( $this->totaleFormePagamento , 2 , "," , "." ));
+            echo "\n";
+            
+            echo "\n";
+            echo "- REPARTI IVA:\n";
+            foreach( $this->repartiIva as $repartoIva => $importo ) {
+                echo sprintf("codice: %3s importo: %12s\n", $repartoIva, number_format ( $importo , 2 , "," , "." ));
+            }
+            echo sprintf("%11s  totale: %12s\n", '', number_format ( $this->totaleRepartiIva , 2 , "," , "." ));
             echo "\n";
             
             if ($barcode != null and $dimensioni != null and false) {
