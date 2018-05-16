@@ -2,6 +2,7 @@
 	namespace Datacollect\Transazioni\Componenti;
 	
 	class Beneficio {
+		public $id = '';
 		public $tipo = '';
 		public $transazionale = false;
 		
@@ -15,6 +16,7 @@
 		public $articoli = [];
 		
 		function __construct(array $parametri, &$db) {
+			$this->id = uniqid('', true);
 			$this->tipo = $parametri['tipo'];
 			
 			if ($parametri['tipo'] == '0027') {

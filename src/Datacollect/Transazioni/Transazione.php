@@ -362,9 +362,21 @@
             }
             
             $this->convalidaTransazione();
+            $this->creaBlocchi();
             
-        }      
-
+        }
+    
+        private function creaBlocchi() {
+            foreach ($this->benefici as $beneficio) {
+                if ($beneficio->tipo == '0493') {
+                    $plu = $beneficio->plu;
+                    $quantita = $beneficio->quantita;
+                    
+                    
+                }
+            }
+        }
+        
         function __destruct() {}
     }
 ?>
