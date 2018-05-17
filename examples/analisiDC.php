@@ -22,6 +22,8 @@
     $test = new Datacollect(realpath(__DIR__ . '/..')."/examples/data/0103_20180513_180513_DC.TXT", $db);
 
     // mostro le informazioni
-    $test->mostraInformazioni($prezziLocali['data'], $db->dimensioni['data'], $db->articoli['data'], $db->barcode['data']);
+    //$test->mostraInformazioni($prezziLocali['data'], $db->dimensioni['data'], $db->articoli['data'], $db->barcode['data']);
+    
+    $test->stampaTransazioni();
 ?>
 

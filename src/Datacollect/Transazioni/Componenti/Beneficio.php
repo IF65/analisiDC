@@ -13,13 +13,43 @@
 		public $quantita = 0.0;
 		public $punti = 0;
 		public $sconto = 0.0;
+		public $importoRiferimento = 0;
 		public $articoli = [];
 		
 		function __construct(array $parametri, &$db) {
 			$this->id = uniqid('', true);
 			$this->tipo = $parametri['tipo'];
 			
-			if ($parametri['tipo'] == '0027') {
+			if ($parametri['tipo'] == '0022') {
+				$this->transazionale = false;
+				$this->plu = $parametri['plu'];
+				$this->importoRiferimento = $parametri['importoRiferimento'];
+				$this->punti = $parametri['punti'];
+				
+				if (! is_null($db)) {
+                    if (array_key_exists($this->plu, $db->barcode['data'])) {
+						$this->articoloCodice = $db->barcode['data'][$this->plu]['articoloCodice'];
+						if (array_key_exists($this->articoloCodice, $db->dimensioni['data'])) {
+							$this->repartoCodice = $db->dimensioni['data'][$this->articoloCodice]['repartoCodice'];
+						}
+					}
+				}
+			} else if ($parametri['tipo'] == '0023') {
+				$this->transazionale = false;
+				$this->plu = $parametri['plu'];
+				$this->importoRiferimento = 0;
+				$this->punti = $parametri['punti'];
+				$this->quantita = 1;
+				
+				if (! is_null($db)) {
+                    if (array_key_exists($this->plu, $db->barcode['data'])) {
+						$this->articoloCodice = $db->barcode['data'][$this->plu]['articoloCodice'];
+						if (array_key_exists($this->articoloCodice, $db->dimensioni['data'])) {
+							$this->repartoCodice = $db->dimensioni['data'][$this->articoloCodice]['repartoCodice'];
+						}
+					}
+				}
+			} else if ($parametri['tipo'] == '0027') {
 				$this->transazionale = false;
 				$this->plu = $parametri['plu'];
 				$this->quantita = $parametri['quantita'];

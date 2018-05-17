@@ -21,7 +21,12 @@
 		public $importoTotale = 0.0;
         
         // benefici
+        public $id_0022 = '';
+        public $id_0023 = '';
+        public $id_0027 = '';
+        public $id_0492 = '';
         public $id_0493 = '';
+       
 		
         function __construct(array $parametri, &$db = null) {
             $this->db = $db;
