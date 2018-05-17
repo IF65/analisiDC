@@ -311,13 +311,13 @@
                     
                     // acceleratore punti
                     if ((($i + 1) < count($righeBeneficio)) and preg_match('/:G:111:.{24}((?:\+|\-)\d{5})((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
-                        $parametri = ['tipo' => '0505', 'punti' => $matches[1]/100];
+                        $parametri = ['tipo' => '0505', 'punti' => $matches[1]];
                         
                         if (preg_match('/:m:1.{7}:0505/', $righeBeneficio[$i + 1])) {
                             $j = $i - 1;
                             $articoli = [];
                             while ($j >= 0 and preg_match('/:d:1.{7}:P0:(.{13})((?:\-|\+)\d{4}).{4}.(\d{9})$/', $righeBeneficio[$j], $matches)) {
-                                $articoli[] = ['plu' => $matches[1], 'quantita' => $matches[2]*1, 'importo' => $matches[2]*$matches[3]/100];
+                                $articoli[] = ['plu' => $matches[1], 'quantita' => $matches[2]*1, 'importoRiferimento' => $matches[3]/100];
                                 $j--;
                             }
                             $parametri['articoli'] = $articoli;
@@ -596,6 +596,52 @@
                     }
                 }
                 // ----------------------------------------------0493 FINE
+                
+                // ----------------------------------------------0505 INIZIO
+                if ($beneficio->tipo == '0505') {
+                    // parametri del beneficio
+                    $id = $beneficio->id;
+                    $plu = $beneficio->plu;
+                    $quantita = $beneficio->quantita;
+                    
+                    $beneficioOk = 0;
+                    //cerco tra tutte le vendite se ce n'è una libera che coincide esattamente con
+                    //il beneficio
+                    foreach ($this->vendite as $vendita) {
+                        if ($vendita->id_0493 == '') {
+                            if ($vendita->plu == $plu and $vendita->quantita == $quantita) {
+                                $vendita->id_0493 = $id;
+                                $beneficioOk = 1;
+                                break;
+                            }
+                        }
+                    } 
+                    
+                    if (! $beneficioOk) {
+                        foreach ($this->vendite as $vendita) {
+                            if ($vendita->id_0493 == '') {
+                                if ($vendita->plu == $plu and $vendita->quantita > $quantita) {
+                                    // creo una nuova vendita clonando la vendita originale e metto a posto quantità e importi
+                                    $nuovaVendita = clone $vendita;
+                                    $nuovaVendita->quantita = $quantita;
+                                    $nuovaVendita->importoTotale = $nuovaVendita->importoUnitario * $nuovaVendita->quantita;
+                                    $nuovaVendita->id_0493 = $id;
+                                     
+                                    // tolgo dalla vendita originale la quantita spezzata
+                                    $vendita->quantita -= $quantita;
+                                    $vendita->importoTotale = $vendita->importoUnitario * $vendita->quantita;
+                                    
+                                    // accodo la nuova vendita alle vendite della transazione
+                                    $this->vendite[] = $nuovaVendita;
+                                    
+                                    $beneficioOk = 1;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                // ----------------------------------------------0505 FINE
                 
             }
         }

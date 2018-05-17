@@ -19,7 +19,7 @@
 
     // carico un datacollect
     echo '- Caricamento datacollect        : '.(new \DateTime())->setTimezone($timeZone)->format('H:i:s')."\n\n";
-    $test = new Datacollect(realpath(__DIR__ . '/..')."/examples/data/0103_20180513_180513_DC.TXT", $db);
+    $test = new Datacollect(realpath(__DIR__ . '/..')."/examples/data/0124_20180517_180517_DC.TXT", $db);
 
     // mostro le informazioni
     //$test->mostraInformazioni($prezziLocali['data'], $db->dimensioni['data'], $db->articoli['data'], $db->barcode['data']);

@@ -20,7 +20,21 @@
 			$this->id = uniqid('', true);
 			$this->tipo = $parametri['tipo'];
 			
-			if ($parametri['tipo'] == '0022') {
+			if ($parametri['tipo'] == '0505') {
+				$this->transazionale = false;
+				$this->articoli = $parametri['articoli'];
+				$this->punti = $parametri['punti'];
+				
+				// calcolo l'importo di riferimento totale
+				$totaleImporto = 0;
+				foreach ($this->articoli as $articolo) {
+					$totaleImporto += $articolo['quantita']*$articolo['importoRiferimento'];
+				}
+				foreach ($this->articoli as &$articolo) {
+					$articolo['quota'] = intval(($articolo['quantita']*$articolo['importoRiferimento'])/$totaleImporto*$this->punti);
+				}
+				
+			} else if ($parametri['tipo'] == '0022') {
 				$this->transazionale = false;
 				$this->plu = $parametri['plu'];
 				$this->importoRiferimento = $parametri['importoRiferimento'];
