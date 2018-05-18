@@ -26,8 +26,9 @@
         public $id_0027 = '';
         public $id_0492 = '';
         public $id_0493 = '';
+        public $id_0505 = '';
+        public $punti_0505 = 0;
        
-		
         function __construct(array $parametri, &$db = null) {
             $this->db = $db;
             
