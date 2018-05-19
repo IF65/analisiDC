@@ -363,7 +363,47 @@
             
         }
     
-        private function creaBlocchi() {
+        private function creaBlocchiVendita(x) {
+            foreach ($this->vendite as &$vendita) {
+                        if ($vendita->id_0022 == '') {
+                            if ($vendita->plu == $plu and $vendita->importoTotale == $importoRiferimento) {
+                                $vendita->id_0022 = $id;
+                                $beneficioOk = 1;
+                                break;
+                            }
+                        }
+                    } 
+                    
+                    if (! $beneficioOk) {
+                        foreach ($this->vendite as &$vendita) {
+                            if ($vendita->id_0022 == '' and $vendita->spezzabile()) {
+                                if ($vendita->plu == $plu and $vendita->importoTotale > $importoRiferimento) {
+                                    
+                                    $quantita = $importoRiferimento/$vendita->importoUnitario;
+                                    
+                                    // creo una nuova vendita clonando la vendita originale e metto a posto quantità e importi
+                                    $nuovaVendita = clone $vendita;
+                                    $nuovaVendita->quantita = $quantita;
+                                    $nuovaVendita->importoTotale = $nuovaVendita->importoUnitario * $nuovaVendita->quantita;
+                                    $nuovaVendita->id_0022 = $id;
+                                     
+                                    // tolgo dalla vendita originale la quantita spezzata
+                                    $vendita->quantita -= $quantita;
+                                    $vendita->importoTotale = $vendita->importoUnitario * $vendita->quantita;
+                                    
+                                    // accodo la nuova vendita alle vendite della transazione
+                                    $this->vendite[] = $nuovaVendita;
+                                    
+                                    $beneficioOk = 1;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+        }
+        
+        private function associaVenditeBenefici() {
             foreach ($this->benefici as $beneficio) {
                 
                 // ----------------------------------------------0022 INIZIO
