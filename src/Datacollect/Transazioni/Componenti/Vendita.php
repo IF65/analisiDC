@@ -20,16 +20,16 @@
         public $importoUnitario = 0.0;
 		public $importoTotale = 0.0;
         
-        // benefici su singola vendita
-        // se uno di questi  valorizzato la venedita non  spezzabile
-        public $id_0022 = '';
-        public $id_0023 = '';
-        public $id_0027 = '';
-        public $id_0492 = '';
-        public $id_0493 = '';
+        // (01) benefici mutuamente esclusivi su singola vendita.
+        // se uno di questi id  valorizzato la vendita non  spezzabile.
+        // queste promozioni non possono mai coinvolgere la stessa vendita contemporaneamente.
+        // 0022, 0023, 0027, 0492, 0493
+        public $beneficio01Tipo;
+        public $beneficio01Id = '';
         
         // beneficio set
-        // non serve spezzare perchŽ i le singole vendite esistono giˆ
+        // non serve spezzare la venditaperchŽ i le singole vendite esistono giˆ.
+        //  sempre associata a promozioni 0022
         public $id_0505 = '';
         public $punti_0505 = 0;
        
@@ -80,21 +80,6 @@
             return $parametri;
         }
         
-        public function somma(array $parametri) {
-            if ($this->confronta($parametri)) {// devono avere stesso plu e stesso importo unitario
-                if ($parametri['pluPeso']) {
-                    $this->quantita += $parametri['quantita'];
-                    $this->importoTotale += $parametri['importoUnitario'];
-                } else {
-                    $this->quantita += $parametri['quantita'];
-                    $this->importoTotale = $this->quantita * $this->importoUnitario;
-                }
-                 return true;
-            }
-        
-            return false;
-        }
-        
         public function confronta(array $parametri, $ricercaEsatta = false) {
             if ($parametri['plu'] == $this->plu) {
                 if ($parametri['pluPeso']) {
@@ -111,13 +96,7 @@
             return false;
         }
         
-        public function spezzabile() {
-            if ( $id_0022 != '' or $id_0023 != '' or $id_0027 != '' or $id_0492 != '' or $id_0493 != '' ) {
-                return false;
-            }
-            return true;
-        }
-        
+                
         function __destruct() {}
     }
 ?>

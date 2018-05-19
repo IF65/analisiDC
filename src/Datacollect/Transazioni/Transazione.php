@@ -161,14 +161,8 @@
                         $parametri['importoTotale'] = round($parametri['importoUnitario'],2);
                     }
                     array_splice($righeVendita, 0, 1);
-                    $indiceVendita = $this->cercaVendita($parametri);
-                    if ($indiceVendita < 0) {//-1 == non trovato
-                        $this->vendite[] = New Vendita($parametri, $this->db);
-                    } else {
-                        if (! $this->vendite[$indiceVendita]->somma($parametri)) {
-                            echo "errore di caricamento\n";
-                        }
-                    }
+                    $this->vendite[] = New Vendita($parametri, $this->db);
+                    
                     return true;
                 }
                 return false;
@@ -358,49 +352,8 @@
                 echo "errore: $righeBeneficio[0]\n";
             }
             
-            //$this->convalidaTransazione();
-            $this->creaBlocchi();
+            $this->associaVenditeBenefici();
             
-        }
-    
-        private function creaBlocchiVendita(x) {
-            foreach ($this->vendite as &$vendita) {
-                        if ($vendita->id_0022 == '') {
-                            if ($vendita->plu == $plu and $vendita->importoTotale == $importoRiferimento) {
-                                $vendita->id_0022 = $id;
-                                $beneficioOk = 1;
-                                break;
-                            }
-                        }
-                    } 
-                    
-                    if (! $beneficioOk) {
-                        foreach ($this->vendite as &$vendita) {
-                            if ($vendita->id_0022 == '' and $vendita->spezzabile()) {
-                                if ($vendita->plu == $plu and $vendita->importoTotale > $importoRiferimento) {
-                                    
-                                    $quantita = $importoRiferimento/$vendita->importoUnitario;
-                                    
-                                    // creo una nuova vendita clonando la vendita originale e metto a posto quantità e importi
-                                    $nuovaVendita = clone $vendita;
-                                    $nuovaVendita->quantita = $quantita;
-                                    $nuovaVendita->importoTotale = $nuovaVendita->importoUnitario * $nuovaVendita->quantita;
-                                    $nuovaVendita->id_0022 = $id;
-                                     
-                                    // tolgo dalla vendita originale la quantita spezzata
-                                    $vendita->quantita -= $quantita;
-                                    $vendita->importoTotale = $vendita->importoUnitario * $vendita->quantita;
-                                    
-                                    // accodo la nuova vendita alle vendite della transazione
-                                    $this->vendite[] = $nuovaVendita;
-                                    
-                                    $beneficioOk = 1;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
         }
         
         private function associaVenditeBenefici() {
@@ -414,232 +367,40 @@
                     $quantita = $beneficio->quantita;
                     $importoRiferimento = $beneficio->importoRiferimento;
                     
-                    $beneficioOk = 0;
                     //cerco tra tutte le vendite se ce n'è una libera che coincide esattamente con
                     //il beneficio
                     foreach ($this->vendite as &$vendita) {
-                        if ($vendita->id_0022 == '') {
+                        if ($vendita->beneficio01Id == '') {
                             if ($vendita->plu == $plu and $vendita->importoTotale == $importoRiferimento) {
-                                $vendita->id_0022 = $id;
-                                $beneficioOk = 1;
+                                $vendita->beneficio01Tipo = '0022';
+                                $vendita->beneficio01Id = $id;
                                 break;
-                            }
-                        }
-                    } 
-                    
-                    if (! $beneficioOk) {
-                        foreach ($this->vendite as &$vendita) {
-                            if ($vendita->id_0022 == '' and $vendita->spezzabile()) {
-                                if ($vendita->plu == $plu and $vendita->importoTotale > $importoRiferimento) {
-                                    
-                                    $quantita = $importoRiferimento/$vendita->importoUnitario;
-                                    
-                                    // creo una nuova vendita clonando la vendita originale e metto a posto quantità e importi
-                                    $nuovaVendita = clone $vendita;
-                                    $nuovaVendita->quantita = $quantita;
-                                    $nuovaVendita->importoTotale = $nuovaVendita->importoUnitario * $nuovaVendita->quantita;
-                                    $nuovaVendita->id_0022 = $id;
-                                     
-                                    // tolgo dalla vendita originale la quantita spezzata
-                                    $vendita->quantita -= $quantita;
-                                    $vendita->importoTotale = $vendita->importoUnitario * $vendita->quantita;
-                                    
-                                    // accodo la nuova vendita alle vendite della transazione
-                                    $this->vendite[] = $nuovaVendita;
-                                    
-                                    $beneficioOk = 1;
-                                    break;
-                                }
                             }
                         }
                     }
                 }
                 // ----------------------------------------------0022 FINE
                 
-                // ----------------------------------------------0023 INIZIO
-                if ($beneficio->tipo == '0023') {
+                // ----------------------------------------------0023, 0027, 0492, 0493 INIZIO
+                if (in_array($beneficio->tipo, ['0023','0027','0492','0497'])) {
                     // parametri del beneficio
                     $id = $beneficio->id;
                     $plu = $beneficio->plu;
                     $quantita = $beneficio->quantita;
                     
-                    $beneficioOk = 0;
                     //cerco tra tutte le vendite se ce n'è una libera che coincide esattamente con
                     //il beneficio
                     foreach ($this->vendite as $vendita) {
-                        if ($vendita->id_0023 == '') {
+                        if ($vendita->beneficio01Id == '') {
                             if ($vendita->plu == $plu and $vendita->quantita == $quantita) {
-                                $vendita->id_0023 = $id;
-                                $beneficioOk = 1;
+                                $vendita->beneficio01Tipo = $beneficio->tipo;
+                                $vendita->beneficio01Id = $id;
                                 break;
                             }
                         }
                     } 
-                    
-                    if (! $beneficioOk) {
-                        foreach ($this->vendite as $vendita) {
-                            if ($vendita->id_0023 == '') {
-                                if ($vendita->plu == $plu and $vendita->quantita > $quantita) {
-                                    // creo una nuova vendita clonando la vendita originale e metto a posto quantità e importi
-                                    $nuovaVendita = clone $vendita;
-                                    $nuovaVendita->quantita = $quantita;
-                                    $nuovaVendita->importoTotale = $nuovaVendita->importoUnitario * $nuovaVendita->quantita;
-                                    $nuovaVendita->id_0023 = $id;
-                                     
-                                    // tolgo dalla vendita originale la quantita spezzata
-                                    $vendita->quantita -= $quantita;
-                                    $vendita->importoTotale = $vendita->importoUnitario * $vendita->quantita;
-                                    
-                                    // accodo la nuova vendita alle vendite della transazione
-                                    $this->vendite[] = $nuovaVendita;
-                                    
-                                    $beneficioOk = 1;
-                                    break;
-                                }
-                            }
-                        }
-                    }
                 }
                 // ----------------------------------------------0023 FINE
-                
-                // ----------------------------------------------0027 INIZIO
-                if ($beneficio->tipo == '0027') {
-                    // parametri del beneficio
-                    $id = $beneficio->id;
-                    $plu = $beneficio->plu;
-                    $quantita = $beneficio->quantita;
-                    
-                    $beneficioOk = 0;
-                    //cerco tra tutte le vendite se ce n'è una libera che coincide esattamente con
-                    //il beneficio
-                    foreach ($this->vendite as $vendita) {
-                        if ($vendita->id_0027 == '') {
-                            if ($vendita->plu == $plu and $vendita->quantita == $quantita) {
-                                $vendita->id_0027 = $id;
-                                $beneficioOk = 1;
-                                break;
-                            }
-                        }
-                    } 
-                    
-                    if (! $beneficioOk) {
-                        foreach ($this->vendite as $vendita) {
-                            if ($vendita->id_0027 == '') {
-                                if ($vendita->plu == $plu and $vendita->quantita > $quantita) {
-                                    // creo una nuova vendita clonando la vendita originale e metto a posto quantità e importi
-                                    $nuovaVendita = clone $vendita;
-                                    $nuovaVendita->quantita = $quantita;
-                                    $nuovaVendita->importoTotale = $nuovaVendita->importoUnitario * $nuovaVendita->quantita;
-                                    $nuovaVendita->id_0027 = $id;
-                                     
-                                    // tolgo dalla vendita originale la quantita spezzata
-                                    $vendita->quantita -= $quantita;
-                                    $vendita->importoTotale = $vendita->importoUnitario * $vendita->quantita;
-                                    
-                                    // accodo la nuova vendita alle vendite della transazione
-                                    $this->vendite[] = $nuovaVendita;
-                                    
-                                    $beneficioOk = 1;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                // ----------------------------------------------0027 FINE
-                
-                // ----------------------------------------------0492 INIZIO
-                if ($beneficio->tipo == '0492') {
-                    // parametri del beneficio
-                    $id = $beneficio->id;
-                    $plu = $beneficio->plu;
-                    $quantita = $beneficio->quantita;
-                    
-                    $beneficioOk = 0;
-                    //cerco tra tutte le vendite se ce n'è una libera che coincide esattamente con
-                    //il beneficio
-                    foreach ($this->vendite as $vendita) {
-                        if ($vendita->id_0492 == '') {
-                            if ($vendita->plu == $plu and $vendita->quantita == $quantita) {
-                                $vendita->id_0492 = $id;
-                                $beneficioOk = 1;
-                                break;
-                            }
-                        }
-                    } 
-                    
-                    if (! $beneficioOk) {
-                        foreach ($this->vendite as $vendita) {
-                            if ($vendita->id_0492 == '') {
-                                if ($vendita->plu == $plu and $vendita->quantita > $quantita) {
-                                    // creo una nuova vendita clonando la vendita originale e metto a posto quantità e importi
-                                    $nuovaVendita = clone $vendita;
-                                    $nuovaVendita->quantita = $quantita;
-                                    $nuovaVendita->importoTotale = $nuovaVendita->importoUnitario * $nuovaVendita->quantita;
-                                    $nuovaVendita->id_0492 = $id;
-                                     
-                                    // tolgo dalla vendita originale la quantita spezzata
-                                    $vendita->quantita -= $quantita;
-                                    $vendita->importoTotale = $vendita->importoUnitario * $vendita->quantita;
-                                    
-                                    // accodo la nuova vendita alle vendite della transazione
-                                    $this->vendite[] = $nuovaVendita;
-                                    
-                                    $beneficioOk = 1;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                // ----------------------------------------------0492 FINE
-                
-                
-                // ----------------------------------------------0493 INIZIO
-                if ($beneficio->tipo == '0493') {
-                    // parametri del beneficio
-                    $id = $beneficio->id;
-                    $plu = $beneficio->plu;
-                    $quantita = $beneficio->quantita;
-                    
-                    $beneficioOk = 0;
-                    //cerco tra tutte le vendite se ce n'è una libera che coincide esattamente con
-                    //il beneficio
-                    foreach ($this->vendite as $vendita) {
-                        if ($vendita->id_0493 == '') {
-                            if ($vendita->plu == $plu and $vendita->quantita == $quantita) {
-                                $vendita->id_0493 = $id;
-                                $beneficioOk = 1;
-                                break;
-                            }
-                        }
-                    } 
-                    
-                    if (! $beneficioOk) {
-                        foreach ($this->vendite as $vendita) {
-                            if ($vendita->id_0493 == '') {
-                                if ($vendita->plu == $plu and $vendita->quantita > $quantita) {
-                                    // creo una nuova vendita clonando la vendita originale e metto a posto quantità e importi
-                                    $nuovaVendita = clone $vendita;
-                                    $nuovaVendita->quantita = $quantita;
-                                    $nuovaVendita->importoTotale = $nuovaVendita->importoUnitario * $nuovaVendita->quantita;
-                                    $nuovaVendita->id_0493 = $id;
-                                     
-                                    // tolgo dalla vendita originale la quantita spezzata
-                                    $vendita->quantita -= $quantita;
-                                    $vendita->importoTotale = $vendita->importoUnitario * $vendita->quantita;
-                                    
-                                    // accodo la nuova vendita alle vendite della transazione
-                                    $this->vendite[] = $nuovaVendita;
-                                    
-                                    $beneficioOk = 1;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                // ----------------------------------------------0493 FINE
                 
                 // ----------------------------------------------0505 INIZIO
                 if ($beneficio->tipo == '0505') {
@@ -663,31 +424,6 @@
                                 }
                             }
                         }
-                    }
-                    
-                    if (! $beneficioOk) {
-                        echo "blocco\n";
-                        /*foreach ($this->vendite as $vendita) {
-                            if ($vendita->id_0493 == '') {
-                                if ($vendita->plu == $plu and $vendita->quantita > $quantita) {
-                                    // creo una nuova vendita clonando la vendita originale e metto a posto quantità e importi
-                                    $nuovaVendita = clone $vendita;
-                                    $nuovaVendita->quantita = $quantita;
-                                    $nuovaVendita->importoTotale = $nuovaVendita->importoUnitario * $nuovaVendita->quantita;
-                                    $nuovaVendita->id_0493 = $id;
-                                     
-                                    // tolgo dalla vendita originale la quantita spezzata
-                                    $vendita->quantita -= $quantita;
-                                    $vendita->importoTotale = $vendita->importoUnitario * $vendita->quantita;
-                                    
-                                    // accodo la nuova vendita alle vendite della transazione
-                                    $this->vendite[] = $nuovaVendita;
-                                    
-                                    $beneficioOk = 1;
-                                    break;
-                                }
-                            }
-                        }*/
                     }
                 }
                 // ----------------------------------------------0505 FINE
