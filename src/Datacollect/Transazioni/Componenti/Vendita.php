@@ -20,12 +20,16 @@
         public $importoUnitario = 0.0;
 		public $importoTotale = 0.0;
         
-        // benefici
+        // benefici su singola vendita
+        // se uno di questi  valorizzato la venedita non  spezzabile
         public $id_0022 = '';
         public $id_0023 = '';
         public $id_0027 = '';
         public $id_0492 = '';
         public $id_0493 = '';
+        
+        // beneficio set
+        // non serve spezzare perchŽ i le singole vendite esistono giˆ
         public $id_0505 = '';
         public $punti_0505 = 0;
        
@@ -54,7 +58,7 @@
             }
         }
         
-        public function leggiVendita() {
+        public function leggi() {
             $parametri = [];
             
             $parametri['codice1'] = $this->codice1;
@@ -76,8 +80,8 @@
             return $parametri;
         }
         
-        public function sommaVendita(array $parametri) {
-            if ($this->confronto($parametri)) {// devono avere stesso plu e stesso importo unitario
+        public function somma(array $parametri) {
+            if ($this->confronta($parametri)) {// devono avere stesso plu e stesso importo unitario
                 if ($parametri['pluPeso']) {
                     $this->quantita += $parametri['quantita'];
                     $this->importoTotale += $parametri['importoUnitario'];
@@ -91,7 +95,7 @@
             return false;
         }
         
-        public function confronto(array $parametri, $ricercaEsatta = false) {
+        public function confronta(array $parametri, $ricercaEsatta = false) {
             if ($parametri['plu'] == $this->plu) {
                 if ($parametri['pluPeso']) {
                     return true;
@@ -105,6 +109,13 @@
                 }
             }
             return false;
+        }
+        
+        public function spezzabile() {
+            if ( $id_0022 != '' or $id_0023 != '' or $id_0027 != '' or $id_0492 != '' or $id_0493 != '' ) {
+                return false;
+            }
+            return true;
         }
         
         function __destruct() {}

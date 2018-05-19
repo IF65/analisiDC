@@ -35,7 +35,7 @@
         
         protected function cercaVendita(array $parametri, $ricercaEsatta = false) {
             for ($i=0; $i<count($this->vendite); $i++) {
-                if ($this->vendite[$i]->confronto($parametri, $ricercaEsatta)) {
+                if ($this->vendite[$i]->confronta($parametri, $ricercaEsatta)) {
                     return $i;
                 }
             }
@@ -165,7 +165,7 @@
                     if ($indiceVendita < 0) {//-1 == non trovato
                         $this->vendite[] = New Vendita($parametri, $this->db);
                     } else {
-                        if (! $this->vendite[$indiceVendita]->sommaVendita($parametri)) {
+                        if (! $this->vendite[$indiceVendita]->somma($parametri)) {
                             echo "errore di caricamento\n";
                         }
                     }
@@ -389,7 +389,7 @@
                     
                     if (! $beneficioOk) {
                         foreach ($this->vendite as &$vendita) {
-                            if ($vendita->id_0022 == '') {
+                            if ($vendita->id_0022 == '' and $vendita->spezzabile()) {
                                 if ($vendita->plu == $plu and $vendita->importoTotale > $importoRiferimento) {
                                     
                                     $quantita = $importoRiferimento/$vendita->importoUnitario;
