@@ -21,17 +21,22 @@
 		public $importoTotale = 0.0;
         
         // (01) benefici mutuamente esclusivi su singola vendita.
-        // se uno di questi id  valorizzato la vendita non  spezzabile.
+        // se uno di questi id e' valorizzato la vendita non e' spezzabile.
         // queste promozioni non possono mai coinvolgere la stessa vendita contemporaneamente.
-        // 0022, 0023, 0027, 0492, 0493
-        public $beneficio01Tipo;
+        // 0022, 0023, 0027, 0492, 0493, 0055
+        public $beneficio01Tipo = '';
         public $beneficio01Id = '';
+        public $beneficio01Quota = 0;
         
         // beneficio set
-        // non serve spezzare la venditaperchŽ i le singole vendite esistono giˆ.
-        //  sempre associata a promozioni 0022
-        public $id_0505 = '';
-        public $punti_0505 = 0;
+        // non serve spezzare la vendita perche' i le singole vendite esistono gia'.
+        // e' sempre associata a promozioni 0022
+        public $beneficio0505Id = '';
+        public $punti0505 = 0;
+        
+        // beneficio punti transazione
+        public $beneficio0034Id = '';
+        public $punti0034 = 0;
        
         function __construct(array $parametri, &$db = null) {
             $this->db = $db;
