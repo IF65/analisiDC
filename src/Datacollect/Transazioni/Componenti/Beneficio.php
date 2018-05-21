@@ -138,9 +138,9 @@
 					$articolo['quota'] = intval(($articolo['quantita']*$articolo['importoRiferimento'])/$totaleImporto*$this->punti);
 				}
 				
-				
 			} else if ($parametri['tipo'] == '0503') {
 				$this->transazionale = true;
+				$this->plu = $parametri['plu'];
 				$this->sconto = $parametri['sconto'];
 			} else if ($parametri['tipo'] == '0481') {
 				$this->transazionale = false;
@@ -149,6 +149,10 @@
 			} else if ($parametri['tipo'] == '0061') {
 				$this->transazionale = true;
 				$this->sconto = $parametri['sconto'];
+			} else if ($parametri['tipo'] == '0034') {
+				$this->transazionale = true;
+				$this->punti = $parametri['punti'];
+				$this->importoRiferimento = $parametri['importoRiferimento'];
 			}
         }
 		

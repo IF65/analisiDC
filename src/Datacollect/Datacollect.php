@@ -110,49 +110,47 @@
         
         public function stampaTransazioni() {
             foreach ($this->transazioni as $transazione) {
+                echo sprintf("%s\n", str_repeat('-',80));
+                echo sprintf("negozio: %4s,  data: %10s,  cassa/trans.: %3s/%4s,  carta: %s\n", $transazione->negozio, $transazione->data, $transazione->cassa, $transazione->numero, $transazione->carta);
+                echo sprintf("%s\n", str_repeat('-',80));
                 foreach ($transazione->vendite as $vendita) {
-                    echo sprintf("%3s %4s * %13s %5d %8.2f %8.2f %8d\n", $transazione->cassa, $transazione->numero, $vendita->plu, $vendita->quantita, $vendita->importoUnitario,  $vendita->importoTotale, 0);
+                    echo sprintf("%3s %4s * %-33s %5d %8.2f %8.2f %8d\n", $transazione->cassa, $transazione->numero, $vendita->plu, $vendita->quantita, $vendita->importoUnitario,  $vendita->importoTotale, 0);
                     
                     if ($vendita->beneficio01Id != '') {
                         if ($vendita->beneficio01Tipo == '0022') {
                             foreach($transazione->benefici as $beneficio) {
                                 if ($beneficio->id == $vendita->beneficio01Id) {
-                                    echo sprintf("%3s %4s   +%12s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0022',  0, $beneficio->punti);
+                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0022',  0, $beneficio->punti);
                                 }
                             }
-                        } else {
-                        if ($vendita->beneficio01Tipo == '0023') {
+                        } else if ($vendita->beneficio01Tipo == '0023') {
                             foreach($transazione->benefici as $beneficio) {
                                 if ($beneficio->id == $vendita->beneficio01Id) {
-                                    echo sprintf("%3s %4s   +%12s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0023',  0, $beneficio->punti);
+                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0023',  0, $beneficio->punti);
                                 }
                             }
-                        } else {
-                        if ($vendita->beneficio01Tipo == '0027') {
+                        } else if ($vendita->beneficio01Tipo == '0027') {
                             foreach($transazione->benefici as $beneficio) {
                                 if ($beneficio->id == $vendita->beneficio01Id) {
-                                    echo sprintf("%3s %4s   +%12s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0027',  $beneficio->sconto, $beneficio->punti);
+                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0027',  $beneficio->sconto, $beneficio->punti);
                                 }
                             }
-                        } else {
-                        if ($vendita->beneficio01Tipo == '0493') {
+                        } else if ($vendita->beneficio01Tipo == '0493') {
                             foreach($transazione->benefici as $beneficio) {
                                 if ($beneficio->id == $vendita->beneficio01Id) {
-                                    echo sprintf("%3s %4s   +%12s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0493',  $beneficio->sconto, 0);
+                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0493',  $beneficio->sconto, 0);
                                 }
                             }
-                        } else {
-                        if ($vendita->beneficio01Tipo == '0492') {
+                        } else if ($vendita->beneficio01Tipo == '0492') {
                             foreach($transazione->benefici as $beneficio) {
                                 if ($beneficio->id == $vendita->beneficio01Id) {
-                                    echo sprintf("%3s %4s   +%12s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0492',  $beneficio->sconto, 0);
+                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0492',  $beneficio->sconto, 0);
                                 }
                             }
-                        } else {
-                        if ($vendita->beneficio01Tipo == '0055') {
+                        } else if ($vendita->beneficio01Tipo == '0055') {
                             foreach($transazione->benefici as $beneficio) {
                                 if ($beneficio->id == $vendita->beneficio01Id) {
-                                    echo sprintf("%3s %4s   +%12s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0055',  $vendita->beneficio01Quota, 0);
+                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0055',  $vendita->beneficio01Quota, 0);
                                 }
                             }
                         }
@@ -160,37 +158,62 @@
                         if ($vendita->beneficio0505Id != '') {
                             foreach($transazione->benefici as $beneficio) {
                                 if ($beneficio->id == $vendita->beneficio0505Id) {
-                                    echo sprintf("%3s %4s   +%12s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0505',  0, $vendita->punti0505);
+                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0505',  0, $vendita->punti0505);
                                 }
                             }
                         }
                     }
                 }
+                
+                // transazionali
+                $beneficiTransazionaliPresenti = false;
+                foreach ($transazione->benefici as $beneficio) {
+                    if ($beneficio->transazionale) {
+                        $beneficiTransazionaliPresenti = true;
+                        break;
+                    }
+                }
+                
+                if ($beneficiTransazionaliPresenti) {
+                    echo "\nBENEFICI TRANSAZIONALI:\n";
+                    foreach ($transazione->benefici as $beneficio) {
+                        if ($beneficio->transazionale and $beneficio->tipo == '0034') {
+                            echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0034',  0,  $beneficio->punti);
+                        } else
+                        if ($beneficio->transazionale and $beneficio->tipo == '0061') {
+                            echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0061',  $beneficio->sconto,  0);
+                        } else
+                        if ($beneficio->transazionale and $beneficio->tipo == '0503') {
+                            echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0503'.' - '.$beneficio->plu,  $beneficio->sconto,  0);
+                        }
+                    }
+                }
+                echo "\n";
             }
         }
 
         public function mostraInformazioni(&$prezziLocali, &$dimensioni, &$articoli, &$barcode) {
             echo "- TOTALI:\n";
-            echo sprintf("numero righe       : %12s\n", number_format ( $this->numeroRighe , 0 , "," , "." ));
-            echo sprintf("transazioni Nimis  : %12s\n", number_format ( $this->numeroTransazioniNimis , 0 , "," , "." ));
-            echo sprintf("transazioni Totali : %12s\n", number_format ( $this->numeroTransazioni , 0 , "," , "." ));
-            echo sprintf("importo Nimis      : %12s\n", number_format ( $this->totaleNimis , 2 , "," , "." ));
-            echo sprintf("importo Totale     : %12s\n", number_format ( $this->totale , 2 , "," , "." ));
+            echo sprintf("numero righe       : %32s\n", number_format ( $this->numeroRighe , 0 , "," , "." ));
+            echo sprintf("transazioni Nimis  : %32s\n", number_format ( $this->numeroTransazioniNimis , 0 , "," , "." ));
+            echo sprintf("transazioni Totali : %32s\n", number_format ( $this->numeroTransazioni , 0 , "," , "." ));
+            echo sprintf("importo Nimis      : %32s\n", number_format ( $this->totaleNimis , 2 , "," , "." ));
+            echo sprintf("importo Totale     : %32s\n", number_format ( $this->totale , 2 , "," , "." ));
             
             echo "\n";
             echo "- FORME DI PAGAMENTO:\n";
             foreach( $this->formePagamento as $formaPagamento => $importo ) {
-                echo sprintf("codice: %3s importo: %12s\n", $formaPagamento, number_format ( $importo , 2 , "," , "." ));
+                echo sprintf("codice: %3s importo: %32s\n", $formaPagamento, number_format ( $importo , 2 , "," , "." ));
             }
-            echo sprintf("%11s  totale: %12s\n", '', number_format ( $this->totaleFormePagamento , 2 , "," , "." ));
+            echo sprintf("%11s  totale: %32s\n", '', number_format ( $this->totaleFormePagamento , 2 , "," , "." ));
             echo "\n";
             
             echo "\n";
             echo "- REPARTI IVA:\n";
             foreach( $this->repartiIva as $repartoIva => $importo ) {
-                echo sprintf("codice: %3s importo: %12s\n", $repartoIva, number_format ( $importo , 2 , "," , "." ));
+                echo sprintf("codice: %3s importo: %32s\n", $repartoIva, number_format ( $importo , 2 , "," , "." ));
             }
-            echo sprintf("%11s  totale: %12s\n", '', number_format ( $this->totaleRepartiIva , 2 , "," , "." ));
+            echo sprintf("%11s  totale: %32s\n", '', number_format ( $this->totaleRepartiIva , 2 , "," , "." ));
             echo "\n";
             
             if ($barcode != null and $dimensioni != null and false) {
@@ -232,7 +255,7 @@
                     }
 
                     $quantita = number_format ( $row['quantita'] , 3 , "," , "." );
-                    echo sprintf("| %-13s | %07s | %-35s | %12s |\n", $key, $codice, $descrizione, $quantita);
+                    echo sprintf("| %-13s | %07s | %-35s | %32s |\n", $key, $codice, $descrizione, $quantita);
                 }
                 echo sprintf("|%s|\n", str_repeat("-",78));
             }

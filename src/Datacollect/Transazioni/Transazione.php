@@ -76,7 +76,7 @@
                 $this->societa = $matches[1];
                 $this->negozio = $matches[1].$matches[2];
                 $this->cassa = $matches[3];
-                $this->data = '20'+$matches[4].'-'.$matches[5].'-'.$matches[6];
+                $this->data = '20'.$matches[4].'-'.$matches[5].'-'.$matches[6];
                 $this->ora = $matches[7].':'.$matches[8].':'.$matches[9];
                 $this->numero = $matches[10];
             }
@@ -244,7 +244,7 @@
                          $parametri = ['tipo' => '0503', 'sconto' => $matches[1]/100];
                         
                         if (preg_match('/:w:1.{11}(.{13})/', $righeBeneficio[$i + 1], $matches)) {
-                            $barcodeCatalina = $matches[1];
+                            $parametri['plu'] = $matches[1];
                             
                             array_splice($righeBeneficio, $i, 2);
                             $this->benefici[] = new Beneficio($parametri, $this->db);
@@ -335,10 +335,10 @@
                     
                     // 0034: punti su transazione (la ripartizione non puo' essere fatta subito perche' non ci sono descrittori disponibili)
                     if (preg_match('/:G:121:.{21}:00((?:\-|\+)\d{5})((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
-                        $punti = $matches[1];
-                        $importo = $matches[2];
+                        $parametri = ['tipo' => '0034', 'punti' => $matches[1]*1, 'importoRiferimento' => $matches[2]/100];
                         if (preg_match('/:m:1.{7}:0034/', $righeBeneficio[$i + 1])) {
                             array_splice($righeBeneficio, $i, 2);
+                            $this->benefici[] = new Beneficio($parametri, $this->db);
                             return true;
                         }
                     }
