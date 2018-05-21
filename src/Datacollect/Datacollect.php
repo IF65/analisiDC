@@ -6,7 +6,10 @@
     class Datacollect {
         protected $db = null;
 
-        // tutti le variabili sono valorizzate tenendo conto solo degli transazioni validi
+        private $data = null;
+        private $negozio = null;
+        
+        // tutti le variabili sono valorizzate tenendo conto solo delle transazioni valide.
         private $numeroRighe = 0; // rughe del file di testo
         private $numeroReferenze = 0;
         private $numeroTransazioni = 0; // sono contati solo
@@ -106,7 +109,6 @@
             }
             ksort($this->formePagamento, SORT_STRING);
         }
-        
         
         public function stampaTransazioni() {
             foreach ($this->transazioni as $transazione) {
@@ -272,6 +274,10 @@
             }
         }
 
+        public function esportaEpipoli() {
+            
+        }
+        
         function __destruct() {}
     }
 ?>

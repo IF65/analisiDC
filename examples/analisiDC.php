@@ -9,21 +9,19 @@
     use Database\Database;
 
     $timeZone = new \DateTimeZone('Europe/Rome');
-
-    // creo il database
-	$db = new Database($sqlDetails);
+    
+    echo '- Inizio elaborazione            : '.(new \DateTime())->setTimezone($timeZone)->format('H:i:s')."\n\n";
+    $db = new Database($sqlDetails);
 
     echo '- Caricamento prezzi locali      : '.(new \DateTime())->setTimezone($timeZone)->format('H:i:s')."\n";
-    //$prezziLocali = $db->anagdafi->ricerca(['codiceNegozio' => '3152', 'data' => '2018-04-07']);
-    $prezziLocali = [];
-
-    // carico un datacollect
+    //$prezziLocali = $db->ricercaPrezziLocali(['codiceNegozio' => '0133', 'data' => '2018-05-17']);
+    
     echo '- Caricamento datacollect        : '.(new \DateTime())->setTimezone($timeZone)->format('H:i:s')."\n\n";
     $test = new Datacollect(realpath(__DIR__ . '/..')."/examples/data/0133_20180517_180517_DC.TXT", $db);
-
-    // mostro le informazioni
-    //$test->mostraInformazioni($prezziLocali['data'], $db->dimensioni['data'], $db->articoli['data'], $db->barcode['data']);
     
+    echo '- Stampa transazioni             : '.(new \DateTime())->setTimezone($timeZone)->format('H:i:s')."\n\n";
     $test->stampaTransazioni();
+    
+    echo '- Fine elaborazione              : '.(new \DateTime())->setTimezone($timeZone)->format('H:i:s')."\n\n";
 ?>
 

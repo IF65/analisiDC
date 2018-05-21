@@ -21,7 +21,6 @@
         private $tableBarcode;
         private $tableNegozi;
         private $tableDimensioni;
-        
         private $tableAnagdafi;
 
         public function __construct($sqlDetails) {
@@ -66,11 +65,18 @@
                 $this->tableAnagdafi = new Anagdafi($this->pdo);
                     
                 
+                
             
                 return true;
             } catch (PDOException $e) {
                 die("DB ERROR: ". $e->getMessage());
             }
+        }
+        
+        public function ricercaPrezziLocali(array $query) {
+            $prezziLocali = $this->tableAnagdafi->ricerca($query);
+            
+            return (array) $prezziLocali;
         }
         
         public function __destruct() {
