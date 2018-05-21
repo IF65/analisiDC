@@ -239,7 +239,7 @@
                         }
                     }
                     
-                    // sconto catalina transazione
+                    // 0503: sconto catalina transazione
                     if ((($i + 1) < count($righeBeneficio)) and preg_match('/:D:197:.{30}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
                          $parametri = ['tipo' => '0503', 'sconto' => $matches[1]/100];
                         
@@ -252,15 +252,16 @@
                         }
                     }
                     
-                    // sconto catalina a reparto
+                    // 0481: sconto catalina a reparto
                     if ((($i + 1) < count($righeBeneficio)) and preg_match('/:D:196:.{30}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
                         $parametri = ['tipo' => '0481', 'sconto' => $matches[1]/100];
                         
-                        if (preg_match('/:w:1.{11}(.{13})/', $righeBeneficio[$i + 1])) {
+                        if (preg_match('/:w:1.{11}(.{13})/', $righeBeneficio[$i + 1], $matches)) {
+                            $parametri['plu'] = $matches[1];
                             $j = $i - 1;
                             $articoli = [];
                             while ($j >= 0 and preg_match('/:d:1.{7}:P0:(.{13})((?:\-|\+)\d{4}).{4}.(\d{9})$/', $righeBeneficio[$j], $matches)) {
-                                $articoli[] = ['plu' => $matches[1], 'quantita' => $matches[2]*1, 'sconto' => $matches[2]*$matches[3]/100];
+                                $articoli[] = ['plu' => $matches[1], 'quantita' => $matches[2]*1, 'importoRiferimento' => $matches[2]*$matches[3]/100];
                                 $j--;
                             }
                             $parametri['articoli'] = $articoli;
@@ -358,8 +359,9 @@
         
         private function associaVenditeBenefici() {
             foreach ($this->benefici as $beneficio) {
+                // I benefici transazionali non hanno bsogno di alcuna associazione
                 
-                // ----------------------------------------------0022 INIZIO
+                // PUNTI----------------------------------------------0022 INIZIO
                 if ($beneficio->tipo == '0022') {
                     // parametri del beneficio
                     $id = $beneficio->id;
@@ -379,10 +381,34 @@
                         }
                     }
                 }
-                // ----------------------------------------------0022 FINE
+                // PUNTI----------------------------------------------0022 FINE
                 
-                // ----------------------------------------------0023, 0027, 0492, 0493 INIZIO
-                if (in_array($beneficio->tipo, ['0023','0027','0492','0497'])) {
+                // PUNTI----------------------------------------------0505 INIZIO
+                if ($beneficio->tipo == '0505') {
+                    // parametri del beneficio
+                    $id = $beneficio->id;
+                    
+                    foreach ($beneficio->articoli as $articolo) {
+                        $plu = $articolo['plu'];
+                        $quantita = $articolo['quantita'];
+                        
+                        //cerco tra tutte le vendite se ce n'è una libera che coincide esattamente con
+                        //il beneficio
+                        foreach ($this->vendite as $vendita) {
+                            if ($vendita->beneficio0505Id == '') {
+                                if ($vendita->plu == $plu and $vendita->quantita == $quantita) {
+                                    $vendita->beneficio0505Id = $id;
+                                    $vendita->punti0505 = $articolo['quota'];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                // PUNTI----------------------------------------------0505 FINE
+                
+                // SCONTO----------------------------------------------0492, 0493 INIZIO
+                if (in_array($beneficio->tipo, ['0492','0497'])) {
                     // parametri del beneficio
                     $id = $beneficio->id;
                     $plu = $beneficio->plu;
@@ -400,9 +426,30 @@
                         }
                     } 
                 }
-                // ----------------------------------------------0023 FINE
+                // SCONTO----------------------------------------------0492, 0493 FINE
                 
-                // ----------------------------------------------0055 INIZIO
+                // SCONTO+PUNTI----------------------------------------------0023, 0027 INIZIO
+                if (in_array($beneficio->tipo, ['0023','0027'])) {
+                    // parametri del beneficio
+                    $id = $beneficio->id;
+                    $plu = $beneficio->plu;
+                    $quantita = $beneficio->quantita;
+                    
+                    //cerco tra tutte le vendite se ce n'è una libera che coincide esattamente con
+                    //il beneficio
+                    foreach ($this->vendite as $vendita) {
+                        if ($vendita->beneficio01Id == '') {
+                            if ($vendita->plu == $plu and $vendita->quantita == $quantita) {
+                                $vendita->beneficio01Tipo = $beneficio->tipo;
+                                $vendita->beneficio01Id = $id;
+                                break;
+                            }
+                        }
+                    } 
+                }
+                // SCONTO+PUNTI----------------------------------------------0023, 0027 FINE
+                
+                // SET----------------------------------------------0055 INIZIO
                 if ($beneficio->tipo == '0055') {
                     // parametri del beneficio
                     $id = $beneficio->id;
@@ -425,31 +472,34 @@
                         }
                     }
                 }
-                // ----------------------------------------------0055 FINE
+                // SET----------------------------------------------0055 FINE
                 
-                // ----------------------------------------------0505 INIZIO
-                if ($beneficio->tipo == '0505') {
+                // CATALINA REPARTO----------------------------------------------0481 INIZIO
+                if ($beneficio->tipo == '0481') {
                     // parametri del beneficio
                     $id = $beneficio->id;
                     
                     foreach ($beneficio->articoli as $articolo) {
                         $plu = $articolo['plu'];
                         $quantita = $articolo['quantita'];
+                        $importoRiferimento = $articolo['importoRiferimento'];
                         
                         //cerco tra tutte le vendite se ce n'è una libera che coincide esattamente con
                         //il beneficio
-                        foreach ($this->vendite as $vendita) {
-                            if ($vendita->beneficio0505Id == '') {
-                                if ($vendita->plu == $plu and $vendita->quantita == $quantita) {
-                                    $vendita->beneficio0505Id = $id;
-                                    $vendita->punti0505 = $articolo['quota'];
+                        foreach ($this->vendite as &$vendita) {
+                            if ($vendita->beneficio01Id == '') {
+                                if (($vendita->pluPeso == true and $vendita->plu == substr($plu,0,7) and $vendita->importoTotale == $importoRiferimento) or
+                                    ($vendita->pluPeso == false and $vendita->plu == $plu and $vendita->quantita == $quantita)) {
+                                    $vendita->benefici0481[] = ['id' => $id, 'quota' => $articolo['quota']];
                                     break;
                                 }
                             }
                         }
                     }
                 }
-                // ----------------------------------------------0505 FINE
+                // CATALINA REPARTO----------------------------------------------0481 FINE
+                
+                
                 
             }
         }

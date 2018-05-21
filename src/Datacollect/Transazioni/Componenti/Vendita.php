@@ -37,6 +37,13 @@
         // beneficio punti transazione
         public $beneficio0034Id = '';
         public $punti0034 = 0;
+        
+        // beneficio sconto dipendenti
+        public $beneficio0061Id = '';
+        public $punti0061 = 0;
+        
+        // beneficio sconto reparto catalina
+        public $benefici0481 = [];
        
         function __construct(array $parametri, &$db = null) {
             $this->db = $db;
@@ -51,6 +58,9 @@
             $this->pluPeso = $parametri['pluPeso'];
             $this->importoUnitario = $parametri['importoUnitario'];
             $this->importoTotale = $parametri['importoTotale'];
+            if( $this->pluPeso) {
+                $this->importoTotale = $this->importoUnitario;
+            }
             
             if (! is_null($db)) {
                 if (array_key_exists($this->plu, $db->barcode['data'])) {

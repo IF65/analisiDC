@@ -127,7 +127,6 @@
 				
 				$this->transazionale = false;
 				$this->articoli = $parametri['articoli'];
-				$this->punti = $parametri['punti'];
 				
 				// calcolo l'importo di riferimento totale
 				$totaleImporto = 0;
@@ -135,7 +134,7 @@
 					$totaleImporto += $articolo['quantita']*$articolo['importoRiferimento'];
 				}
 				foreach ($this->articoli as &$articolo) {
-					$articolo['quota'] = intval(($articolo['quantita']*$articolo['importoRiferimento'])/$totaleImporto*$this->punti);
+					$articolo['quota'] = intval(($articolo['quantita']*$articolo['importoRiferimento'])/$totaleImporto*$this->sconto);
 				}
 				
 			} else if ($parametri['tipo'] == '0503') {
@@ -144,8 +143,22 @@
 				$this->sconto = $parametri['sconto'];
 			} else if ($parametri['tipo'] == '0481') {
 				$this->transazionale = false;
+				$this->plu = $parametri['plu'];
 				$this->sconto = $parametri['sconto'];
 				$this->articoli = $parametri['articoli'];
+				
+				$this->transazionale = false;
+				$this->articoli = $parametri['articoli'];
+				
+				// calcolo l'importo di riferimento totale
+				$totaleImporto = 0;
+				foreach ($this->articoli as $articolo) {
+					$totaleImporto += $articolo['importoRiferimento'];
+				}
+				foreach ($this->articoli as &$articolo) {
+					$articolo['quota'] = $articolo['importoRiferimento']/$totaleImporto*$this->sconto;
+				}
+				
 			} else if ($parametri['tipo'] == '0061') {
 				$this->transazionale = true;
 				$this->sconto = $parametri['sconto'];

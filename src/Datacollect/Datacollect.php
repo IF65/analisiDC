@@ -113,6 +113,7 @@
                 echo sprintf("%s\n", str_repeat('-',80));
                 echo sprintf("negozio: %4s,  data: %10s,  cassa/trans.: %3s/%4s,  carta: %s\n", $transazione->negozio, $transazione->data, $transazione->cassa, $transazione->numero, $transazione->carta);
                 echo sprintf("%s\n", str_repeat('-',80));
+
                 foreach ($transazione->vendite as $vendita) {
                     echo sprintf("%3s %4s * %-33s %5d %8.2f %8.2f %8d\n", $transazione->cassa, $transazione->numero, $vendita->plu, $vendita->quantita, $vendita->importoUnitario,  $vendita->importoTotale, 0);
                     
@@ -154,11 +155,21 @@
                                 }
                             }
                         }
-                        
-                        if ($vendita->beneficio0505Id != '') {
+                    }
+                    
+                    if ($vendita->beneficio0505Id != '') {
+                        foreach($transazione->benefici as $beneficio) {
+                            if ($beneficio->id == $vendita->beneficio0505Id) {
+                                echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0505',  0, $vendita->punti0505);
+                            }
+                        }
+                    }
+                    
+                    if(count($vendita->benefici0481) > 0) {
+                        foreach($vendita->benefici0481 as $beneficio0481) {
                             foreach($transazione->benefici as $beneficio) {
-                                if ($beneficio->id == $vendita->beneficio0505Id) {
-                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0505',  0, $vendita->punti0505);
+                                if ($beneficio->id == $beneficio0481['id']) {
+                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0481'.' - '.$beneficio->plu,  $beneficio0481['quota'], 0);
                                 }
                             }
                         }
