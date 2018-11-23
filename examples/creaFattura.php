@@ -14,8 +14,8 @@
     
     $output = [];
 	
-	$result = exec ('perl /script/mtxGetTransactionList.pl -d 2018-11-23 -h 0110', $output );
-	
+	//$result = exec ('perl /script/mtxGetTransactionList.pl -d 2018-11-23 -h 0110', $output );
+	$result = exec ('perl /script/mtxGetTransaction.pl -d 2018-11-23 -h 0110 -c 5 -t 6083', $output );
 	print_r($output);
 ?>
 
