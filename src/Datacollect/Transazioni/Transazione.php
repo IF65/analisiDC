@@ -84,6 +84,7 @@
             // ora suddivido le righe nei vari tipi di movimento e carico alcuni dati di testata
             $righeVendita = [];
             $righeBeneficio = [];
+            $tipoIva = [];
             foreach ($this->righe as $riga) {
                 // numero di righe del datacollect
                 if (preg_match('/^.{31}:.:1/', $riga)) {
@@ -104,11 +105,16 @@
                     $this->totale = $matches[2]/100;
                 }
 
-                // selezione le righe vendita
+                // seleziono le righe vendita
                 if (preg_match('/^.{31}:S:1/', $riga)) {
                     if (! preg_match('/^.{31}:S:1.{11}998011/', $riga)) {
                         $righeVendita[] = $riga;
                     }
+                }
+                
+                // carico il tipo iva
+                if (preg_match('/^.{31}:i:1.{11}((?:\d|\s){13}).{11}(\d)/', $riga, $matches)) {
+                    $tipoIva[trim($matches[1])] = $matches[2];
                 }
                 
                 // seleziono le righe beneficio
@@ -136,13 +142,14 @@
             }
             
             // carico le vendite
-            $esitoCaricamentoVendite = function() use(&$righeVendita) {
+            $esitoCaricamentoVendite = function() use(&$righeVendita, &$tipoIva) {
                 if (count($righeVendita) and preg_match('/^.{31}:S:(\d)(\d)(\d):(\d{4}):.{3}(.{13})((?:\+|\-)\d{4})(\d|\.)(\d{3})(\+|\-|\*)(\d{9})$/', $righeVendita[0], $matches)) {
                     $parametri['codice1'] = $matches[1];
                     $parametri['codice2'] = $matches[2];
                     $parametri['codice3'] = $matches[3];
                     $parametri['repartoCassa'] = $matches[4];
                     $parametri['plu'] = trim($matches[5]);
+                    $parametri['ivaCodice'] = $tipoIva[$parametri['plu']];
                     if ('.' == $matches[7]) {
                         $parametri['quantita'] = ($matches[6].'.'.$matches[8])*1;
                         $parametri['unitaImballo'] = 0.0;
@@ -160,6 +167,7 @@
                         $parametri['importoUnitario'] = round(($matches[9].$matches[10])/100,2);
                         $parametri['importoTotale'] = round($parametri['importoUnitario'],2);
                     }
+                  
                     array_splice($righeVendita, 0, 1);
                     $this->vendite[] = New Vendita($parametri, $this->db);
                     

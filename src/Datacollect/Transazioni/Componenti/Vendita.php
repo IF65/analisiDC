@@ -56,6 +56,7 @@
             $this->quantita = $parametri['quantita'];
             $this->unitaImballo = $parametri['unitaImballo'];
             $this->pluPeso = $parametri['pluPeso'];
+            $this->ivaCodice = $parametri['ivaCodice'];
             $this->importoUnitario = $parametri['importoUnitario'];
             $this->importoTotale = $parametri['importoTotale'];
             if( $this->pluPeso) {
@@ -69,6 +70,12 @@
             } else {
                 if (array_key_exists('codice', $parametri)) {
                     $this->articoloCodice = $parametri['articoloCodice'];
+                }
+            }
+            
+            if (! is_null($db)) {
+                if (array_key_exists($this->articoloCodice, $db->articoli['data'])) {
+                    $this->articoloDescrizione = $db->articoli['data'][$this->articoloCodice]['articoloDescrizione'];
                 }
             }
         }
