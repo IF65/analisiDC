@@ -11,11 +11,11 @@
     $timeZone = new \DateTimeZone('Europe/Rome');
     
 
-    // debug
-    //$request = ['function' => 'creaFattura', 'sede' => '0134', 'data' => '2018-11-26', 'cassa' => '001', 'transazione' => '1327'];
+    //debug
+    $request = ['function' => 'creaFattura', 'sede' => '0110', 'data' => '2018-11-28', 'cassa' => '004', 'transazione' => '7047'];
     
-    $input = file_get_contents('php://input');
-    $request = json_decode($input, true);
+    //$input = file_get_contents('php://input');
+    //$request = json_decode($input, true);
     
    	if ( ! isset( $request ) ) {
         die;
@@ -45,8 +45,8 @@
             $righeTransazione = [];
             
             //$result = exec ('perl /script/mtxGetTransactionList.pl -d 2018-11-23 -h 0110', $output );
-            //$result = exec("ssh root@10.11.14.78 \"perl /script/mtxGetTransaction.pl -d $data -h $sede -c $cassa -t $scontrino\"", $righeTransazione );
-            $result = exec("perl /script/mtxGetTransaction.pl -d $data -h $sede -c $cassa -t $scontrino", $righeTransazione );  
+            $result = exec("ssh root@10.11.14.78 \"perl /script/mtxGetTransaction.pl -d $data -h $sede -c $cassa -t $scontrino\"", $righeTransazione );
+            //$result = exec("perl /script/mtxGetTransaction.pl -d $data -h $sede -c $cassa -t $scontrino", $righeTransazione );  
             
             $transazione = New Transazione($righeTransazione, $db);
             
