@@ -273,6 +273,45 @@
                 echo sprintf("|%s|\n", str_repeat("-",78));
             }
         }
+        
+        static function mtx2dc(array $righe) {
+            $dc = [];
+            
+            foreach ($righe as $riga) {
+                $REG = $riga['REG'];
+                $STORE = $riga['STORE'];
+                $DDATE = $riga['DATE'];
+                $TTIME = $riga['TTIME'];
+                $SEQUENCENUMBER = $riga['SEQUENCENUMBER'];
+                $TRANS = $riga['TRANS'];
+                $TRANSSTEP = $riga['TRANSSTEP'];
+                $RECORDTYPE = $riga['RECORDTYPE'];
+                $RECORDCODE = $riga['RECORDCODE'];
+                $USERNO = $riga['USERNO'];
+                $MISC = $riga['MISC'];
+                $DATA = $riga['DATA']; 
+                
+                $MIXED_FIELD = sprintf('%04d',$USERNO).':'.$MISC.$DATA;
+                
+                if (preg_match('/z/', $RECORDTYPE)) {
+                    if (preg_match('/^(..\:)(.*)$/', $MISC, $matches)) {
+                        $MIXED_FIELD = '00'.$matches[1].$matches[2].$DATA.'000';
+                    }
+                }
+                
+                if (preg_match('/m/', $RECORDTYPE)) {
+                    if (preg_match('/^(..\:)(.*)$/', $MISC, $matches)) {
+                        $MIXED_FIELD = '  '.$matches[1].$matches[2].$DATA.'   ';
+                        if (preg_match('/^....:(0492.*)$/', $MIXED_FIELD, $matches)) {
+                            $MIXED_FIELD = '0000:'.$matches[1];
+                        }
+                    }
+                }
+                $dc[] = sprintf('%04s:%03d:%06s:%06s:%04d:%03d:%1s:%03s:',$STORE,$REG,$DDATE,$TTIME,$TRANS,$TRANSSTEP,$RECORDTYPE,$RECORDCODE).$MIXED_FIELD;
+            }
+            
+            return $dc;
+        }
 
         public function esportaEpipoli() {
             

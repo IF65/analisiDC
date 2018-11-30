@@ -6,13 +6,14 @@
     require(realpath(__DIR__ . '/..').'/src/Datacollect/autoload.php');
 
     use Database\Database;
+    use Datacollect\Datacollect;
     use Datacollect\Transazioni\Transazione;
 
     $timeZone = new \DateTimeZone('Europe/Rome');
     
 
     //debug
-    $request = ['function' => 'creaFattura', 'sede' => '0110', 'data' => '2018-11-28', 'cassa' => '004', 'transazione' => '7047'];
+    $request = ['function' => 'creaFattura', 'sede' => '0110', 'data' => '2018-11-28', 'cassa' => '004', 'transazione' => '7049'];
     
     //$input = file_get_contents('php://input');
     //$request = json_decode($input, true);
@@ -29,25 +30,30 @@
             // variabili
             global $sqlDetails;
             
-            
             $sede = $request['sede'];
             $data = $request['data'];
             $cassa = $request['cassa'];
             $scontrino = $request['transazione'];
         
             // costanti
-            $ivaAliquota = [ 1 => 0, 2 => 4, 3 => 10, 4 => 22, 5 => 0, 6 => 0, 7 => 0, 8 => 0 ];
-            $ivaDescrizione = [ 1 => 'IVA 0', 2 => 'IVA 4', 3 => 'IVA 10', 4 => 'IVA 22', 5 => 'IVA 5', 6 => 'ES.GIFT.92', 7 => 'ES.GIFT 93/94', 8 => 'ES. VARI' ];
+            $ivaAliquota = [ 0 => 0, 1 => 4, 2 => 10, 3 => 22, 4 => 0, 5 => 0, 6 => 0, 7 => 0 ];
+            $ivaDescrizione = [ 0 => 'IVA 0', 1 => 'IVA 4', 2 => 'IVA 10', 3 => 'IVA 22', 4 => 'IVA 5', 5 => 'ES.GIFT.92', 6 => 'ES.GIFT 93/94', 7 => 'ES. VARI' ];
             
             // carico il database
             $db = new Database($sqlDetails);
             
-            $righeTransazione = [];
+            // recupero il dc
+            $client = new GuzzleHttp\Client();
             
-            //$result = exec ('perl /script/mtxGetTransactionList.pl -d 2018-11-23 -h 0110', $output );
-            $result = exec("ssh root@10.11.14.78 \"perl /script/mtxGetTransaction.pl -d $data -h $sede -c $cassa -t $scontrino\"", $righeTransazione );
-            //$result = exec("perl /script/mtxGetTransaction.pl -d $data -h $sede -c $cassa -t $scontrino", $righeTransazione );  
+            $url = 'http://10.11.14.77/test.php';
+            $headers = array('Content-Type: application/json');
+            $requestData = ['function' => 'getTransaction', 'negozio' => '0131', 'data' => '2018-11-30', 'cassa' => '008', 'transazione' => '1355'];
+            $request = new GuzzleHttp\Psr7\Request("POST", $url, $headers, json_encode($requestData));
             
+            $response = $client->send($request, ['timeout' => 20]);
+            $json = $response->getBody()->getContents();
+          
+            $righeTransazione = Datacollect::mtx2dc(json_decode($json, true));    
             $transazione = New Transazione($righeTransazione, $db);
             
             // creo la fattura
