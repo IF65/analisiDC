@@ -31,10 +31,12 @@
         // variabili
         global $sqlDetails;
         
-        $sede = $request['sede'];
+        /*$sede = $request['sede'];
         $data = $request['data'];
         $cassa = $request['cassa'];
-        $scontrino = $request['transazione'];
+        $scontrino = $request['transazione'];*/
+        
+        $fattura = [];
     
         // costanti
         $ivaAliquota = [ 0 => 0, 1 => 4, 2 => 10, 3 => 22, 4 => 0, 5 => 0, 6 => 0, 7 => 0 ];
@@ -53,55 +55,58 @@
         $request = new GuzzleHttp\Psr7\Request("POST", $url, $headers, json_encode($requestData));
         
         $response = $client->send($request, ['timeout' => 20]);
-        $responseJson = $response->getBody()->getContents();
-        $responseObj = json_decode($responseJson, true);
-        $datacollect = Datacollect::mtx2dc($responseObj['datacollect']);
-        
-        $transazione = New Transazione($datacollect, $db);
-        
-        // creo la fattura
-        $fattura = [];
-        
-        // leggo le righe
-        $righeFattura = [];
-        foreach ($transazione->vendite as $vendita) {
-            $dettaglioVendita = $vendita->leggi();
+        if ($response->getStatusCode() == 200) {
+            $responseJson = $response->getBody()->getContents();
+            $responseObj = json_decode($responseJson, true);
+            $datacollect = Datacollect::mtx2dc($responseObj['datacollect']);
             
-            $dettaglioVendita['ivaAliquota'] = $ivaAliquota[$dettaglioVendita['ivaCodice']];
-            $dettaglioVendita['ivaDescrizione'] = $ivaDescrizione[$dettaglioVendita['ivaCodice']];
-            $dettaglioVendita['imponibileTotale'] = round($dettaglioVendita['importoTotale'] * 100 / ($dettaglioVendita['ivaAliquota'] + 100),2);
-            $dettaglioVendita['impostaTotale'] =  round($dettaglioVendita['importoTotale'] -  $dettaglioVendita['imponibileTotale'],2) ;
+            $transazione = New Transazione($datacollect, $db);
             
-            $righeFattura[] = $dettaglioVendita;
-        }
-        
-        // calcolo i reparti iva
-        $repartiIva = [];
-        foreach ($righeFattura as $riga) {
-            if (! key_exists($riga['ivaCodice'], $repartiIva)) {
-                $repartiIva[$riga['ivaCodice']]['imposta'] = $riga['impostaTotale'];
-                $repartiIva[$riga['ivaCodice']]['imponibile'] = $riga['imponibileTotale'];
-                $repartiIva[$riga['ivaCodice']]['descrizione'] = $ivaDescrizione[$riga['ivaCodice']];
-                $repartiIva[$riga['ivaCodice']]['aliquota'] = $ivaAliquota[$riga['ivaCodice']];
-            } else {
-                $repartiIva[$riga['ivaCodice']]['imposta'] = round($repartiIva[$riga['ivaCodice']]['imposta'] + $riga['impostaTotale'],2);
-                $repartiIva[$riga['ivaCodice']]['imponibile'] = round($repartiIva[$riga['ivaCodice']]['imponibile'] + $riga['imponibileTotale'],2);
+            // leggo le righe
+            $righeFattura = [];
+            foreach ($transazione->vendite as $vendita) {
+                $dettaglioVendita = $vendita->leggi();
+                
+                $dettaglioVendita['ivaAliquota'] = $ivaAliquota[$dettaglioVendita['ivaCodice']];
+                $dettaglioVendita['ivaDescrizione'] = $ivaDescrizione[$dettaglioVendita['ivaCodice']];
+                $dettaglioVendita['imponibileTotale'] = round($dettaglioVendita['importoTotale'] * 100 / ($dettaglioVendita['ivaAliquota'] + 100),2);
+                $dettaglioVendita['impostaTotale'] =  round($dettaglioVendita['importoTotale'] -  $dettaglioVendita['imponibileTotale'],2) ;
+                
+                $righeFattura[] = $dettaglioVendita;
             }
+            
+            // calcolo i reparti iva
+            $repartiIva = [];
+            foreach ($righeFattura as $riga) {
+                if (! key_exists($riga['ivaCodice'], $repartiIva)) {
+                    $repartiIva[$riga['ivaCodice']]['imposta'] = $riga['impostaTotale'];
+                    $repartiIva[$riga['ivaCodice']]['imponibile'] = $riga['imponibileTotale'];
+                    $repartiIva[$riga['ivaCodice']]['descrizione'] = $ivaDescrizione[$riga['ivaCodice']];
+                    $repartiIva[$riga['ivaCodice']]['aliquota'] = $ivaAliquota[$riga['ivaCodice']];
+                } else {
+                    $repartiIva[$riga['ivaCodice']]['imposta'] = round($repartiIva[$riga['ivaCodice']]['imposta'] + $riga['impostaTotale'],2);
+                    $repartiIva[$riga['ivaCodice']]['imponibile'] = round($repartiIva[$riga['ivaCodice']]['imponibile'] + $riga['imponibileTotale'],2);
+                }
+            }
+            
+            // calcolo il totale
+            $totaleFattura = 0;
+            foreach ($righeFattura as $riga) {
+                $totaleFattura += $riga['importoTotale'];
+            }
+            
+            $fattura['sede'] = $sede;
+            $fattura['data'] = $data;
+            $fattura['cassa'] = $cassa;
+            $fattura['transazione'] = $scontrino;
+            $fattura['totaleFattura'] = round($totaleFattura,2);
+            $fattura['repartiIva'] = $repartiIva;
+            $fattura['righe'] = $righeFattura;
+        } else if ($response->getStatusCode() == 204)  {
+            http_response_code(204);
+        } else {
+            http_response_code(404);
         }
-        
-        // calcolo il totale
-        $totaleFattura = 0;
-        foreach ($righeFattura as $riga) {
-            $totaleFattura += $riga['importoTotale'];
-        }
-        
-        $fattura['sede'] = $sede;
-        $fattura['data'] = $data;
-        $fattura['cassa'] = $cassa;
-        $fattura['transazione'] = $scontrino;
-        $fattura['totaleFattura'] = round($totaleFattura,2);
-        $fattura['repartiIva'] = $repartiIva;
-        $fattura['righe'] = $righeFattura;
         
         return json_encode($fattura);
     }
