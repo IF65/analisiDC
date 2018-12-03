@@ -22,8 +22,11 @@
         private $tableNegozi;
         private $tableDimensioni;
         private $tableAnagdafi;
+        
+        private $loadDb;
 
-        public function __construct($sqlDetails) {
+        public function __construct(array $sqlDetails, $loadDb = True) {
+            $this->loadDb = $loadDb;
             $conStr = sprintf("mysql:host=%s", $sqlDetails['host']);
             try {
                 $this->pdo = new PDO($conStr, $sqlDetails['user'], $sqlDetails['password']);
@@ -46,9 +49,11 @@
                 $this->tableBarcode = new Barartx2($this->pdo);
                 $this->tableNegozi = new Negozi($this->pdo);
                  
-                $this->articoli = $this->tableArticoli->ricerca([]);
-                $this->barcode = $this->tableBarcode->ricerca([]);
-                $this->negozi = $this->tableNegozi->ricerca([]);
+                if ($this->loadDb) {
+                    $this->articoli = $this->tableArticoli->ricerca([]);
+                    $this->barcode = $this->tableBarcode->ricerca([]);
+                    $this->negozi = $this->tableNegozi->ricerca([]);
+                }
                      
                 // dimensioni
                 // ----------------------------------------------------------
@@ -56,7 +61,9 @@
                 $stmt->execute() or die(print_r($this->pdo->errorInfo(), true));
                 $this->tableDimensioni = new Dimensioni($this->pdo);
                 
-                $this->dimensioni = $this->tableDimensioni->ricerca([]);
+                if ($this->loadDb) {
+                    $this->dimensioni = $this->tableDimensioni->ricerca([]);
+                }
                 
                 // dc
                 // ----------------------------------------------------------
