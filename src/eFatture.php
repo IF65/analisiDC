@@ -1,10 +1,10 @@
 <?php
 	//recupero i parametri inviati in formato json
 	$body  = file_get_contents('php://input');
-
+	
 	//trasformo i paramentri in un array associativo
 	$parameters = json_decode($body, true);
-	
+
 	// elenco negozi
 	$ipMtx = [
 		'0012' => '192.168.239.20',
@@ -102,47 +102,88 @@
 
 	$result = [];
 	$error = '';
-	
-	$connection_string = "DRIVER={SQL Server};SERVER=".$ipMtx[$parameters['negozio']].";PORT=1433;DATABASE=mtx";
-	try {
-		$conn = odbc_connect($connection_string,"mtxadmin","mtxadmin");
-	
-		$sql = "select
-					REG, STORE, replace(substring(convert(VARCHAR, DDATE, 120),3,8),'-','') 'DATE', TTIME, SEQUENCENUMBER,
-					TRANS, TRANSSTEP, RECORDTYPE, RECORDCODE, USERNO, MISC, DATA
-				from IDC
-				where Ddate = ? and REG = ? and TRANS = ?
-				order by ddate, reg, sequencenumber;";
-	
 		
-		$stmt    = odbc_prepare($conn, $sql);
-		if ( odbc_execute($stmt, [$parameters['data'],$parameters['cassa'],$parameters['transazione']]) ) {
-			while ($record = odbc_fetch_array($stmt)) {
-				$result[] = $record;
-			}
-	
-			if (! count($result)) {
-				$sql = "select
-					REG, STORE, replace(substring(convert(VARCHAR, DDATE, 120),3,8),'-','') 'DATE', TTIME, SEQUENCENUMBER,
-					TRANS, TRANSSTEP, RECORDTYPE, RECORDCODE, USERNO, MISC, DATA
-				from IDC_EOD
-				where Ddate = ? and REG = ? and TRANS = ?
-				order by ddate, reg, sequencenumber;";
-				
-				$stmt    = odbc_prepare($conn, $sql);
-				if ( odbc_execute($stmt, [$parameters['data'],$parameters['cassa'],$parameters['transazione']]) ) {
-					while ($record = odbc_fetch_array($stmt)) {
-						$result[] = $record;
-					}
-				}
-			}			
+	if ( $parameters['function'] == 'getTransaction' ) { 
+		$connection_string = "DRIVER={SQL Server};SERVER=".$ipMtx[$parameters['sede']].";PORT=1433;DATABASE=mtx";
+		try {
+			$conn = odbc_connect($connection_string,"mtxadmin","mtxadmin");
+		
+			$sql = "select
+						REG, STORE, replace(substring(convert(VARCHAR, DDATE, 120),3,8),'-','') 'DATE', TTIME, SEQUENCENUMBER,
+						TRANS, TRANSSTEP, RECORDTYPE, RECORDCODE, USERNO, MISC, DATA
+					from IDC
+					where Ddate = ? and REG = ? and TRANS = ?
+					order by ddate, reg, sequencenumber;";
+		
 			
-			odbc_close($conn);
+			$stmt    = odbc_prepare($conn, $sql);
+			if ( odbc_execute($stmt, [$parameters['data'],$parameters['cassa'],$parameters['transazione']]) ) {
+				while ($record = odbc_fetch_array($stmt)) {
+					$result[] = $record;
+				}
+		
+				if (! count($result)) {
+					$sql = "select
+						REG, STORE, replace(substring(convert(VARCHAR, DDATE, 120),3,8),'-','') 'DATE', TTIME, SEQUENCENUMBER,
+						TRANS, TRANSSTEP, RECORDTYPE, RECORDCODE, USERNO, MISC, DATA
+					from IDC_EOD
+					where Ddate = ? and REG = ? and TRANS = ?
+					order by ddate, reg, sequencenumber;";
+					
+					$stmt    = odbc_prepare($conn, $sql);
+					if ( odbc_execute($stmt, [$parameters['data'],$parameters['cassa'],$parameters['transazione']]) ) {
+						while ($record = odbc_fetch_array($stmt)) {
+							$result[] = $record;
+						}
+					}
+				}			
+				
+				odbc_close($conn);
+			}
+		} catch (Exception $e) {
+			$error = $e->getMessage();
 		}
-	} catch (Exception $e) {
-		$error = $e->getMessage();
-	}
 
-	header('Content-type: application/json; charset=utf8');
-	echo json_encode(['errorMessage' => $result, 'datacollect' => $result]);
+		header('Content-type: application/json; charset=utf8');
+		echo json_encode(['errorMessage' => $error, 'datacollect' => $result]);
+	} else if ( $parameters['function'] == 'getTransactionList' ) {
+		$connection_string = "DRIVER={SQL Server};SERVER=".$ipMtx[$parameters['sede']].";PORT=1433;DATABASE=mtx";
+		try {
+			$conn = odbc_connect($connection_string,"mtxadmin","mtxadmin");
+		
+			$sql = "select distinct REG, TRANS
+					from IDC
+					where Ddate = ? 
+					order by REG, TRANS;";
+		
+			
+			$stmt    = odbc_prepare($conn, $sql);
+			if ( odbc_execute($stmt, [$parameters['data']]) ) {
+				while ($record = odbc_fetch_array($stmt)) {
+					$result[] = $record;
+				}
+		
+				if (! count($result)) {
+					$sql = "select distinct REG, TRANS
+					from IDC_EOD
+					where Ddate = ? 
+					order by REG, TRANS;";
+					
+					$stmt = odbc_prepare($conn, $sql);
+					if ( odbc_execute($stmt, [$parameters['data']]) ) {
+						while ($record = odbc_fetch_array($stmt)) {
+							$result[] = $record;
+						}
+					}
+				}			
+				
+				odbc_close($conn);
+			}
+		} catch (Exception $e) {
+			$error = $e->getMessage();
+		}
+
+		header('Content-type: application/json; charset=utf8');
+		echo json_encode(['errorMessage' => $error, 'elenco' => $result]);
+	}
 ?>
