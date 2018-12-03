@@ -4,7 +4,7 @@
 	
 	//trasformo i paramentri in un array associativo
 	$parameters = json_decode($body, true);
-
+	
 	// elenco negozi
 	$ipMtx = [
 		'0012' => '192.168.239.20',
@@ -157,7 +157,7 @@
 					order by REG, TRANS;";
 		
 			
-			$stmt    = odbc_prepare($conn, $sql);
+			$stmt = odbc_prepare($conn, $sql);
 			if ( odbc_execute($stmt, [$parameters['data']]) ) {
 				while ($record = odbc_fetch_array($stmt)) {
 					$result[] = $record;
@@ -169,7 +169,7 @@
 					where Ddate = ? 
 					order by REG, TRANS;";
 					
-					$stmt = odbc_prepare($conn, $sql);
+					$stmt    = odbc_prepare($conn, $sql);
 					if ( odbc_execute($stmt, [$parameters['data']]) ) {
 						while ($record = odbc_fetch_array($stmt)) {
 							$result[] = $record;

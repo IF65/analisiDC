@@ -12,7 +12,7 @@
     $timeZone = new \DateTimeZone('Europe/Rome');
     
     //debug
-    //$request = ['function' => 'elencoTransazioni', 'sede' => '0134', 'data' => '2018-12-03', 'cassa' => '002', 'transazione' => '0448'];
+    //$request = ['function' => 'creaFattura', 'sede' => '0134', 'data' => '2018-12-03', 'cassa' => '002', 'transazione' => '0448'];
     
     $input = file_get_contents('php://input');
     $request = json_decode($input, true);
@@ -118,7 +118,7 @@
         $headers = array('Content-Type: application/json');
         
         //$request['function'] = 'getTransactionList';
-        $requestData = ['function' => 'getTransactionList', 'sede' => $request['sede'], 'data' => $request['data'], 'cassa' => $request['cassa'], 'transazione' => $request['transazione']];
+        $requestData = ['function' => 'getTransactionList', 'sede' => $request['sede'], 'data' => $request['data']];
         $postRequest = new GuzzleHttp\Psr7\Request("POST", $url, $headers, json_encode($requestData));
         
         $response = $client->send($postRequest, ['timeout' => 20]);
