@@ -17,7 +17,7 @@
     
     $input = file_get_contents('php://input');
     $request = json_decode($input, true);
-    echo $input;
+
    	if ( ! isset( $request ) ) {
         die;
     }
@@ -25,7 +25,7 @@
     if ($request['function'] == 'creaFattura') {
         echo creaFattura($request);
     } else if ($request['function'] == 'elencoTransazioni') {
-        echo creaFattura($request);
+        echo elencoTransazioni($request);
     }
     
     function creaFattura(array $request) {
