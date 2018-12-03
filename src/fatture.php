@@ -10,9 +10,9 @@
     use Datacollect\Transazioni\Transazione;
 
     $timeZone = new \DateTimeZone('Europe/Rome');
-    
+
     //debug
-    //$request = ['function' => 'creaFattura', 'sede' => '0134', 'data' => '2018-12-03', 'cassa' => '002', 'transazione' => '0448'];
+    //$request = ['function' => 'creaFattura', 'sede' => '0134', 'data' => '2018-12-03', 'cassa' => '004', 'transazione' => '1513'];
     
     $input = file_get_contents('php://input');
     $request = json_decode($input, true);
@@ -31,10 +31,10 @@
         // variabili
         global $sqlDetails;
         
-        /*$sede = $request['sede'];
+        $sede = $request['sede'];
         $data = $request['data'];
         $cassa = $request['cassa'];
-        $scontrino = $request['transazione'];*/
+        $scontrino = $request['transazione'];
         
         $fattura = [];
     
