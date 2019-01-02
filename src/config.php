@@ -1,8 +1,17 @@
 <?php
 
-// Attiva la visualizzazione degli errori in fase di debug (rimuovere in produzione)
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+$filename = realpath(__DIR__ . '/..').'/debug.php';
+if (file_exists($filename)) {
+	include( $filename );
+} else {
+	$debug = false;
+}
+
+// Attiva la visualizzazione degli errori in fase di debug
+if ($debug) {
+	error_reporting(E_ALL);
+	ini_set('display_errors', '1');
+}
 
 $sqlDetails = array(
 	"user" 		=> "root",

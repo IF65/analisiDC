@@ -23,13 +23,13 @@
         public $vendite = array();
         public $benefici = array();
         public $formePagamento = array();
-        public $repartiIva = array();
         
         public $blocchi = array();
 
         function __construct(array $righe, &$db) {
             $this->db = $db;    
             $this->righe = $righe;
+            $this->normalizzaTransazione();
             $this->carica();
         }
         
@@ -69,8 +69,12 @@
                 echo sprintf("reparti iva : %12s\n\n", number_format ( $totaleRepartiIva , 2 , "," , "." ));
             }
         }
-
-        private function carica() {
+        
+        protected function normalizzaTransazione() {
+            $this->righe = preg_grep("/^.{31}:i:.01:/", $this->righe, PREG_GREP_INVERT);
+        }
+        
+        protected function carica() {
             // testata transazione
             if (preg_match('/^(\d{2})(\d{2}):(\d{3}):(\d{2})(\d{2})(\d{2}):(\d{2})(\d{2})(\d{2}):(\d{4}):(\d{3}):H:1/', $this->righe[0], $matches)) {
                 $this->societa = $matches[1];
@@ -106,21 +110,14 @@
                 }
 
                 // seleziono le righe vendita
-                if (preg_match('/^.{31}:S:1/', $riga)) {
-                    if (! preg_match('/^.{31}:S:1.{11}998011/', $riga)) {
-                        $righeVendita[] = $riga;
-                    }
-                }
-                
-                // carico il tipo iva
-                if (preg_match('/^.{31}:i:1.{11}((?:\d|\s){13}).{11}(\d)/', $riga, $matches)) {
-                    $tipoIva[trim($matches[1])] = $matches[2];
+                if (preg_match('/^.{31}:(S|i):1/', $riga)) { //S + i + i
+                    $righeVendita[] = $riga;
                 }
                 
                 // seleziono le righe beneficio
                 if (preg_match('/^.{31}:(C|D|G|d|m|w):1/', $riga) or preg_match('/^.{31}:S:1.{11}998011/', $riga)) {
                     $righeBeneficio[] = $riga;
-                }                
+                }
 
                 // carico le forme di pagamento (carico direttamente vista la semplicita' dell'informazione)
                 if (preg_match('/^.*:T:1.{25}(\d\d).{6}((?:\+|\-)\d{9})$/', $riga, $matches)) {
@@ -130,26 +127,16 @@
                         $this->formePagamento[$matches[1]] = $matches[2]/100;
                     }
                 }
-                
-                // carico i reparti iva (carico direttamente vista la semplicita' dell'informazione)
-                if (preg_match('/^.*:V:1(\d).{32}((?:\+|\-)\d{9})$/', $riga, $matches)) {
-                    if (array_key_exists($matches[1], $this->repartiIva)) {
-                        $this->repartiIva[$matches[1]] += $matches[2]/100;
-                    } else {
-                        $this->repartiIva[$matches[1]] = $matches[2]/100;
-                    }
-                }
             }
             
             // carico le vendite
-            $esitoCaricamentoVendite = function() use(&$righeVendita, &$tipoIva) {
+            $esitoCaricamentoVendite = function() use(&$righeVendita, &$tipoIva, &$contatoreVendita) {
                 if (count($righeVendita) and preg_match('/^.{31}:S:(\d)(\d)(\d):(\d{4}):.{3}(.{13})((?:\+|\-)\d{4})(\d|\.)(\d{3})(\+|\-|\*)(\d{9})$/', $righeVendita[0], $matches)) {
                     $parametri['codice1'] = $matches[1];
                     $parametri['codice2'] = $matches[2];
                     $parametri['codice3'] = $matches[3];
                     $parametri['repartoCassa'] = $matches[4];
                     $parametri['plu'] = trim($matches[5]);
-                    $parametri['ivaCodice'] = $tipoIva[$parametri['plu']];
                     if ('.' == $matches[7]) {
                         $parametri['quantita'] = ($matches[6].'.'.$matches[8])*1;
                         $parametri['unitaImballo'] = 0.0;
@@ -167,9 +154,12 @@
                         $parametri['importoUnitario'] = round(($matches[9].$matches[10])/100,2);
                         $parametri['importoTotale'] = round($parametri['importoUnitario'],2);
                     }
+                    $parametri['id'] = $contatoreVendita;
                   
                     array_splice($righeVendita, 0, 1);
                     $this->vendite[] = New Vendita($parametri, $this->db);
+                    
+                    $contatoreVendita++;
                     
                     return true;
                 }
@@ -177,6 +167,7 @@
             };
             
             // chiamo la closure fino a che tutte le vendite siano state caricate
+            $contatoreVendita = 1;
             while ($esitoCaricamentoVendite($righeVendita)) {}
              if (count($righeVendita) > 0) {// se aquesto punto l'array che contiene le righe vendita non è vuoto c'è un errore
                 echo "errore: $righeVendita[0]\n";
