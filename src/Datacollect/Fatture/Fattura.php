@@ -95,10 +95,10 @@
                 if (preg_match('/^.{31}:v:101:.{21}:(\d{4})/', $riga, $matches)) {
                     $indice = $matches[1];
                     $this->vendite[$indice]['quantita'] = $quantita;
-                    $this->vendite[$indice]['importoTotale'] = $importoLordo;
-                    $this->vendite[$indice]['impostaTotale'] = $importoIva;
+                    $this->vendite[$indice]['importoTotale'] = round($importoLordo,2);
+                    $this->vendite[$indice]['impostaTotale'] = round($importoIva,2);
                     $this->vendite[$indice]['imponibileTotale'] = round($importoLordo - $importoIva,2);
-                    $this->vendite[$indice]['importoUnitario'] = $importoLordo;
+                    $this->vendite[$indice]['importoUnitario'] = round($importoLordo,2);
                     if ( $quantita > 1) {
                         $this->vendite[$indice]['importoUnitario'] = round($importoLordo/$quantita,2);
                     }
@@ -117,8 +117,8 @@
                     $this->repartiIva[$ivaTipo] = [
                                                     'aliquota' => $this->ivaAliquota[$ivaTipo],
                                                     'descrizione' => $this->ivaDescrizione[$ivaTipo],
-                                                    'imponibile' => ($lordo - $imposta),
-                                                    'imposta' => $imposta
+                                                    'imponibile' => round($lordo - $imposta,2),
+                                                    'imposta' => round($imposta,2)
                                                     ];
                     $lordo = 0;
                     $imposta = 0;
