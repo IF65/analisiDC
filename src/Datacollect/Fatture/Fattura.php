@@ -35,6 +35,15 @@
                 
                 // testata transazione
                 if (preg_match('/^(\d{2})(\d{2}):(\d{3}):(\d{2})(\d{2})(\d{2}):(\d{2})(\d{2})(\d{2}):(\d{4}):(\d{3}):H:1/', $riga, $matches)) {
+                    if ($matches[1] == '06') {
+                        $matches[1] = '36';
+                    }
+                    if ($matches[1] == '01' and $matches[2] == '51') {
+                        $matches[1] = '31';
+                    }
+                    if ($matches[1] == '01' and $matches[2] == '52') {
+                        $matches[1] = '31';
+                    }
                     $this->societa = $matches[1];
                     $this->sede = $matches[1].$matches[2];
                     $this->cassa = $matches[3];
@@ -107,7 +116,7 @@
                 // prima riga V
                 if (preg_match('/^.{31}:V:1(\d)1.{31}((?:\+|\-)\d{9})/', $riga, $matches)) {
                     $ivaTipo = $matches[1]*1;
-                    $lordo = $matches[2]/100;
+                    $imponibile = $matches[2]/100;
                 }
                 
                 // seconda riga V
@@ -117,7 +126,7 @@
                     $this->repartiIva[$ivaTipo] = [
                                                     'aliquota' => $this->ivaAliquota[$ivaTipo],
                                                     'descrizione' => $this->ivaDescrizione[$ivaTipo],
-                                                    'imponibile' => round($lordo - $imposta,2),
+                                                    'imponibile' => round($imponibile,2),
                                                     'imposta' => round($imposta,2)
                                                     ];
                     $lordo = 0;
