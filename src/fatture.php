@@ -12,7 +12,7 @@
     $timeZone = new \DateTimeZone('Europe/Rome');
 
     if ($debug) {
-        $request = ['function' => 'creaFattura', 'sede' => '0463', 'data' => '2019-01-02', 'cassa' => '006', 'transazione' => '3543'];
+        $request = ['function' => 'creaFattura', 'sede' => '9901', 'data' => '2019-01-04', 'cassa' => '001', 'transazione' => '3730'];
     } else {
         $input = file_get_contents('php://input');
         $request = json_decode($input, true);
@@ -20,6 +20,10 @@
     
    	if ( ! isset( $request ) ) {
         die;
+    }
+    
+    if ($request['sede'] == '9901') {
+        $request['sede'] = '0134';
     }
     
     if ($request['function'] == 'creaFattura') {
