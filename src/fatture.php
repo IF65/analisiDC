@@ -1,5 +1,5 @@
 <?php
-    @ini_set('memory_limit','2048M');
+    @ini_set('memory_limit','8192M');
 
     require(realpath(__DIR__ . '/..').'/vendor/autoload.php');
     require(realpath(__DIR__ . '/..').'/src/Database/autoload.php');
