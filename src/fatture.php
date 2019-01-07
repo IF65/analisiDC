@@ -12,7 +12,7 @@
     $timeZone = new \DateTimeZone('Europe/Rome');
 
     if ($debug) {
-        $request = ['function' => 'creaFattura', 'sede' => '0466', 'data' => '2019-01-03', 'cassa' => '003', 'transazione' => '7721'];
+        $request = ['function' => 'creaFattura', 'sede' => '0465', 'data' => '2019-01-06', 'cassa' => '007', 'transazione' => '0992'];
     } else {
         $input = file_get_contents('php://input');
         $request = json_decode($input, true);
@@ -50,7 +50,7 @@
         
         $request = new GuzzleHttp\Psr7\Request("POST", $url, $headers, json_encode($requestData));
         
-        $response = $client->send($request, ['timeout' => 90]);
+        $response = $client->send($request, ['timeout' => 120]);
         if ($response->getStatusCode() == 200) {
             $responseJson = $response->getBody()->getContents();
             $responseObj = json_decode($responseJson, true);
