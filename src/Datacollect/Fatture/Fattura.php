@@ -119,7 +119,22 @@
                     $imponibile = $matches[2]/100;
                 }
                 
-                // seconda riga V
+                // seconda riga V anomala per iva 0
+                if (preg_match('/^.{31}:V:1(0|5|6|7)1/', $riga, $matches)) {
+                    $imposta =0;
+                    
+                    $this->repartiIva[$ivaTipo] = [
+                                                    'aliquota' => $this->ivaAliquota[$ivaTipo],
+                                                    'descrizione' => $this->ivaDescrizione[$ivaTipo],
+                                                    'imponibile' => round($imponibile,2),
+                                                    'imposta' => round($imposta,2)
+                                                    ];
+                    $lordo = 0;
+                    $imposta = 0;
+                    $ivaTipo = 3; //default la piu' alta
+                }
+                
+                 // seconda riga V
                 if (preg_match('/^.{31}:V:1(\d)0.{31}((?:\+|\-)\d{9})/', $riga, $matches)) {
                     $imposta = $matches[2]/100;
                     
