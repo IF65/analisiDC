@@ -22,7 +22,15 @@
         
         // costanti
         private $ivaAliquota = [ 0 => 0, 1 => 4, 2 => 10, 3 => 22, 4 => 5, 5 => 0, 6 => 0, 7 => 0 ];
-        private $ivaDescrizione = [ 0 => 'IVA 0', 1 => 'IVA 4', 2 => 'IVA 10', 3 => 'IVA 22', 4 => 'IVA 5', 5 => 'ES.GIFT.92', 6 => 'ES.GIFT 93/94', 7 => 'ES. VARI' ];
+        private $ivaDescrizione = [0 => 'IVA 0',
+                                   1 => 'IVA 4%',
+                                   2 => 'IVA 10%',
+                                   3 => 'IVA 22%',
+                                   4 => 'IVA 5%',
+                                   5 => 'Operazione fuori campo IVA art.2 D.P.R. 633/72',
+                                   6 => 'Operazione fuori campo IVA art.2 D.P.R. 633/72',
+                                   7 => 'Operazione non soggetta IVA art.74 c.1 D.P.R. 633/72' ];
+        private $ivaCodiceAde = [ 0 => '', 1 => '', 2 => '', 3 => '', 4 => '', 5 => 'N2', 6 => 'N2', 7 => 'N5' ];
 
         function __construct(array $righe, &$db) {
             $this->db = $db;    
@@ -126,6 +134,7 @@
                     $this->repartiIva[$ivaTipo] = [
                                                     'aliquota' => $this->ivaAliquota[$ivaTipo],
                                                     'descrizione' => $this->ivaDescrizione[$ivaTipo],
+                                                    'codiceAde' => $this->ivaCodiceAde[$ivaTipo],
                                                     'imponibile' => round($imponibile,2),
                                                     'imposta' => round($imposta,2)
                                                     ];
