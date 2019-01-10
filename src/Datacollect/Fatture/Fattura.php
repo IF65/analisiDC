@@ -150,6 +150,7 @@
                     $this->repartiIva[$ivaTipo] = [
                                                     'aliquota' => $this->ivaAliquota[$ivaTipo],
                                                     'descrizione' => $this->ivaDescrizione[$ivaTipo],
+                                                    'codiceAde' => $this->ivaCodiceAde[$ivaTipo],
                                                     'imponibile' => round($imponibile,2),
                                                     'imposta' => round($imposta,2)
                                                     ];
