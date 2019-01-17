@@ -165,7 +165,7 @@
                 }
                 
                 // totale transazione
-                if (preg_match('/^.{31}:F:1.{27}((?:\+|\-)\d{5})((?:\+|\-)\d{9})$/', $riga, $matches)) {
+                if (preg_match('/^.{31}:F:1.{27}((?:\+|\-)\d{5})((?:\+|\-)\d{9})/', $riga, $matches)) {
                     $this->pezzi = $matches[1]*1;
                     $this->totale = $matches[2]/100;
                 }
