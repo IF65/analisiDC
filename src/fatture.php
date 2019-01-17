@@ -53,6 +53,7 @@
             $dc= explode("\n",file_get_contents($dcPath.$dcFileName));
             $dc = preg_grep("/$regex/", $dc);
         }
+        $datacollect = [];
         
         // carico il database
         $db = new Database($sqlDetails);
