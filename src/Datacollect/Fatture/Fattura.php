@@ -27,9 +27,9 @@
                                    2 => 'IVA 10%',
                                    3 => 'IVA 22%',
                                    4 => 'IVA 5%',
-                                   5 => 'Operazione fuori campo IVA art.2 D.P.R. 633/72',
-                                   6 => 'Operazione fuori campo IVA art.2 D.P.R. 633/72',
-                                   7 => 'Operazione non soggetta IVA art.74 c.1 D.P.R. 633/72' ];
+                                   5 => 'Oper.fuori campo IVA art.2 DPR 633/72',
+                                   6 => 'Oper.fuori campo IVA art.2 DPR 633/72',
+                                   7 => 'Oper. non soggetta IVA art.74 c.1 DPR 633/72' ];
         private $ivaCodiceAde = [ 0 => '', 1 => '', 2 => '', 3 => '', 4 => '', 5 => 'N2', 6 => 'N2', 7 => 'N5' ];
 
         function __construct(array $righe, &$db) {
@@ -154,6 +154,11 @@
                                                     'imponibile' => round($imponibile,2),
                                                     'imposta' => round($imposta,2)
                                                     ];
+                   
+                    $lordoTipoIva = round($this->repartiIva[$ivaTipo]['imponibile'] + $this->repartiIva[$ivaTipo]['imposta'],2);
+                    $this->repartiIva[$ivaTipo]['imponibile'] = round($lordoTipoIva * (100 / (100 + $this->repartiIva[$ivaTipo]['aliquota'])),2);
+                    $this->repartiIva[$ivaTipo]['imposta'] = round($lordoTipoIva - $this->repartiIva[$ivaTipo]['imponibile'],2);
+                   
                     $lordo = 0;
                     $imposta = 0;
                     $ivaTipo = 3; //default la piu' alta

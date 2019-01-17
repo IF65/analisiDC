@@ -12,7 +12,7 @@
     $timeZone = new \DateTimeZone('Europe/Rome');
 
     if ($debug) {
-        $request = ['function' => 'creaFattura', 'sede' => '0177', 'data' => '2019-01-04', 'cassa' => '008', 'transazione' => '1219'];
+        $request = ['function' => 'creaFattura', 'sede' => '0178', 'data' => '2019-01-07', 'cassa' => '005', 'transazione' => '8464'];
     } else {
         $input = file_get_contents('php://input');
         $request = json_decode($input, true);
@@ -38,27 +38,51 @@
         
         $result = [];
         
+        // calcolo il nome del file nel caso i dati non siano piu' su mtx
+        $dcPath = '/dati/datacollect/';
+        $dcFileName = $request['sede'];
+        $regex = "/^\d{4}:".$request['cassa'].':';
+        if (preg_match('/^(\d{2})(\d{2})\-(\d{2})\-(\d{2})$/', $request['data'], $matches)) {
+            $dcPath .= $matches[1].$matches[2].$matches[3].$matches[4].'/';
+            $dcFileName .= '_'.$matches[1].$matches[2].$matches[3].$matches[4].'_'.$matches[2].$matches[3].$matches[4].'_DC.TXT';
+            $regex = "^\d{4}:".$request['cassa'].':'.$matches[2].$matches[3].$matches[4].':\d{6}:'.$request['transazione'];
+        }
+        
+        $datacollect = [];
+        if (file_exists($dcPath.$dcFileName)) {
+            $dc= explode("\n",file_get_contents($dcPath.$dcFileName));
+            $dc = preg_grep("/$regex/", $dc);
+        }
+        
         // carico il database
         $db = new Database($sqlDetails);
         
-        // recupero il dc
-        $client = new GuzzleHttp\Client();
-        
-        $url = 'http://10.11.14.77/eFatture/eFatture.php';
-        $headers = array('Content-Type: application/json');
-        $requestData = ['function' => 'getTransaction', 'sede' => $request['sede'], 'data' => $request['data'], 'cassa' => $request['cassa'], 'transazione' => $request['transazione']];
-        
-        $request = new GuzzleHttp\Psr7\Request("POST", $url, $headers, json_encode($requestData));
-        
-        $response = $client->send($request, ['timeout' => 120]);
-        if ($response->getStatusCode() == 200) {
-            $responseJson = $response->getBody()->getContents();
-            $responseObj = json_decode($responseJson, true);
-            $datacollect = Datacollect::mtx2dc($responseObj['datacollect']);
+        if (count($datacollect) == 0) {
+        // recupero il dc da mtx
+            $client = new GuzzleHttp\Client();
             
+            $url = 'http://10.11.14.77/eFatture/eFatture.php';
+            $headers = array('Content-Type: application/json');
+            $requestData = ['function' => 'getTransaction', 'sede' => $request['sede'], 'data' => $request['data'], 'cassa' => $request['cassa'], 'transazione' => $request['transazione']];
+            
+            $request = new GuzzleHttp\Psr7\Request("POST", $url, $headers, json_encode($requestData));
+            
+            $response = $client->send($request, ['timeout' => 120]);
+            if ($response->getStatusCode() == 200) {
+                $responseJson = $response->getBody()->getContents();
+                $responseObj = json_decode($responseJson, true);
+                $datacollect = Datacollect::mtx2dc($responseObj['datacollect']);
+                
+                $fattura = New Fattura($datacollect, $db);
+            } else if ($response->getStatusCode() == 204) {
+                http_response_code(204);
+                return null;
+            }
+        } else {
+            // il datacollect  giˆ presente su file locale
             $fattura = New Fattura($datacollect, $db);
         }
-           
+        
         $result['sede'] = $fattura->sede;
         $result['data'] = $fattura->data;
         $result['cassa'] = $fattura->cassa;
