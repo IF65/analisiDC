@@ -82,7 +82,7 @@
                     }
                 }
                 // leggo l'aliquota iva dalla prima riga informativa della vendita
-                if (preg_match('/^.{31}:i:100:.{21}:(\d{11})/', $riga, $matches)) {
+                if (preg_match('/^.{31}:i:100:.{21}:\d{4}(\d{7})/', $riga, $matches)) {
                     $ivaTipo = $matches[1]*1;
                 }
                  // leggo l'indice della vendita dalla seconda riga informativa e chiudo la vendita
