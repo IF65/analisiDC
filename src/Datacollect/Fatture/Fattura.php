@@ -84,6 +84,7 @@
                 // leggo l'aliquota iva dalla prima riga informativa della vendita
                 if (preg_match('/^.{31}:i:100:.{21}:\d{4}(\d{7})/', $riga, $matches)) {
                     $ivaTipo = $matches[1]*1;
+                    if ($ivaTipo == 0) {$ivaTipo = 6;};
                 }
                  // leggo l'indice della vendita dalla seconda riga informativa e chiudo la vendita
                 if (preg_match('/^.{31}:i:101:.{21}:(\d{4})/', $riga, $matches)) {
@@ -171,8 +172,11 @@
                 }
             }
             
+            $codiciIvaUsati = [];
             foreach ($this->vendite as $key => $vendita) {
-                $this->righe[] = $vendita;
+                if ($vendita['quantita'] != 0) {
+                    $this->righe[] = $vendita;
+                }
             }
         }
         
