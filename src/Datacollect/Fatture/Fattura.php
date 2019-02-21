@@ -30,7 +30,7 @@
                                    5 => 'Oper.fuori campo IVA art.2 DPR 633/72',
                                    6 => 'Oper.fuori campo IVA art.2 DPR 633/72',
                                    7 => 'Oper. non soggetta IVA art.74 c.1 DPR 633/72' ];
-        private $ivaCodiceAde = [ 0 => '', 1 => '', 2 => '', 3 => '', 4 => '', 5 => 'N2', 6 => 'N2', 7 => 'N5' ];
+        private $ivaCodiceAde = [ 0 => 'N2', 1 => '', 2 => '', 3 => '', 4 => '', 5 => 'N2', 6 => 'N2', 7 => 'N5' ];
 
         function __construct(array $righe, &$db) {
             $this->db = $db;    
