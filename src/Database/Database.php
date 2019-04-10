@@ -13,17 +13,7 @@
         protected $pdo = null;
         
         public $articoli;
-        public $barcode;
-        public $dimensioni;
         public $negozi;
-        
-        private $tableArticoli;
-        private $tableBarcode;
-        private $tableNegozi;
-        private $tableDimensioni;
-        private $tableAnagdafi;
-        
-        private $loadDb;
 
         public function __construct(array $sqlDetails, $loadDb = True) {
             $this->loadDb = $loadDb;
@@ -45,35 +35,17 @@
                 // ----------------------------------------------------------
                 $stmt = $this->pdo->prepare("create database if not exists `archivi`;");
                 $stmt->execute() or die(print_r($this->pdo->errorInfo(), true));
-                $this->tableArticoli = new Articox2($this->pdo);
-                $this->tableBarcode = new Barartx2($this->pdo);
-                $this->tableNegozi = new Negozi($this->pdo);
-                 
-                if ($this->loadDb) {
-                    $this->articoli = $this->tableArticoli->ricerca([]);
-                    $this->barcode = $this->tableBarcode->ricerca([]);
-                    $this->negozi = $this->tableNegozi->ricerca([]);
-                }
                      
                 // dimensioni
                 // ----------------------------------------------------------
                 $stmt = $this->pdo->prepare("create database if not exists `dimensioni`;");
                 $stmt->execute() or die(print_r($this->pdo->errorInfo(), true));
-                $this->tableDimensioni = new Dimensioni($this->pdo);
-                
-                if ($this->loadDb) {
-                    $this->dimensioni = $this->tableDimensioni->ricerca([]);
-                }
                 
                 // dc
                 // ----------------------------------------------------------
                 $stmt = $this->pdo->prepare("create database if not exists `dc`;");
                 $stmt->execute() or die(print_r($this->pdo->errorInfo(), true));
-                $this->tableAnagdafi = new Anagdafi($this->pdo);
-                    
-                
-                
-            
+
                 return true;
             } catch (PDOException $e) {
                 die("DB ERROR: ". $e->getMessage());

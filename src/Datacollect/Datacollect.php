@@ -118,64 +118,6 @@
 
                 foreach ($transazione->vendite as $vendita) {
                     echo sprintf("%3s %4s * %-33s %5d %8.2f %8.2f %8d\n", $transazione->cassa, $transazione->numero, $vendita->plu, $vendita->quantita, $vendita->importoUnitario,  $vendita->importoTotale, 0);
-                    
-                    if ($vendita->beneficio01Id != '') {
-                        if ($vendita->beneficio01Tipo == '0022') {
-                            foreach($transazione->benefici as $beneficio) {
-                                if ($beneficio->id == $vendita->beneficio01Id) {
-                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0022',  0, $beneficio->punti);
-                                }
-                            }
-                        } else if ($vendita->beneficio01Tipo == '0023') {
-                            foreach($transazione->benefici as $beneficio) {
-                                if ($beneficio->id == $vendita->beneficio01Id) {
-                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0023',  0, $beneficio->punti);
-                                }
-                            }
-                        } else if ($vendita->beneficio01Tipo == '0027') {
-                            foreach($transazione->benefici as $beneficio) {
-                                if ($beneficio->id == $vendita->beneficio01Id) {
-                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0027',  $beneficio->sconto, $beneficio->punti);
-                                }
-                            }
-                        } else if ($vendita->beneficio01Tipo == '0493') {
-                            foreach($transazione->benefici as $beneficio) {
-                                if ($beneficio->id == $vendita->beneficio01Id) {
-                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0493',  $beneficio->sconto, 0);
-                                }
-                            }
-                        } else if ($vendita->beneficio01Tipo == '0492') {
-                            foreach($transazione->benefici as $beneficio) {
-                                if ($beneficio->id == $vendita->beneficio01Id) {
-                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0492',  $beneficio->sconto, 0);
-                                }
-                            }
-                        } else if ($vendita->beneficio01Tipo == '0055') {
-                            foreach($transazione->benefici as $beneficio) {
-                                if ($beneficio->id == $vendita->beneficio01Id) {
-                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0055',  $vendita->beneficio01Quota, 0);
-                                }
-                            }
-                        }
-                    }
-                    
-                    if ($vendita->beneficio0505Id != '') {
-                        foreach($transazione->benefici as $beneficio) {
-                            if ($beneficio->id == $vendita->beneficio0505Id) {
-                                echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0505',  0, $vendita->punti0505);
-                            }
-                        }
-                    }
-                    
-                    if(count($vendita->benefici0481) > 0) {
-                        foreach($vendita->benefici0481 as $beneficio0481) {
-                            foreach($transazione->benefici as $beneficio) {
-                                if ($beneficio->id == $beneficio0481['id']) {
-                                    echo sprintf("%3s %4s   +%-32s %23.2f %8d\n", $transazione->cassa, $transazione->numero, 'promo 0481'.' - '.$beneficio->plu,  $beneficio0481['quota'], 0);
-                                }
-                            }
-                        }
-                    }
                 }
                 
                 // transazionali

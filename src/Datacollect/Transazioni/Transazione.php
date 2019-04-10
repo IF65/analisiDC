@@ -20,11 +20,10 @@
         public $nimis = false;
         public $numeroRighe = 0;
 
-        public $vendite = array();
-        public $benefici = array();
-        public $formePagamento = array();
-        
-        public $blocchi = array();
+        public $vendite = [];
+        public $benefici = [];
+        public $formePagamento = [];
+        public $repartiIva = [];
 
         function __construct(array $righe, &$db) {
             $this->db = $db;    
@@ -71,7 +70,7 @@
         }
         
         protected function normalizzaTransazione() {
-            $this->righe = preg_grep("/^.{31}:i:.01:/", $this->righe, PREG_GREP_INVERT);
+            //$this->righe = preg_grep("/^.{31}:i:.01:/", $this->righe, PREG_GREP_INVERT);
         }
         
         protected function carica() {
@@ -160,8 +159,17 @@
                     $this->vendite[] = New Vendita($parametri, $this->db);
                     
                     $contatoreVendita++;
-                    
-                    return true;
+
+                    if (count($righeVendita) and preg_match('/^.{31}:i:..0:.{26}(\d{7})/', $righeVendita[0], $matches)) {
+                        $parametri['ivaCodice'] = $matches[1] * 1;
+                        array_splice($righeVendita, 0, 1);
+
+                        if (count($righeVendita) and preg_match('/^.{31}:i:..1:.{22}(\d{4})/', $righeVendita[0], $matches)) {
+                            $parametri['numeroVendita'] = $matches[1] * 1;
+                            array_splice($righeVendita, 0, 1);
+                            return true;
+                        }
+                    }
                 }
                 return false;
             };
@@ -169,11 +177,11 @@
             // chiamo la closure fino a che tutte le vendite siano state caricate
             $contatoreVendita = 1;
             while ($esitoCaricamentoVendite($righeVendita)) {}
-             if (count($righeVendita) > 0) {// se aquesto punto l'array che contiene le righe vendita non è vuoto c'è un errore
+            if (count($righeVendita) > 0) {// se aquesto punto l'array che contiene le righe vendita non è vuoto c'è un errore
                 echo "errore: $righeVendita[0]\n";
             }
             
-            
+
             // carico i benefici
             $esitoCaricamentoBenefici = function() use(&$righeBeneficio) {
                 for ( $i = 0 ; $i < count($righeBeneficio); $i++) {                   

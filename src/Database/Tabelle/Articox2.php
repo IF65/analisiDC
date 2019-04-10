@@ -4,6 +4,9 @@
 	class Articox2 {
         private $pdo = null;
 
+        public static $databaseName = 'archivi';
+        public static $tableName = 'articox2';
+
         public function __construct($pdo) {
         	try {
                 $this->pdo = $pdo;
@@ -17,7 +20,7 @@
 
         public function creaTabella() {
         	try {
-                $sql = "CREATE TABLE IF NOT EXISTS `archivi`.`articox2` (
+                $sql = "CREATE TABLE IF NOT EXISTS `$databaseName`.`$tableName` (
                         `REC-ARTICOX2` varchar(728) COLLATE utf8_unicode_ci DEFAULT NULL,
                         `FILLER1` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
                         `KIAVE-ART2` varchar(9) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -202,36 +205,6 @@
             } catch (PDOException $e) {
                 die($e->getMessage());
             }
-        }
-
-        public function ricerca(array $query) {
-            try {
-                $sql = "select `COD-ART2` `articoloCodice`, `DES-ART2` `articoloDescrizione`, `IVA-ART2` `ivaAliquota`, `COD-IVA-ART2` `ivaCodice`
-                        from archivi.articox2 ";
-                if (array_key_exists('codiceArticolo', $query)) {
-                    $sql .= "where `COD-ART2` = '".$query['codiceArticolo']."'";
-                }
-
-                $data = [];
-                $recordsCount = 0;
-                $stmt = $this->pdo->prepare( $sql );
-                $stmt->execute();
-                while ($row = $stmt->fetch(\PDO::FETCH_ASSOC, \PDO::FETCH_ORI_NEXT)) {
-                    $codice = $row['articoloCodice'];
-                    unset($row['articoloCodice']);
-                    $data[$codice] = $row;
-                    $recordsCount++;
-                }
-                $stmt = null;
-                
-                return array("recordsTotal"=>$recordsCount,"data"=>$data);
-            } catch (PDOException $e) {
-                die($e->getMessage());
-            }
-        }
-
-        public function __destruct() {
-			unset($this->pdo);
         }
 
     }

@@ -4,6 +4,9 @@
 	class Barartx2 {
         private $pdo = null;
 
+        public static $databaseName = 'archivi';
+        public static $tableName = 'barartx2';
+
         public function __construct($pdo) {
         	try {
                 $this->pdo = $pdo;
@@ -17,7 +20,7 @@
 
         public function creaTabella() {
         	try {
-                $sql = "CREATE TABLE IF NOT EXISTS `archivi`.`barartx2` (
+                $sql = "CREATE TABLE IF NOT EXISTS `$databaseName`.`$tableName` (
                         `REC-BARARTX2` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
                         `FILLER1` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
                         `KIA-BAR2` varchar(22) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -59,32 +62,6 @@
                 $this->pdo->prepare($sql)->execute();
                 
 				return true;
-            } catch (PDOException $e) {
-                die($e->getMessage());
-            }
-        }
-
-        public function ricerca(array $query) {
-            try {
-                $sql = "select `CODCIN-BAR2` `articoloCodice`, `BAR13-BAR2` `barcode`
-                        from archivi.barartx2 ";
-                if (array_key_exists('codiceArticolo', $query)) {
-                    $sql .= "where `CODCIN-BAR2` = '".$query['codiceArticolo']."'";
-                }
-
-                $data = [];
-                $recordsCount = 0;
-                $stmt = $this->pdo->prepare( $sql );
-                $stmt->execute();
-                while ($row = $stmt->fetch(\PDO::FETCH_ASSOC, \PDO::FETCH_ORI_NEXT)) {
-                    $barcode = $row['barcode'];
-                    unset($row['barcode']);
-                    $data[$barcode] = $row;
-                    $recordsCount++;
-                }
-                $stmt = null;
-                
-                return array("recordsTotal"=>$recordsCount,"data"=>$data);
             } catch (PDOException $e) {
                 die($e->getMessage());
             }

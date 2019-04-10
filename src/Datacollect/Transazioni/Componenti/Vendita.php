@@ -5,6 +5,7 @@
         protected $db;
         
         public $id;
+        public $numeroVendita = 0;
         public $codice1 = 1;
 		public $codice2 = 0;
 		public $codice3 = 1;
@@ -18,36 +19,13 @@
 		public $unitaImballo = 0;
         public $importoUnitario = 0.0;
 		public $importoTotale = 0.0;
-        
-        /* (01) benefici mutuamente esclusivi su singola vendita.
-           se uno di questi id e' valorizzato la vendita non e' spezzabile.
-           queste promozioni non possono mai coinvolgere la stessa vendita contemporaneamente.
-           0022, 0023, 0027, 0492, 0493, 0055 */
-        public $beneficio01Tipo = '';
-        public $beneficio01Id = '';
-        public $beneficio01Quota = 0;
-        
-        /* beneficio set
-           non serve spezzare la vendita perche' i le singole vendite esistono gia'.
-           e' sempre associata a promozioni 0022 */
-        public $beneficio0505Id = '';
-        public $punti0505 = 0;
-        
-        // beneficio punti transazione
-        public $beneficio0034Id = '';
-        public $punti0034 = 0;
-        
-        // beneficio sconto dipendenti
-        public $beneficio0061Id = '';
-        public $punti0061 = 0;
-        
-        // beneficio sconto reparto catalina
-        public $benefici0481 = [];
-       
+		public $ivaCodice = 0;
+
         function __construct(array $parametri, &$db = null) {
             $this->db = $db;
             
             $this->id = $parametri['id'];
+            $this->numeroVendita = $parametri['numeroVendita'];
             $this->codice1 = $parametri['codice1'];
             $this->codice2 = $parametri['codice2'];
             $this->codice3 = $parametri['codice3'];
@@ -115,8 +93,7 @@
             }
             return false;
         }
-        
-                
+
         function __destruct() {}
     }
 ?>

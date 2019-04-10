@@ -17,7 +17,7 @@ echo '- Caricamento prezzi locali      : ' . (new DateTime())->setTimezone( $tim
 //$prezziLocali = $db->ricercaPrezziLocali(['codiceNegozio' => '0133', 'data' => '2018-05-17']);
 
 echo '- Caricamento datacollect        : ' . (new DateTime())->setTimezone( $timeZone )->format( 'H:i:s' ) . "\n\n";
-$test = new Datacollect( realpath( __DIR__ . '/..' ) . "/examples/data/0133_20180517_180517_DC.TXT", $db );
+$test = new Datacollect( realpath( __DIR__ . '/..' ) . "/examples/data/0171_20190408_190408_DC.TXT", $db );
 
 echo '- Stampa transazioni             : ' . (new DateTime())->setTimezone( $timeZone )->format( 'H:i:s' ) . "\n\n";
 $test->stampaTransazioni();
