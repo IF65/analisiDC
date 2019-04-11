@@ -4,6 +4,9 @@
 	class Dimensioni {
         private $pdo = null;
 
+        public static $databaseName = 'dimensioni';
+        public static $tableName = 'articolo';
+
         public function __construct($pdo) {
         	try {
                 $this->pdo = $pdo;
@@ -15,9 +18,12 @@
             }
         }
 
-        public function creaTabella() {
-        	try {
-                $sql = "CREATE TABLE IF NOT EXISTS `dimensioni`.`articolo` (
+        public function creaTabella()
+        {
+            try {
+                $tableName = self::$databaseName . '.' . self::$tableName;
+
+                $sql = "CREATE TABLE IF NOT EXISTS $tableName (
                         `SOCIETA` decimal(2,0) DEFAULT NULL,
                         `CODICE_ARTICOLO` varchar(7) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
                         `SETTORE` decimal(1,0) DEFAULT NULL,
@@ -145,37 +151,11 @@
                         `IRI_desc_segmento` varchar(100) COLLATE utf8_unicode_ci DEFAULT '',
                         PRIMARY KEY (`CODICE_ARTICOLO`)
                       ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-                $this->pdo->prepare($sql)->execute();
-                
-				return true;
-            } catch (PDOException $e) {
-                die($e->getMessage());
-            }
-        }
+                $this->pdo->prepare( $sql )->execute();
 
-        public function ricerca(array $query) {
-            try {
-                $sql = "select `CODICE_ARTICOLO` `articoloCodice`, ifnull(`REPARTO_CASSE`, 1) `repartoCodice`
-                        from dimensioni.articolo ";
-                if (array_key_exists('articoloCodice', $query)) {
-                    $sql .= "where `CODICE_ARTICOLO` = '".$query['articoloCodice']."'";
-                }
-
-                $data = [];
-                $recordsCount = 0;
-                $stmt = $this->pdo->prepare( $sql );
-                $stmt->execute();
-                while ($row = $stmt->fetch(\PDO::FETCH_ASSOC, \PDO::FETCH_ORI_NEXT)) {
-                    $articoloCodice = $row['articoloCodice'];
-                    unset($row['articoloCodice']);
-                    $data[$articoloCodice] = $row;
-                    $recordsCount++;
-                }
-                $stmt = null;
-                
-                return array("recordsTotal"=>$recordsCount,"data"=>$data);
+                return true;
             } catch (PDOException $e) {
-                die($e->getMessage());
+                die( $e->getMessage() );
             }
         }
 

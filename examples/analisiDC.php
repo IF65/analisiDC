@@ -1,27 +1,28 @@
 <?php
-@ini_set( 'memory_limit', '512M' );
+    @ini_set( 'memory_limit', '512M' );
 
-require(realpath( __DIR__ . '/..' ) . '/vendor/autoload.php');
-require(realpath( __DIR__ . '/..' ) . '/src/Database/autoload.php');
-require(realpath( __DIR__ . '/..' ) . '/src/Datacollect/autoload.php');
+    require(realpath( __DIR__ . '/..' ) . '/vendor/autoload.php');
+    require(realpath( __DIR__ . '/..' ) . '/src/Database/autoload.php');
+    require(realpath( __DIR__ . '/..' ) . '/src/Datacollect/autoload.php');
 
-use Datacollect\Datacollect;
-use Database\Database;
+    use Datacollect\Datacollect;
+    use Database\Database;
 
-$timeZone = new DateTimeZone( 'Europe/Rome' );
+    $timeZone = new DateTimeZone( 'Europe/Rome' );
 
-echo '- Inizio elaborazione            : ' . (new DateTime())->setTimezone( $timeZone )->format( 'H:i:s' ) . "\n\n";
-$db = new Database( $sqlDetails );
+    echo '- Inizio elaborazione            : ' . (new DateTime())->setTimezone( $timeZone )->format( 'H:i:s' ) . "\n\n";
+    $db = new Database( $sqlDetails );
 
-echo '- Caricamento prezzi locali      : ' . (new DateTime())->setTimezone( $timeZone )->format( 'H:i:s' ) . "\n";
-//$prezziLocali = $db->ricercaPrezziLocali(['codiceNegozio' => '0133', 'data' => '2018-05-17']);
+    echo '- Caricamento prezzi locali      : ' . (new DateTime())->setTimezone( $timeZone )->format( 'H:i:s' ) . "\n";
+    //$prezziLocali = $db->ricercaPrezziLocali(['codiceNegozio' => '0133', 'data' => '2018-05-17']);
 
-echo '- Caricamento datacollect        : ' . (new DateTime())->setTimezone( $timeZone )->format( 'H:i:s' ) . "\n\n";
-$test = new Datacollect( realpath( __DIR__ . '/..' ) . "/examples/data/0171_20190408_190408_DC.TXT", $db );
 
-echo '- Stampa transazioni             : ' . (new DateTime())->setTimezone( $timeZone )->format( 'H:i:s' ) . "\n\n";
-$test->stampaTransazioni();
+    echo '- Caricamento datacollect        : ' . (new DateTime())->setTimezone( $timeZone )->format( 'H:i:s' ) . "\n\n";
+    $test = new Datacollect( realpath( __DIR__ . '/..' ) . "/examples/data/0171_20190408_190408_DC.TXT", $db);
 
-echo '- Fine elaborazione              : ' . (new DateTime())->setTimezone( $timeZone )->format( 'H:i:s' ) . "\n\n";
+    echo '- Stampa transazioni             : ' . (new DateTime())->setTimezone( $timeZone )->format( 'H:i:s' ) . "\n\n";
+    $test->stampaTransazioni();
+
+    echo '- Fine elaborazione              : ' . (new DateTime())->setTimezone( $timeZone )->format( 'H:i:s' ) . "\n\n";
 ?>
 

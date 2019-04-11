@@ -156,7 +156,6 @@
                     $parametri['id'] = $contatoreVendita;
                   
                     array_splice($righeVendita, 0, 1);
-                    $this->vendite[] = New Vendita($parametri, $this->db);
                     
                     $contatoreVendita++;
 
@@ -167,6 +166,9 @@
                         if (count($righeVendita) and preg_match('/^.{31}:i:..1:.{22}(\d{4})/', $righeVendita[0], $matches)) {
                             $parametri['numeroVendita'] = $matches[1] * 1;
                             array_splice($righeVendita, 0, 1);
+
+                            $this->vendite[] = New Vendita($parametri, $this->db);
+
                             return true;
                         }
                     }
@@ -186,7 +188,7 @@
             $esitoCaricamentoBenefici = function() use(&$righeBeneficio) {
                 for ( $i = 0 ; $i < count($righeBeneficio); $i++) {                   
                     // 0027: pago con nimis
-                    if ((($i + 2) < count($righeBeneficio)) and preg_match('/:C:142:\d{4}:P0:(.{13})((?:\-|\+)\d{4}).{4}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
+                    /*if ((($i + 2) < count($righeBeneficio)) and preg_match('/:C:142:\d{4}:P0:(.{13})((?:\-|\+)\d{4}).{4}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
                         $parametri = ['tipo' => '0027', 'plu' => trim($matches[1]), 'quantita' => $matches[2]*1, 'sconto' => $matches[3]/100];
                         if (preg_match('/:G:131:\d{4}:P0:(.{13}):..((?:\-|\+)\d{5})((?:\+|\-)\d{9})$/', $righeBeneficio[$i + 1], $matches)) {
                             $parametri['punti'] = $matches[2]*1;
@@ -204,152 +206,21 @@
                         array_splice($righeBeneficio, $i, 1);
                         $this->benefici[] = new Beneficio($parametri, $this->db);
                         return true;
-                    }
+                    }*/
                     
                     // 0493: sconto articolo (in questa bersione di sconto il reocrd :m: e' esplicito)
                     if ((($i + 1) < count($righeBeneficio)) and preg_match('/:C:143:\d{4}:P0:(.{13})((?:\-|\+)\d{4}).{4}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
                         $parametri = ['tipo' => '0493', 'plu'  => trim($matches[1]), 'quantita' => $matches[2]*1, 'sconto' => $matches[3]/100];
                         if (preg_match('/:m:1.{7}:0493/', $righeBeneficio[$i + 1])) {
                             array_splice($righeBeneficio, $i, 2);
-                            $this->benefici[] = new Beneficio($parametri, $this->db);
+                            $beneficio = new Beneficio($parametri, $this->db);
+                            $this->benefici[$beneficio->id] = $beneficio;
                             return true;
                         }
                     }
                     
                     // 0492: e convenienza
-                    if ((($i + 2) < count($righeBeneficio)) and preg_match('/^.{31}:S:1.{11}998011/', $righeBeneficio[$i])) {
-                        if (preg_match('/:C:143:\d{4}:P0:(.{13})((?:\-|\+)\d{4}).{4}((?:\+|\-)\d{9})$/', $righeBeneficio[$i + 1], $matches)) {
-                            $parametri = ['tipo' => '0492', 'plu'  => trim($matches[1]), 'quantita' => $matches[2]*1, 'sconto' => $matches[3]/100];
-                            if (preg_match('/:m:1.{7}:0492/', $righeBeneficio[$i + 2])) {
-                                array_splice($righeBeneficio, $i, 3);
-                                $this->benefici[] = new Beneficio($parametri, $this->db);
-                                return true;
-                            }
-                        }
-                    }
-                    
-                    // 0055: sconto set
-                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:D:196:.{30}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
-                        $parametri = ['tipo' => '0055', 'sconto' => $matches[1]/100];
-                        
-                        if (preg_match('/:m:1.{7}:0055/', $righeBeneficio[$i + 1])) {
-                            $j = $i - 1;
-                            $articoli = [];
-                            while ($j >= 0 and preg_match('/:d:1.{7}:P0:(.{13})((?:\-|\+)\d{4}).{4}.(\d{9})$/', $righeBeneficio[$j], $matches)) {
-                                $articoli[] = ['plu' => $matches[1], 'quantita' => $matches[2]*1, 'importoRiferimento' => $matches[2]*$matches[3]/100]; //eseguo subito la moltiplicazione
-                                $j--;
-                            }
-                            $parametri['articoli'] = $articoli;
-                            array_splice($righeBeneficio, $i-count($articoli), 2 + count($articoli));
-                            $this->benefici[] = new Beneficio($parametri, $this->db);
-                            return true;
-                        }
-                    }
-                    
-                    // 0503: sconto catalina transazione
-                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:D:197:.{30}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
-                         $parametri = ['tipo' => '0503', 'sconto' => $matches[1]/100];
-                        
-                        if (preg_match('/:w:1.{11}(.{13})/', $righeBeneficio[$i + 1], $matches)) {
-                            $parametri['plu'] = $matches[1];
-                            
-                            array_splice($righeBeneficio, $i, 2);
-                            $this->benefici[] = new Beneficio($parametri, $this->db);
-                            return true;
-                        }
-                    }
-                    
-                    // 0481: sconto catalina a reparto
-                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:D:196:.{30}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
-                        $parametri = ['tipo' => '0481', 'sconto' => $matches[1]/100];
-                        
-                        if (preg_match('/:w:1.{11}(.{13})/', $righeBeneficio[$i + 1], $matches)) {
-                            $parametri['plu'] = $matches[1];
-                            $j = $i - 1;
-                            $articoli = [];
-                            while ($j >= 0 and preg_match('/:d:1.{7}:P0:(.{13})((?:\-|\+)\d{4}).{4}.(\d{9})$/', $righeBeneficio[$j], $matches)) {
-                                $articoli[] = ['plu' => $matches[1], 'quantita' => $matches[2]*1, 'importoRiferimento' => $matches[2]*$matches[3]/100];
-                                $j--;
-                            }
-                            $parametri['articoli'] = $articoli;
-                            array_splice($righeBeneficio, $i-count($articoli), 2 + count($articoli));
-                            $this->benefici[] = new Beneficio($parametri, $this->db);
-                            return true;
-                        }
-                    }
-                    
-                    // 0061: sconto dipendenti transazione (la ripartizione non puo' essere fatta subito perche' non ci sono descrittori disponibili)
-                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:D:198:.{30}((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
-                        $parametri = ['tipo' => '0061', 'sconto' => $matches[1]/100];
-                        
-                        if (preg_match('/:m:1.*0061/', $righeBeneficio[$i + 1])) {
-                            array_splice($righeBeneficio, $i, 2);
-                            $this->benefici[] = new Beneficio($parametri, $this->db);
-                            return true;
-                        }
-                    }
-                    
-                    // 0023: premio
-                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:G:131:\d{4}:P0:(.{13}):00((?:\-|\+)\d{5})((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
-                        $parametri = ['tipo' => '0023', 'plu'  => trim($matches[1]), 'punti' => $matches[2]*1, 'importoRiferimento' => $matches[3]/100];
-                         
-                        if (preg_match('/:m:1.{7}:0023/', $righeBeneficio[$i + 1])) {
-                            array_splice($righeBeneficio, $i, 2);
-                            $this->benefici[] = new Beneficio($parametri, $this->db);
-                            return true;
-                        }
-                    }
-                    
-                    // 0022: punti articolo
-                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:G:111:\d{4}:P0:(.{13}):00((?:\-|\+)\d{5})((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
-                        $parametri = ['tipo' => '0022', 'plu'  => trim($matches[1]), 'punti' => $matches[2]*1, 'importoRiferimento' => $matches[3]/100];
-                        
-                        if (preg_match('/:m:1.{7}:0022/', $righeBeneficio[$i + 1])) {
-                            array_splice($righeBeneficio, $i, 2);
-                            $this->benefici[] = new Beneficio($parametri, $this->db);
-                            return true;
-                        }
-                    }
-                    
-                    // 0505: acceleratore punti
-                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:G:111:.{24}((?:\+|\-)\d{5})((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
-                        $parametri = ['tipo' => '0505', 'punti' => $matches[1]];
-                        
-                        if (preg_match('/:m:1.{7}:0505/', $righeBeneficio[$i + 1])) {
-                            $j = $i - 1;
-                            $articoli = [];
-                            while ($j >= 0 and preg_match('/:d:1.{7}:P0:(.{13})((?:\-|\+)\d{4}).{4}.(\d{9})$/', $righeBeneficio[$j], $matches)) {
-                                $articoli[] = ['plu' => $matches[1], 'quantita' => $matches[2]*1, 'importoRiferimento' => $matches[2]*$matches[3]/100]; //eseguo subito la moltiplicazione
-                                $j--;
-                            }
-                            $parametri['articoli'] = $articoli;
-                            array_splice($righeBeneficio, $i-count($articoli), 2 + count($articoli));
-                            $this->benefici[] = new Beneficio($parametri, $this->db);
-                            return true;
-                        }
-                    }
-                    
-                    // punti ACPT
-                    if ((($i + 1) < count($righeBeneficio)) and preg_match('/:m:1.{7}:ACPT/', $righeBeneficio[$i])) {
-                        if (preg_match('/:G:111:\d{4}:P1:(.{13}):00((?:\-|\+)\d{5})((?:\+|\-)\d{9})$/', $righeBeneficio[$i + 1], $matches)) {
-                            $barcode = $matches[1];
-                            $punti = $matches[2];
-                            $importo = $matches[3];
-                            
-                            array_splice($righeBeneficio, $i, 2);
-                            return true;
-                        }
-                    }
-                    
-                    // 0034: punti su transazione (la ripartizione non puo' essere fatta subito perche' non ci sono descrittori disponibili)
-                    if (preg_match('/:G:121:.{21}:00((?:\-|\+)\d{5})((?:\+|\-)\d{9})$/', $righeBeneficio[$i], $matches)) {
-                        $parametri = ['tipo' => '0034', 'punti' => $matches[1]*1, 'importoRiferimento' => $matches[2]/100];
-                        if (preg_match('/:m:1.{7}:0034/', $righeBeneficio[$i + 1])) {
-                            array_splice($righeBeneficio, $i, 2);
-                            $this->benefici[] = new Beneficio($parametri, $this->db);
-                            return true;
-                        }
-                    }
+                    /**/
                 }
                 return false;
             };
@@ -369,144 +240,41 @@
                 // I benefici transazionali non hanno bsogno di alcuna associazione
                 
                 // PUNTI----------------------------------------------0022 INIZIO
-                if ($beneficio->tipo == '0022') {
-                    // parametri del beneficio
-                    $id = $beneficio->id;
-                    $plu = $beneficio->plu;
-                    $quantita = $beneficio->quantita;
-                    $importoRiferimento = $beneficio->importoRiferimento;
-                    
-                    //cerco tra tutte le vendite se ce n'è una libera che coincide esattamente con
-                    //il beneficio
-                    foreach ($this->vendite as &$vendita) {
-                        if ($vendita->beneficio01Id == '') {
-                            if ($vendita->plu == $plu and $vendita->importoTotale == $importoRiferimento) {
-                                $vendita->beneficio01Tipo = '0022';
-                                $vendita->beneficio01Id = $id;
-                                break;
-                            }
-                        }
-                    }
-                }
+
                 // PUNTI----------------------------------------------0022 FINE
                 
                 // PUNTI----------------------------------------------0505 INIZIO
-                if ($beneficio->tipo == '0505') {
-                    // parametri del beneficio
-                    $id = $beneficio->id;
-                    
-                    foreach ($beneficio->articoli as $articolo) {
-                        $plu = $articolo['plu'];
-                        $quantita = $articolo['quantita'];
-                        
-                        //cerco tra tutte le vendite se ce n'è una libera che coincide esattamente con
-                        //il beneficio
-                        foreach ($this->vendite as $vendita) {
-                            if ($vendita->beneficio0505Id == '') {
-                                if ($vendita->plu == $plu and $vendita->quantita == $quantita) {
-                                    $vendita->beneficio0505Id = $id;
-                                    $vendita->punti0505 = $articolo['quota'];
-                                    break;
-                                }
+
+                // PUNTI----------------------------------------------0505 FINE
+                
+                // SCONTO----------------------------------------------0492 INIZIO
+
+                // SCONTO----------------------------------------------0492 FINE
+
+                // SCONTO----------------------------------------------0493 INIZIO
+                if ($beneficio->tipo == '0493') {
+                    // questo beneficio è esclusivo percio' devo verificare che la vendita non sia già accoppiata a un altro beneficio
+                    foreach($this->vendite as $vendita) {
+                        if ($vendita->plu == $beneficio->plu and $vendita->quantita == $beneficio->quantita) {
+                            if (! array_key_exists($beneficio->tipo, $vendita->benefici))  {
+                                $vendita->benefici[$beneficio->tipo] = $beneficio->id;
                             }
                         }
                     }
                 }
-                // PUNTI----------------------------------------------0505 FINE
-                
-                // SCONTO----------------------------------------------0492, 0493 INIZIO
-                if (in_array($beneficio->tipo, ['0492','0497'])) {
-                    // parametri del beneficio
-                    $id = $beneficio->id;
-                    $plu = $beneficio->plu;
-                    $quantita = $beneficio->quantita;
-                    
-                    //cerco tra tutte le vendite se ce n'è una libera che coincide esattamente con
-                    //il beneficio
-                    foreach ($this->vendite as $vendita) {
-                        if ($vendita->beneficio01Id == '') {
-                            if ($vendita->plu == $plu and $vendita->quantita == $quantita) {
-                                $vendita->beneficio01Tipo = $beneficio->tipo;
-                                $vendita->beneficio01Id = $id;
-                                break;
-                            }
-                        }
-                    } 
-                }
-                // SCONTO----------------------------------------------0492, 0493 FINE
+                // SCONTO----------------------------------------------0493 FINE
                 
                 // SCONTO+PUNTI----------------------------------------------0023, 0027 INIZIO
-                if (in_array($beneficio->tipo, ['0023','0027'])) {
-                    // parametri del beneficio
-                    $id = $beneficio->id;
-                    $plu = $beneficio->plu;
-                    $quantita = $beneficio->quantita;
-                    
-                    //cerco tra tutte le vendite se ce n'è una libera che coincide esattamente con
-                    //il beneficio
-                    foreach ($this->vendite as $vendita) {
-                        if ($vendita->beneficio01Id == '') {
-                            if ($vendita->plu == $plu and $vendita->quantita == $quantita) {
-                                $vendita->beneficio01Tipo = $beneficio->tipo;
-                                $vendita->beneficio01Id = $id;
-                                break;
-                            }
-                        }
-                    } 
-                }
+
                 // SCONTO+PUNTI----------------------------------------------0023, 0027 FINE
                 
                 // SET----------------------------------------------0055 INIZIO
-                if ($beneficio->tipo == '0055') {
-                    // parametri del beneficio
-                    $id = $beneficio->id;
-                    
-                    foreach ($beneficio->articoli as $articolo) {
-                        $plu = $articolo['plu'];
-                        $quantita = $articolo['quantita'];
-                        
-                        //cerco tra tutte le vendite se ce n'è una libera che coincide esattamente con
-                        //il beneficio
-                        foreach ($this->vendite as $vendita) {
-                            if ($vendita->beneficio01Id == '') {
-                                if ($vendita->plu == $plu and $vendita->quantita == $quantita) {
-                                    $vendita->beneficio01Id = $id;
-                                    $vendita->beneficio01Quota = $articolo['quota'];
-                                    $vendita->beneficio01Tipo = $beneficio->tipo;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+
                 // SET----------------------------------------------0055 FINE
                 
                 // CATALINA REPARTO----------------------------------------------0481 INIZIO
-                if ($beneficio->tipo == '0481') {
-                    // parametri del beneficio
-                    $id = $beneficio->id;
-                    
-                    foreach ($beneficio->articoli as $articolo) {
-                        $plu = $articolo['plu'];
-                        $quantita = $articolo['quantita'];
-                        $importoRiferimento = $articolo['importoRiferimento'];
-                        
-                        //cerco tra tutte le vendite se ce n'è una libera che coincide esattamente con
-                        //il beneficio
-                        foreach ($this->vendite as &$vendita) {
-                            if ($vendita->beneficio01Id == '') {
-                                if (($vendita->pluPeso == true and $vendita->plu == substr($plu,0,7) and $vendita->importoTotale == $importoRiferimento) or
-                                    ($vendita->pluPeso == false and $vendita->plu == $plu and $vendita->quantita == $quantita)) {
-                                    $vendita->benefici0481[] = ['id' => $id, 'quota' => $articolo['quota']];
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+
                 // CATALINA REPARTO----------------------------------------------0481 FINE
-                
-                
                 
             }
         }

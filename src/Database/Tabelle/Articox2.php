@@ -20,7 +20,9 @@
 
         public function creaTabella() {
         	try {
-                $sql = "CREATE TABLE IF NOT EXISTS `$databaseName`.`$tableName` (
+                $tableName = self::$databaseName.'.'.self::$tableName;
+
+                $sql = "CREATE TABLE IF NOT EXISTS $tableName (
                         `REC-ARTICOX2` varchar(728) COLLATE utf8_unicode_ci DEFAULT NULL,
                         `FILLER1` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
                         `KIAVE-ART2` varchar(9) COLLATE utf8_unicode_ci DEFAULT NULL,

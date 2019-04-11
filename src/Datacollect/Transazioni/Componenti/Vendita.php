@@ -20,6 +20,7 @@
         public $importoUnitario = 0.0;
 		public $importoTotale = 0.0;
 		public $ivaCodice = 0;
+		public $benefici = [];
 
         function __construct(array $parametri, &$db = null) {
             $this->db = $db;
@@ -30,7 +31,7 @@
             $this->codice2 = $parametri['codice2'];
             $this->codice3 = $parametri['codice3'];
             $this->repartoCassa = $parametri['repartoCassa'];
-            $this->plu = $parametri['plu'];
+            $this->plu = (string) $parametri['plu'];
             $this->quantita = $parametri['quantita'];
             $this->unitaImballo = $parametri['unitaImballo'];
             $this->pluPeso = $parametri['pluPeso'];
@@ -42,8 +43,8 @@
             }
             
             if (! is_null($db)) {
-                if (array_key_exists($this->plu, $db->barcode['data'])) {
-                    $this->articoloCodice = $db->barcode['data'][$this->plu]['articoloCodice'];
+                if (array_key_exists($this->plu, $db->articoli->elencoBarcode)) {
+                    $this->articoloCodice = $db->articoli->elencoBarcode[$this->plu];
                 }
             } else {
                 if (array_key_exists('codice', $parametri)) {
@@ -52,8 +53,8 @@
             }
             
             if (! is_null($db)) {
-                if (array_key_exists($this->articoloCodice, $db->articoli['data'])) {
-                    $this->articoloDescrizione = $db->articoli['data'][$this->articoloCodice]['articoloDescrizione'];
+                if (array_key_exists($this->articoloCodice, $db->articoli->elencoArticoli)) {
+                    $this->articoloDescrizione = trim($db->articoli->elencoArticoli[$this->articoloCodice]['descrizione']);
                 }
             }
         }

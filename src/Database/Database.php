@@ -2,18 +2,14 @@
     namespace Database;
 
 	use \PDO;
-    use Database\Tabelle\Articox2;
-    use Database\Tabelle\Barartx2;
-    use Database\Tabelle\Negozi;
-    use Database\Tabelle\Anagdafi;
-    use Database\Tabelle\Dimensioni;
+    use Database\Tabelle\Articoli;
 
     class Database {
 
         protected $pdo = null;
         
-        public $articoli;
-        public $negozi;
+        public $articoli = null;
+        public $negozi = null;
 
         public function __construct(array $sqlDetails, $loadDb = True) {
             $this->loadDb = $loadDb;
@@ -45,6 +41,8 @@
                 // ----------------------------------------------------------
                 $stmt = $this->pdo->prepare("create database if not exists `dc`;");
                 $stmt->execute() or die(print_r($this->pdo->errorInfo(), true));
+
+                $this->articoli = New Articoli($this->pdo);
 
                 return true;
             } catch (PDOException $e) {
