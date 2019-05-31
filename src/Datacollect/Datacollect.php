@@ -12,7 +12,7 @@
         private $negozio = null;
         
         // tutti le variabili sono valorizzate tenendo conto solo delle transazioni valide.
-        private $numeroRighe = 0; // rughe del file di testo
+        private $numeroRighe = 0; // righe del file di testo
         private $numeroReferenze = 0;
         private $numeroTransazioni = 0; // sono contati solo
         private $numeroTransazioniNimis = 0;
@@ -20,11 +20,11 @@
         private $totaleNimis = 0;
         private $numeroPezzi = 0;
 
-        private $transazioni = array();
-        private $plu = array();
-        private $formePagamento = array();
+        private $transazioni = [];
+        private $plu = [];
+        private $formePagamento = [];
         private $totaleFormePagamento = 0;
-        private $repartiIva = array();
+        private $repartiIva = [];
         private $totaleRepartiIva = 0;
 
         function __construct(string $fileName, &$db = null) {
@@ -242,6 +242,17 @@
 
         public function esportaEpipoli() {
             
+        }
+
+        public function scriviDatacollect(string $path, string $fileName) {
+            if (file_exists($path)) {
+                $dc = [];
+                foreach ($this->transazioni as $transazione) {
+                    $dc = array_merge( $dc, $transazione->righeTransazione() );
+                }
+
+                file_put_contents($path.$fileName, implode("\r\n", $dc));
+            }
         }
         
         function __destruct() {}

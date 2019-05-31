@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="53fef98e-d46d-4d2b-a28e-0ec63b2f5b77" name="Default Changelist" comment="Funzionante step 1" />
+    <list default="true" id="53fef98e-d46d-4d2b-a28e-0ec63b2f5b77" name="Default Changelist" comment="Funzionante step 1">
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exe/sistemazioneDc.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/0171_20190408_190408_DC.TXT" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/0171_20190408_190408_DX.TXT" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/tmp5q98fS.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Datacollect/Datacollect.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Datacollect/Datacollect.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Datacollect/Transazioni/Transazione.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Datacollect/Transazioni/Transazione.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fatture.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatture.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -10,6 +20,9 @@
   </component>
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+    <execution>
+      <executable />
+    </execution>
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -28,40 +41,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/examples/analisiDC.php">
+        <entry file="file://$PROJECT_DIR$/exe/sistemazioneDc.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" selection-start-line="20" selection-end-line="20" />
-              <folding>
-                <element signature="e#268#296#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Datacollect/Transazioni/Componenti/Beneficio.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="26" lean-forward="true" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Datacollect/Transazioni/Componenti/Vendita.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="22" column="30" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Datacollect/Transazioni/Transazione.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="220" column="20" lean-forward="true" selection-start-line="220" selection-start-column="20" selection-end-line="220" selection-end-column="20" />
+            <state relative-caret-position="270">
+              <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -69,8 +52,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Datacollect/Datacollect.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="129" lean-forward="true" selection-start-line="129" selection-end-line="129" />
+            <state relative-caret-position="291">
+              <caret line="27" column="38" lean-forward="true" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Datacollect/Transazioni/Transazione.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="266">
+              <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -81,6 +73,11 @@
     <findStrings>
       <find>vendita</find>
       <find>new vend</find>
+      <find>errore:</find>
+      <find>erro</find>
+      <find>errore</find>
+      <find>preg_grep</find>
+      <find>normalizza</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -99,6 +96,7 @@
         <option value="$PROJECT_DIR$/src/Datacollect/Transazioni/Componenti/Vendita.php" />
         <option value="$PROJECT_DIR$/examples/analisiDC.php" />
         <option value="$PROJECT_DIR$/src/Datacollect/Transazioni/Transazione.php" />
+        <option value="$PROJECT_DIR$/exe/sistemazioneDc.php" />
         <option value="$PROJECT_DIR$/src/Datacollect/Datacollect.php" />
       </list>
     </option>
@@ -147,10 +145,10 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="9" />
-    <option name="y" value="27" />
-    <option name="width" value="1784" />
-    <option name="height" value="1014" />
+    <option name="x" value="13" />
+    <option name="y" value="31" />
+    <option name="width" value="1526" />
+    <option name="height" value="922" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -160,13 +158,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
               <item name="analisiDC" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="analisiDC" type="462c0819:PsiDirectoryNode" />
+              <item name="examples" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="analisiDC" type="462c0819:PsiDirectoryNode" />
+              <item name="exe" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
@@ -194,21 +201,6 @@
             </path>
             <path>
               <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="analisiDC" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Datacollect" type="462c0819:PsiDirectoryNode" />
-              <item name="Transazioni" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="analisiDC" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Datacollect" type="462c0819:PsiDirectoryNode" />
-              <item name="Transazioni" type="462c0819:PsiDirectoryNode" />
-              <item name="Componenti" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="bcb0276e:PhpExternalLibrariesNodePatcher$PatchedExternalLibrariesNode" />
             </path>
             <path>
@@ -219,6 +211,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -231,7 +224,13 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php.debug" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Language Defaults" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -246,12 +245,12 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="analisiDC.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/examples/analisiDC.php">
+    <configuration name="sistemazioneDc.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/exe/sistemazioneDc.php">
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="PHP Script.analisiDC.php" />
+        <item itemvalue="PHP Script.sistemazioneDc.php" />
       </list>
     </recent_temporary>
   </component>
@@ -281,6 +280,13 @@
       <workItem from="1554960370332" duration="7058000" />
       <workItem from="1554971536324" duration="2716000" />
       <workItem from="1554990241792" duration="5140000" />
+      <workItem from="1558445098110" duration="162000" />
+      <workItem from="1558445400348" duration="121000" />
+      <workItem from="1558445804731" duration="571000" />
+      <workItem from="1559027441560" duration="4000" />
+      <workItem from="1559212101649" duration="3447000" />
+      <workItem from="1559223850237" duration="6897000" />
+      <workItem from="1559280690793" duration="11966000" />
     </task>
     <task id="LOCAL-00001" summary="Aggiunta documentazione">
       <created>1554750154218</created>
@@ -307,7 +313,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41425000" />
+    <option name="totallyTimeSpent" value="64593000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -320,24 +326,25 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="9" y="27" width="1784" height="1014" extended-state="0" />
+    <frame x="13" y="31" width="1526" height="922" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14695752" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18800539" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.4180602" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49827784" weight="0.47826087" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.29565218" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49827784" weight="0.3031056" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32887402" />
       <window_info anchor="bottom" id="Tail" order="7" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" weight="0.32998884" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.499114" weight="0.26309922" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.499114" weight="0.31326646" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50172216" side_tool="true" weight="0.47826087" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="12" sideWeight="0.49965253" visible="true" weight="0.32887402" />
+      <window_info anchor="bottom" id="Version Control" order="12" sideWeight="0.49965253" weight="0.32887402" />
       <window_info active="true" anchor="bottom" id="Messages" order="13" visible="true" weight="0.32978722" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -374,6 +381,20 @@
         </entry>
       </map>
     </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Aggiunta documentazione" />
@@ -391,19 +412,18 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PhpLocalRunConfigurationType">
+        <watch expression="$this-&gt;righe[$i]" />
+        <watch expression="$this-&gt;righe[$i + 2]" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/composer.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="23" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Database/autoload.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" selection-start-line="28" selection-end-line="28" />
         </state>
       </provider>
     </entry>
@@ -421,13 +441,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/composer/ClassLoader.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="320" selection-start-line="320" selection-end-line="320" />
         </state>
       </provider>
     </entry>
@@ -479,41 +492,89 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Datacollect/Fatture/Fattura.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1035">
+          <caret line="69" selection-start-line="69" selection-end-line="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Datacollect/Transazioni/Componenti/Vendita.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="30" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Datacollect/Transazioni/Componenti/Beneficio.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="26" lean-forward="true" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fatture.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="17" column="46" selection-start-line="17" selection-start-column="46" selection-end-line="18" selection-end-column="45" />
+          <folding>
+            <element signature="n#creaFattura#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exe/eFatture.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/examples/analisiDC.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        <state relative-caret-position="45">
+          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="13" selection-end-column="38" />
           <folding>
             <element signature="e#268#296#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Datacollect/Transazioni/Componenti/Vendita.php">
+    <entry file="file://$PROJECT_DIR$/vendor/composer/ClassLoader.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="22" column="30" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
+        <state relative-caret-position="182">
+          <caret line="325" selection-start-line="325" selection-end-line="325" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Database/autoload.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Datacollect/autoload.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Datacollect/Transazioni/Transazione.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="220" column="20" lean-forward="true" selection-start-line="220" selection-start-column="20" selection-end-line="220" selection-end-column="20" />
+        <state relative-caret-position="266">
+          <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Datacollect/Transazioni/Componenti/Beneficio.php">
+    <entry file="file://$PROJECT_DIR$/exe/sistemazioneDc.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="26" lean-forward="true" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+        <state relative-caret-position="270">
+          <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Datacollect/Datacollect.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="129" lean-forward="true" selection-start-line="129" selection-end-line="129" />
+        <state relative-caret-position="291">
+          <caret line="27" column="38" lean-forward="true" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="38" />
         </state>
       </provider>
     </entry>

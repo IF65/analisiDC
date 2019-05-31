@@ -1,0 +1,66 @@
+[01-Jun-2019 07:25:25 UTC] PHP Warning:  file(/Users/if65/Desktop/periodi/corrente/ncr/0106_20190529_190529_DC.TXQ): failed to open stream: No such file or directory in /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php on line 46
+[01-Jun-2019 07:25:25 UTC] PHP Stack trace:
+[01-Jun-2019 07:25:25 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0
+[01-Jun-2019 07:25:25 UTC] PHP   2. Datacollect\Datacollect->__construct() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:15
+[01-Jun-2019 07:25:25 UTC] PHP   3. Datacollect\Datacollect->caricaRighe() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:33
+[01-Jun-2019 07:25:25 UTC] PHP   4. file() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:46
+[01-Jun-2019 07:25:25 UTC] PHP Warning:  require(/Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Exception.php): failed to open stream: No such file or directory in /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/autoload.php on line 16
+[01-Jun-2019 07:25:25 UTC] PHP Stack trace:
+[01-Jun-2019 07:25:25 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0
+[01-Jun-2019 07:25:25 UTC] PHP   2. Datacollect\Datacollect->__construct() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:15
+[01-Jun-2019 07:25:25 UTC] PHP   3. Datacollect\Datacollect->caricaRighe() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:33
+[01-Jun-2019 07:25:25 UTC] PHP   4. spl_autoload_call() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:48
+[01-Jun-2019 07:25:25 UTC] PHP   5. Datacollect\{closure:/Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/autoload.php:7-32}() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:48
+[01-Jun-2019 07:25:25 UTC] PHP Fatal error:  require(): Failed opening required '/Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Exception.php' (include_path='.:/usr/local/Cellar/php/7.3.4/share/php/pear') in /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/autoload.php on line 16
+[01-Jun-2019 07:25:25 UTC] PHP Stack trace:
+[01-Jun-2019 07:25:25 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0
+[01-Jun-2019 07:25:25 UTC] PHP   2. Datacollect\Datacollect->__construct() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:15
+[01-Jun-2019 07:25:25 UTC] PHP   3. Datacollect\Datacollect->caricaRighe() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:33
+[01-Jun-2019 07:25:25 UTC] PHP   4. spl_autoload_call() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:48
+[01-Jun-2019 07:25:25 UTC] PHP   5. Datacollect\{closure:/Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/autoload.php:7-32}() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:48
+[01-Jun-2019 07:30:22 UTC] PHP Warning:  file(/Users/if65/Desktop/periodi/corrente/ncr/0106_20190529_190529_DC.TXTp): failed to open stream: No such file or directory in /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php on line 46
+[01-Jun-2019 07:30:22 UTC] PHP Stack trace:
+[01-Jun-2019 07:30:22 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0
+[01-Jun-2019 07:30:22 UTC] PHP   2. Datacollect\Datacollect->__construct() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:15
+[01-Jun-2019 07:30:22 UTC] PHP   3. Datacollect\Datacollect->caricaRighe() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:33
+[01-Jun-2019 07:30:22 UTC] PHP   4. file() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:46
+[01-Jun-2019 07:30:22 UTC] PHP Warning:  require(/Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Exception.php): failed to open stream: No such file or directory in /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/autoload.php on line 16
+[01-Jun-2019 07:30:22 UTC] PHP Stack trace:
+[01-Jun-2019 07:30:22 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0
+[01-Jun-2019 07:30:22 UTC] PHP   2. Datacollect\Datacollect->__construct() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:15
+[01-Jun-2019 07:30:22 UTC] PHP   3. Datacollect\Datacollect->caricaRighe() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:33
+[01-Jun-2019 07:30:22 UTC] PHP   4. spl_autoload_call() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:48
+[01-Jun-2019 07:30:22 UTC] PHP   5. Datacollect\{closure:/Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/autoload.php:7-32}() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:48
+[01-Jun-2019 07:30:22 UTC] PHP Fatal error:  require(): Failed opening required '/Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Exception.php' (include_path='.:/usr/local/Cellar/php/7.3.4/share/php/pear') in /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/autoload.php on line 16
+[01-Jun-2019 07:30:22 UTC] PHP Stack trace:
+[01-Jun-2019 07:30:22 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0
+[01-Jun-2019 07:30:22 UTC] PHP   2. Datacollect\Datacollect->__construct() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:15
+[01-Jun-2019 07:30:22 UTC] PHP   3. Datacollect\Datacollect->caricaRighe() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:33
+[01-Jun-2019 07:30:22 UTC] PHP   4. spl_autoload_call() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:48
+[01-Jun-2019 07:30:22 UTC] PHP   5. Datacollect\{closure:/Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/autoload.php:7-32}() /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:48
+[01-Jun-2019 07:31:50 UTC] PHP Warning:  file(/Users/if65/Desktop/periodi/corrente/ncr/0106_20190529_190529_DC.TXTl): failed to open stream: No such file or directory in /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php on line 46
+[01-Jun-2019 07:31:50 UTC] PHP Stack trace:
+[01-Jun-2019 07:31:50 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0
+[01-Jun-2019 07:31:50 UTC] PHP   2. Datacollect\Datacollect->__construct($fileName = *uninitialized*, $db = *uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:15
+[01-Jun-2019 07:31:50 UTC] PHP   3. Datacollect\Datacollect->caricaRighe($fileName = *uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:33
+[01-Jun-2019 07:31:50 UTC] PHP   4. file(*uninitialized*, *uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:46
+[01-Jun-2019 07:32:12 UTC] PHP Warning:  file(/Users/if65/Desktop/periodi/corrente/ncr/0106_20190529_190529_DC.TXTl): failed to open stream: No such file or directory in /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php on line 46
+[01-Jun-2019 07:32:12 UTC] PHP Stack trace:
+[01-Jun-2019 07:32:12 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0
+[01-Jun-2019 07:32:12 UTC] PHP   2. Datacollect\Datacollect->__construct($fileName = *uninitialized*, $db = *uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:15
+[01-Jun-2019 07:32:12 UTC] PHP   3. Datacollect\Datacollect->caricaRighe($fileName = *uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:33
+[01-Jun-2019 07:32:12 UTC] PHP   4. file(*uninitialized*, *uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:46
+[01-Jun-2019 07:32:12 UTC] PHP Warning:  require(/Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Exception.php): failed to open stream: No such file or directory in /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/autoload.php on line 16
+[01-Jun-2019 07:32:12 UTC] PHP Stack trace:
+[01-Jun-2019 07:32:12 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0
+[01-Jun-2019 07:32:12 UTC] PHP   2. Datacollect\Datacollect->__construct($fileName = *uninitialized*, $db = *uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:15
+[01-Jun-2019 07:32:12 UTC] PHP   3. Datacollect\Datacollect->caricaRighe($fileName = *uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:33
+[01-Jun-2019 07:32:12 UTC] PHP   4. spl_autoload_call(*uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:48
+[01-Jun-2019 07:32:12 UTC] PHP   5. Datacollect\{closure:/Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/autoload.php:7-32}($class = *uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:48
+[01-Jun-2019 07:32:12 UTC] PHP Fatal error:  require(): Failed opening required '/Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Exception.php' (include_path='.:/usr/local/Cellar/php/7.3.4/share/php/pear') in /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/autoload.php on line 16
+[01-Jun-2019 07:32:12 UTC] PHP Stack trace:
+[01-Jun-2019 07:32:12 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0
+[01-Jun-2019 07:32:12 UTC] PHP   2. Datacollect\Datacollect->__construct($fileName = *uninitialized*, $db = *uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:15
+[01-Jun-2019 07:32:12 UTC] PHP   3. Datacollect\Datacollect->caricaRighe($fileName = *uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:33
+[01-Jun-2019 07:32:12 UTC] PHP   4. spl_autoload_call(*uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:48
+[01-Jun-2019 07:32:12 UTC] PHP   5. Datacollect\{closure:/Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/autoload.php:7-32}($class = *uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:48

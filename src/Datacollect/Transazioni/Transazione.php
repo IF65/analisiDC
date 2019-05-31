@@ -30,6 +30,7 @@
             $this->righe = $righe;
             $this->normalizzaTransazione();
             $this->carica();
+            $this->eliminaErroriAsar();
         }
         
         protected function cercaVendita(array $parametri, $ricercaEsatta = false) {
@@ -71,6 +72,18 @@
         
         protected function normalizzaTransazione() {
             //$this->righe = preg_grep("/^.{31}:i:.01:/", $this->righe, PREG_GREP_INVERT);
+            //$this->righe = array_values( $this->righe);
+        }
+
+        protected function eliminaErroriAsar() {
+            //storno articolo a cui si aggiunge un bollone senza relativo sconto
+            for($i = 0; $i < count($this->righe); $i++) {
+                if (preg_match( '/:S:17/', $this->righe[$i] )) {
+                    if (preg_match( '/:S:17.{10}9980/', $this->righe[$i + 3] )) {
+                        array_splice( $this->righe, $i + 3, 3 );
+                    }
+                }
+            }
         }
         
         protected function carica() {
@@ -180,7 +193,7 @@
             $contatoreVendita = 1;
             while ($esitoCaricamentoVendite($righeVendita)) {}
             if (count($righeVendita) > 0) {// se aquesto punto l'array che contiene le righe vendita non è vuoto c'è un errore
-                echo "errore: $righeVendita[0]\n";
+                //echo "errore: $righeVendita[0]\n";
             }
             
 
@@ -228,7 +241,7 @@
             // chiamo la closure fino a che tutti benefici siano stati individuati
             while ($esitoCaricamentoBenefici($righeBeneficio)) {}
             if (count($righeBeneficio) > 0) {// se aquesto punto l'array che contiene le righe beneficio non è vuoto c'è un errore
-                echo "errore: $righeBeneficio[0]\n";
+               //echo "errore: $righeBeneficio[0]\n";
             }
             
             $this->associaVenditeBenefici();
@@ -277,6 +290,10 @@
                 // CATALINA REPARTO----------------------------------------------0481 FINE
                 
             }
+        }
+
+        public function righeTransazione():array {
+            return $this->righe;
         }
         
         function __destruct() {}

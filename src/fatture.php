@@ -81,7 +81,7 @@
                 return null;
             }
         } else {
-            // il datacollect  giˆ presente su file locale
+            // il datacollect ï¿½ giï¿½ presente su file locale
             $fattura = New Fattura($datacollect, $db);
         }
         
