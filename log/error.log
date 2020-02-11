@@ -64,3 +64,21 @@
 [01-Jun-2019 07:32:12 UTC] PHP   3. Datacollect\Datacollect->caricaRighe($fileName = *uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:33
 [01-Jun-2019 07:32:12 UTC] PHP   4. spl_autoload_call(*uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:48
 [01-Jun-2019 07:32:12 UTC] PHP   5. Datacollect\{closure:/Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/autoload.php:7-32}($class = *uninitialized*) /Users/if65/Desktop/Sviluppo/analisiDC/src/Datacollect/Datacollect.php:48
+[25-Jun-2019 08:25:48 UTC] PHP Warning:  require(/Users/if65/Desktop/Sviluppo/analisiDC/vendor/autoload.php): failed to open stream: No such file or directory in /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php on line 5
+[25-Jun-2019 08:25:48 UTC] PHP Stack trace:
+[25-Jun-2019 08:25:49 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0
+[25-Jun-2019 08:25:49 UTC] PHP Fatal error:  require(): Failed opening required '/Users/if65/Desktop/Sviluppo/analisiDC/vendor/autoload.php' (include_path='.:/usr/local/Cellar/php/7.3.4/share/php/pear') in /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php on line 5
+[25-Jun-2019 08:25:49 UTC] PHP Stack trace:
+[25-Jun-2019 08:25:49 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0
+[25-Jun-2019 08:27:05 UTC] PHP Warning:  require(/Users/if65/Desktop/Sviluppo/analisiDC/vendor/autoload.php): failed to open stream: No such file or directory in /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php on line 5
+[25-Jun-2019 08:27:05 UTC] PHP Stack trace:
+[25-Jun-2019 08:27:05 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0
+[25-Jun-2019 08:27:05 UTC] PHP Fatal error:  require(): Failed opening required '/Users/if65/Desktop/Sviluppo/analisiDC/vendor/autoload.php' (include_path='.:/usr/local/Cellar/php/7.3.4/share/php/pear') in /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php on line 5
+[25-Jun-2019 08:27:05 UTC] PHP Stack trace:
+[25-Jun-2019 08:27:05 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0
+[25-Jun-2019 08:27:14 UTC] PHP Warning:  require(/Users/if65/Desktop/Sviluppo/analisiDC/vendor/autoload.php): failed to open stream: No such file or directory in /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php on line 5
+[25-Jun-2019 08:27:14 UTC] PHP Stack trace:
+[25-Jun-2019 08:27:14 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0
+[25-Jun-2019 08:27:14 UTC] PHP Fatal error:  require(): Failed opening required '/Users/if65/Desktop/Sviluppo/analisiDC/vendor/autoload.php' (include_path='.:/usr/local/Cellar/php/7.3.4/share/php/pear') in /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php on line 5
+[25-Jun-2019 08:27:14 UTC] PHP Stack trace:
+[25-Jun-2019 08:27:14 UTC] PHP   1. {main}() /Users/if65/Desktop/Sviluppo/analisiDC/exe/sistemazioneDc.php:0

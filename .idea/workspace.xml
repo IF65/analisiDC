@@ -2,17 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="53fef98e-d46d-4d2b-a28e-0ec63b2f5b77" name="Default Changelist" comment="Funzionante step 1">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/exe/sistemazioneDc.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exe/eDatacollect.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exe/sSync.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/contabilita.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/datacollect.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/analisiDC.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/analisiDC.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b2032122-d402-4b2f-87cd-75a8ecbcdc05.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/b2032122-d402-4b2f-87cd-75a8ecbcdc05.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/data/0171_20190408_190408_DC.TXT" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/data/0171_20190408_190408_DX.TXT" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/tmp5q98fS.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Datacollect/Datacollect.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Datacollect/Datacollect.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Datacollect/Transazioni/Transazione.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Datacollect/Transazioni/Transazione.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exe/eFatture.php" beforeDir="false" afterPath="$PROJECT_DIR$/exe/eFatture.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/error.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Datacollect/Fatture/Fattura.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Datacollect/Fatture/Fattura.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fatture.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatture.php" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,37 +43,6 @@
     <expand />
     <select />
   </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/exe/sistemazioneDc.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Datacollect/Datacollect.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="27" column="38" lean-forward="true" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Datacollect/Transazioni/Transazione.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
-  </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>vendita</find>
@@ -83,28 +57,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/composer.json" />
-        <option value="$PROJECT_DIR$/src/Database/Tabelle/Barartx2.php" />
-        <option value="$PROJECT_DIR$/src/Database/Tabelle/Articox2.php" />
-        <option value="$PROJECT_DIR$/src/Database/Tabelle/Dimensioni.php" />
-        <option value="$PROJECT_DIR$/src/Database/Database.php" />
-        <option value="$PROJECT_DIR$/src/Database/Tabelle/Articoli.php" />
-        <option value="$PROJECT_DIR$/src/Datacollect/Transazioni/Componenti/Beneficio.php" />
-        <option value="$PROJECT_DIR$/src/Datacollect/Transazioni/Componenti/Vendita.php" />
-        <option value="$PROJECT_DIR$/examples/analisiDC.php" />
-        <option value="$PROJECT_DIR$/src/Datacollect/Transazioni/Transazione.php" />
-        <option value="$PROJECT_DIR$/exe/sistemazioneDc.php" />
-        <option value="$PROJECT_DIR$/src/Datacollect/Datacollect.php" />
-      </list>
-    </option>
-  </component>
   <component name="PhpDebugGeneral" xdebug_debug_port="9001" listening_started="true" />
-  <component name="PhpServers">
-    <servers />
-  </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 7.2">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/phpspec/prophecy" />
@@ -142,77 +95,17 @@
       <path value="$PROJECT_DIR$/vendor/composer" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
       <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/type" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="13" />
-    <option name="y" value="31" />
-    <option name="width" value="1526" />
-    <option name="height" value="922" />
-  </component>
+  <component name="ProjectId" id="1Q09Vo0e7hk1RaHtuKh6ZwDBtZt" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="analisiDC" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="analisiDC" type="462c0819:PsiDirectoryNode" />
-              <item name="examples" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="analisiDC" type="462c0819:PsiDirectoryNode" />
-              <item name="exe" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="analisiDC" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="analisiDC" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Database" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="analisiDC" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Database" type="462c0819:PsiDirectoryNode" />
-              <item name="Tabelle" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="analisiDC" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Datacollect" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="bcb0276e:PhpExternalLibrariesNodePatcher$PatchedExternalLibrariesNode" />
-            </path>
-            <path>
-              <item name="analisiDC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="mariadb" />
@@ -220,8 +113,11 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="restartRequiresConfirmation" value="false" />
@@ -232,25 +128,13 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
   <component name="RunManager">
-    <configuration name="sistemazioneDc.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/exe/sistemazioneDc.php">
+    <configuration name="contabilita.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/src/contabilita.php">
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="PHP Script.sistemazioneDc.php" />
+        <item itemvalue="PHP Script.contabilita.php" />
       </list>
     </recent_temporary>
   </component>
@@ -287,6 +171,39 @@
       <workItem from="1559212101649" duration="3447000" />
       <workItem from="1559223850237" duration="6897000" />
       <workItem from="1559280690793" duration="11966000" />
+      <workItem from="1561451112850" duration="2620000" />
+      <workItem from="1561465383577" duration="2000" />
+      <workItem from="1566896674382" duration="527000" />
+      <workItem from="1567487821956" duration="4000" />
+      <workItem from="1567698703485" duration="241000" />
+      <workItem from="1568275391717" duration="2000" />
+      <workItem from="1571670790838" duration="2014000" />
+      <workItem from="1571813122452" duration="1002000" />
+      <workItem from="1571839553438" duration="346000" />
+      <workItem from="1571908839417" duration="1580000" />
+      <workItem from="1571996309389" duration="322000" />
+      <workItem from="1572015478451" duration="376000" />
+      <workItem from="1572106223935" duration="331000" />
+      <workItem from="1572152492933" duration="2000" />
+      <workItem from="1572248276748" duration="1172000" />
+      <workItem from="1572250445750" duration="2000" />
+      <workItem from="1580885110879" duration="4115000" />
+      <workItem from="1580894230754" duration="2555000" />
+      <workItem from="1580898753481" duration="117000" />
+      <workItem from="1580908906853" duration="1746000" />
+      <workItem from="1580975036309" duration="610000" />
+      <workItem from="1580978506349" duration="1280000" />
+      <workItem from="1580980952497" duration="2742000" />
+      <workItem from="1580997475255" duration="7211000" />
+      <workItem from="1581008000997" duration="581000" />
+      <workItem from="1581016395833" duration="2075000" />
+      <workItem from="1581062960086" duration="14948000" />
+      <workItem from="1581317974861" duration="27000" />
+      <workItem from="1581320483974" duration="1877000" />
+      <workItem from="1581340744915" duration="7000" />
+      <workItem from="1581352403929" duration="245000" />
+      <workItem from="1581415503938" duration="15000" />
+      <workItem from="1581415531011" duration="403000" />
     </task>
     <task id="LOCAL-00001" summary="Aggiunta documentazione">
       <created>1554750154218</created>
@@ -312,9 +229,6 @@
     <option name="localTasksCounter" value="4" />
     <servers />
   </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64593000" />
-  </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
@@ -325,34 +239,6 @@
       <is-autoscroll-to-source value="true" />
     </todo-panel>
   </component>
-  <component name="ToolWindowManager">
-    <frame x="13" y="31" width="1526" height="922" extended-state="0" />
-    <editor active="true" />
-    <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18800539" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.29565218" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49827784" weight="0.3031056" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32887402" />
-      <window_info anchor="bottom" id="Tail" order="7" />
-      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" order="9" weight="0.32998884" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.499114" weight="0.31326646" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50172216" side_tool="true" weight="0.47826087" />
-      <window_info anchor="bottom" id="Version Control" order="12" sideWeight="0.49965253" weight="0.32887402" />
-      <window_info active="true" anchor="bottom" id="Messages" order="13" visible="true" weight="0.32978722" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Json Parser" order="3" />
-      <window_info anchor="right" id="Database" order="4" weight="0.25753102" />
-    </layout>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
@@ -362,20 +248,7 @@
         <entry key="MAIN">
           <value>
             <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
-              <option name="COLUMN_ORDER">
-                <list>
-                  <option value="0" />
-                  <option value="1" />
-                  <option value="2" />
-                  <option value="3" />
-                </list>
-              </option>
+              <option name="COLUMN_ORDER" />
             </State>
           </value>
         </entry>
@@ -402,6 +275,52 @@
     <MESSAGE value="Funzionante step 1" />
     <option name="LAST_COMMIT_MESSAGE" value="Funzionante step 1" />
   </component>
+  <component name="WindowStateProjectService">
+    <state x="243" y="169" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581004222221">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state x="243" y="169" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1581004222221" />
+    <state x="341" y="201" key="GrepConsoleSettings" timestamp="1581064306611">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state x="341" y="201" key="GrepConsoleSettings/0.23.1920.1057@0.23.1920.1057" timestamp="1581064306611" />
+    <state width="1352" height="240" key="GridCell.Tab.0.bottom" timestamp="1581090744758">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1352" height="240" key="GridCell.Tab.0.bottom/0.23.1920.1057@0.23.1920.1057" timestamp="1581090744758" />
+    <state width="1352" height="240" key="GridCell.Tab.0.center" timestamp="1581090744757">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1352" height="240" key="GridCell.Tab.0.center/0.23.1920.1057@0.23.1920.1057" timestamp="1581090744757" />
+    <state width="1352" height="240" key="GridCell.Tab.0.left" timestamp="1581090744757">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1352" height="240" key="GridCell.Tab.0.left/0.23.1920.1057@0.23.1920.1057" timestamp="1581090744757" />
+    <state width="1352" height="240" key="GridCell.Tab.0.right" timestamp="1581090744758">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1352" height="240" key="GridCell.Tab.0.right/0.23.1920.1057@0.23.1920.1057" timestamp="1581090744758" />
+    <state width="1352" height="240" key="GridCell.Tab.1.bottom" timestamp="1581090744759">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1352" height="240" key="GridCell.Tab.1.bottom/0.23.1920.1057@0.23.1920.1057" timestamp="1581090744759" />
+    <state width="1352" height="240" key="GridCell.Tab.1.center" timestamp="1581090744758">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1352" height="240" key="GridCell.Tab.1.center/0.23.1920.1057@0.23.1920.1057" timestamp="1581090744758" />
+    <state width="1352" height="240" key="GridCell.Tab.1.left" timestamp="1581090744758">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1352" height="240" key="GridCell.Tab.1.left/0.23.1920.1057@0.23.1920.1057" timestamp="1581090744758" />
+    <state width="1352" height="240" key="GridCell.Tab.1.right" timestamp="1581090744759">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1352" height="240" key="GridCell.Tab.1.right/0.23.1920.1057@0.23.1920.1057" timestamp="1581090744759" />
+    <state x="600" y="438" key="NewPhpFileDialog" timestamp="1581064619698">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state x="600" y="438" key="NewPhpFileDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1581064619698" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -410,173 +329,12 @@
           <line>25</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/examples/analisiDC.php</url>
+          <line>20</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="PhpLocalRunConfigurationType">
-        <watch expression="$this-&gt;righe[$i]" />
-        <watch expression="$this-&gt;righe[$i + 2]" />
-      </configuration>
-    </watches-manager>
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="23" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Database/Tabelle/Negozi.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/b2032122-d402-4b2f-87cd-75a8ecbcdc05/console.sql">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Database/Tabelle/Anagdafi.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Database/Tabelle/Dimensioni.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="159" column="9" selection-start-line="159" selection-start-column="9" selection-end-line="159" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Database/Tabelle/Articox2.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="61" lean-forward="true" selection-start-line="24" selection-start-column="61" selection-end-line="24" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Database/Tabelle/Barartx2.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/etc/php/7.3/conf.d/ext-opcache.ini">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/etc/php/7.3/php.ini">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Database/Database.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="645">
-          <caret line="44" column="59" selection-start-line="44" selection-start-column="59" selection-end-line="44" selection-end-column="59" />
-          <folding>
-            <element signature="e#32#41#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Database/Tabelle/Articoli.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="82" column="26" selection-start-line="82" selection-start-column="26" selection-end-line="82" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Datacollect/Fatture/Fattura.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1035">
-          <caret line="69" selection-start-line="69" selection-end-line="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Datacollect/Transazioni/Componenti/Vendita.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="30" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Datacollect/Transazioni/Componenti/Beneficio.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="26" lean-forward="true" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/fatture.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="17" column="46" selection-start-line="17" selection-start-column="46" selection-end-line="18" selection-end-column="45" />
-          <folding>
-            <element signature="n#creaFattura#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/exe/eFatture.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/analisiDC.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="13" selection-end-column="38" />
-          <folding>
-            <element signature="e#268#296#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/composer/ClassLoader.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="325" selection-start-line="325" selection-end-line="325" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Database/autoload.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Datacollect/autoload.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Datacollect/Transazioni/Transazione.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/exe/sistemazioneDc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Datacollect/Datacollect.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="27" column="38" lean-forward="true" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
   </component>
 </project>

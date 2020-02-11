@@ -106,7 +106,7 @@
 	if ( $parameters['function'] == 'getTransaction' ) { 
 		$connection_string = "DRIVER={SQL Server};SERVER=".$ipMtx[$parameters['sede']].";PORT=1433;DATABASE=mtx";
 		try {
-			$conn = odbc_connect($connection_string,"mtxadmin","mtxadmin");
+			$conn = odbc_connect($connection_string,"mtxadmin","mtxadmin", SQL_CUR_USE_ODBC);
 		
 			$sql = "select
 						REG, STORE, replace(substring(convert(VARCHAR, DDATE, 120),3,8),'-','') 'DATE', TTIME, SEQUENCENUMBER,
@@ -149,7 +149,7 @@
 	} else if ( $parameters['function'] == 'getTransactionList' ) {
 		$connection_string = "DRIVER={SQL Server};SERVER=".$ipMtx[$parameters['sede']].";PORT=1433;DATABASE=mtx";
 		try {
-			$conn = odbc_connect($connection_string,"mtxadmin","mtxadmin");
+			$conn = odbc_connect($connection_string,"mtxadmin","mtxadmin", SQL_CUR_USE_ODBC);
 		
 			$sql = "select distinct REG `cassa`, TRANS `transazione`
 					from IDC

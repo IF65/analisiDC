@@ -30,7 +30,7 @@
                                    5 => 'Oper.fuori campo IVA art.2 DPR 633/72',
                                    6 => 'Oper.fuori campo IVA art.2 DPR 633/72',
                                    7 => 'Oper. non soggetta IVA art.74 c.1 DPR 633/72' ];
-        private $ivaCodiceAde = [ 0 => 'N2', 1 => '', 2 => '', 3 => '', 4 => '', 5 => 'N2', 6 => 'N2', 7 => 'N5' ];
+        private $ivaCodiceAde = [ 0 => 'N2', 1 => '', 2 => '', 3 => '', 4 => '', 5 => 'N2', 6 => 'N2', 7 => 'N2' ];
 
         function __construct(array $righe, &$db) {
             $this->db = $db;    
@@ -130,6 +130,7 @@
                 
                 // seconda riga V anomala per iva 0
                 if (preg_match('/^.{31}:V:1(0|5|6|7)1/', $riga, $matches)) {
+                    $ivaTipo = $matches[1]*1;
                     $imposta =0;
                     
                     $this->repartiIva[$ivaTipo] = [
@@ -146,6 +147,7 @@
                 
                  // seconda riga V
                 if (preg_match('/^.{31}:V:1(\d)0.{31}((?:\+|\-)\d{9})/', $riga, $matches)) {
+                    $ivaTipo = $matches[1]*1;
                     $imposta = $matches[2]/100;
                     
                     $this->repartiIva[$ivaTipo] = [

@@ -13,7 +13,7 @@
 
     if ($debug) {
         //$request = ['function' => 'creaFattura', 'sede' => '0173', 'data' => '2019-01-03', 'cassa' => '002', 'transazione' => '4522'];
-        $request = ['function' => 'creaFattura', 'sede' => '0464', 'data' => '2019-02-14', 'cassa' => '006', 'transazione' => '6121'];
+        $request = ['function' => 'creaFattura', 'sede' => '3151', 'data' => '2019-06-22', 'cassa' => '001', 'transazione' => '3485'];
     } else {
         $input = file_get_contents('php://input');
         $request = json_decode($input, true);
@@ -76,6 +76,7 @@
                 $datacollect = Datacollect::mtx2dc($responseObj['datacollect']);
                 
                 $fattura = New Fattura($datacollect, $db);
+                echo "\n";
             } else if ($response->getStatusCode() == 204) {
                 http_response_code(204);
                 return null;

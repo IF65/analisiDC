@@ -4,7 +4,7 @@ $filename = realpath(__DIR__ . '/..').'/debug.php';
 if (file_exists($filename)) {
 	include( $filename );
 } else {
-	$debug = false;
+	$debug = true;
 }
 
 // Attiva la visualizzazione degli errori in fase di debug
