@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="53fef98e-d46d-4d2b-a28e-0ec63b2f5b77" name="Default Changelist" comment="Funzionante step 1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Datacollect/Fatture/Fattura.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Datacollect/Fatture/Fattura.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fatture.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatture.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -215,7 +215,8 @@
       <workItem from="1590570523489" duration="1937000" />
       <workItem from="1590574866117" duration="2000" />
       <workItem from="1590575151547" duration="410000" />
-      <workItem from="1590575905604" duration="710000" />
+      <workItem from="1590575905604" duration="1037000" />
+      <workItem from="1590581597863" duration="168000" />
     </task>
     <task id="LOCAL-00001" summary="Aggiunta documentazione">
       <created>1554750154218</created>
@@ -291,38 +292,38 @@
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
     <state width="539" height="466" key="DebuggerActiveHint/0.23.1920.1057@0.23.1920.1057" timestamp="1590571511018" />
-    <state width="1408" height="228" key="GridCell.Tab.0.bottom" timestamp="1590576529429">
+    <state width="1408" height="466" key="GridCell.Tab.0.bottom" timestamp="1590577347566">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1408" height="228" key="GridCell.Tab.0.bottom/0.23.1920.1057@0.23.1920.1057" timestamp="1590576529429" />
-    <state width="1408" height="228" key="GridCell.Tab.0.center" timestamp="1590576529428">
+    <state width="1408" height="466" key="GridCell.Tab.0.bottom/0.23.1920.1057@0.23.1920.1057" timestamp="1590577347566" />
+    <state width="1408" height="466" key="GridCell.Tab.0.center" timestamp="1590577347565">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1408" height="228" key="GridCell.Tab.0.center/0.23.1920.1057@0.23.1920.1057" timestamp="1590576529428" />
-    <state width="1408" height="228" key="GridCell.Tab.0.left" timestamp="1590576529428">
+    <state width="1408" height="466" key="GridCell.Tab.0.center/0.23.1920.1057@0.23.1920.1057" timestamp="1590577347565" />
+    <state width="1408" height="466" key="GridCell.Tab.0.left" timestamp="1590577347565">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1408" height="228" key="GridCell.Tab.0.left/0.23.1920.1057@0.23.1920.1057" timestamp="1590576529428" />
-    <state width="1408" height="228" key="GridCell.Tab.0.right" timestamp="1590576529429">
+    <state width="1408" height="466" key="GridCell.Tab.0.left/0.23.1920.1057@0.23.1920.1057" timestamp="1590577347565" />
+    <state width="1408" height="466" key="GridCell.Tab.0.right" timestamp="1590577347565">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1408" height="228" key="GridCell.Tab.0.right/0.23.1920.1057@0.23.1920.1057" timestamp="1590576529429" />
-    <state width="1408" height="228" key="GridCell.Tab.1.bottom" timestamp="1590576529430">
+    <state width="1408" height="466" key="GridCell.Tab.0.right/0.23.1920.1057@0.23.1920.1057" timestamp="1590577347565" />
+    <state width="1408" height="228" key="GridCell.Tab.1.bottom" timestamp="1590577347561">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1408" height="228" key="GridCell.Tab.1.bottom/0.23.1920.1057@0.23.1920.1057" timestamp="1590576529430" />
-    <state width="1408" height="228" key="GridCell.Tab.1.center" timestamp="1590576529429">
+    <state width="1408" height="228" key="GridCell.Tab.1.bottom/0.23.1920.1057@0.23.1920.1057" timestamp="1590577347561" />
+    <state width="1408" height="228" key="GridCell.Tab.1.center" timestamp="1590577347561">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1408" height="228" key="GridCell.Tab.1.center/0.23.1920.1057@0.23.1920.1057" timestamp="1590576529429" />
-    <state width="1408" height="228" key="GridCell.Tab.1.left" timestamp="1590576529429">
+    <state width="1408" height="228" key="GridCell.Tab.1.center/0.23.1920.1057@0.23.1920.1057" timestamp="1590577347561" />
+    <state width="1408" height="228" key="GridCell.Tab.1.left" timestamp="1590577347560">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1408" height="228" key="GridCell.Tab.1.left/0.23.1920.1057@0.23.1920.1057" timestamp="1590576529429" />
-    <state width="1408" height="228" key="GridCell.Tab.1.right" timestamp="1590576529430">
+    <state width="1408" height="228" key="GridCell.Tab.1.left/0.23.1920.1057@0.23.1920.1057" timestamp="1590577347560" />
+    <state width="1408" height="228" key="GridCell.Tab.1.right" timestamp="1590577347561">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1408" height="228" key="GridCell.Tab.1.right/0.23.1920.1057@0.23.1920.1057" timestamp="1590576529430" />
+    <state width="1408" height="228" key="GridCell.Tab.1.right/0.23.1920.1057@0.23.1920.1057" timestamp="1590577347561" />
     <state width="725" height="469" key="XDebugger.FullValuePopup" timestamp="1590570839429">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
@@ -340,11 +341,6 @@
           <url>file://$PROJECT_DIR$/examples/analisiDC.php</url>
           <line>20</line>
           <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Datacollect/Fatture/Fattura.php</url>
-          <line>72</line>
-          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
