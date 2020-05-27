@@ -2,21 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="53fef98e-d46d-4d2b-a28e-0ec63b2f5b77" name="Default Changelist" comment="Funzionante step 1">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/exe/eDatacollect.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/exe/sSync.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/contabilita.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/datacollect.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/analisiDC.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/analisiDC.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b2032122-d402-4b2f-87cd-75a8ecbcdc05.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/b2032122-d402-4b2f-87cd-75a8ecbcdc05.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exe/eDatacollect.php" beforeDir="false" afterPath="$PROJECT_DIR$/exe/eDatacollect.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/exe/eFatture.php" beforeDir="false" afterPath="$PROJECT_DIR$/exe/eFatture.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/error.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Datacollect/Fatture/Fattura.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Datacollect/Fatture/Fattura.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatture.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatture.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,9 +14,7 @@
   </component>
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
-    <execution>
-      <executable />
-    </execution>
+    <execution />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -104,7 +91,6 @@
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -121,7 +107,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Language Defaults" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.General" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -204,6 +190,24 @@
       <workItem from="1581352403929" duration="245000" />
       <workItem from="1581415503938" duration="15000" />
       <workItem from="1581415531011" duration="403000" />
+      <workItem from="1581417450725" duration="13000" />
+      <workItem from="1581585092891" duration="685000" />
+      <workItem from="1581591080015" duration="98000" />
+      <workItem from="1581602591323" duration="3058000" />
+      <workItem from="1581666089381" duration="24000" />
+      <workItem from="1581666166545" duration="2140000" />
+      <workItem from="1581670682953" duration="14000" />
+      <workItem from="1581674881866" duration="3854000" />
+      <workItem from="1582103366491" duration="48000" />
+      <workItem from="1583157393920" duration="88000" />
+      <workItem from="1583157524972" duration="70000" />
+      <workItem from="1583157693245" duration="7000" />
+      <workItem from="1583157707143" duration="49000" />
+      <workItem from="1583157759579" duration="9000" />
+      <workItem from="1583231818051" duration="2000" />
+      <workItem from="1583232581626" duration="41000" />
+      <workItem from="1590067250867" duration="879000" />
+      <workItem from="1590566313659" duration="12000" />
     </task>
     <task id="LOCAL-00001" summary="Aggiunta documentazione">
       <created>1554750154218</created>
@@ -240,16 +244,14 @@
     </todo-panel>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -268,6 +270,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Aggiunta documentazione" />
@@ -320,6 +323,10 @@
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
     <state x="600" y="438" key="NewPhpFileDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1581064619698" />
+    <state x="423" y="200" key="SettingsEditor" timestamp="1581667232158">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state x="423" y="200" key="SettingsEditor/0.23.1920.1057@0.23.1920.1057" timestamp="1581667232158" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

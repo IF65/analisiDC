@@ -1,12 +1,6 @@
 <?php
 
-ini_set('max_execution_time', (60*2));
-
-//recupero i parametri inviati in formato json
-$body  = file_get_contents('php://input');
-
-//trasformo i paramentri in un array associativo
-$parameters = json_decode($body, true);
+ini_set('max_execution_time', (30));
 
 // elenco negozi
 $ipMtx = [
@@ -107,94 +101,50 @@ $result = [];
 $error = '';
 $status = 1;
 
-if ( $parameters['function'] == 'getDatiContabili' ) {
-    $connection_string = "DRIVER={SQL Server};SERVER=".$ipMtx[$parameters['sede']].";PORT=1433;DATABASE=mtx";
+foreach ($ipMtx as $sede => $ip) {
+    $connection_string = "DRIVER={SQL Server};SERVER=$ip;PORT=1433;DATABASE=mtx";
     try {
-        $conn = odbc_connect($connection_string,"mtxadmin","mtxadmin", SQL_CUR_USE_ODBC);
+        $conn = odbc_connect( $connection_string, "mtxadmin", "mtxadmin", SQL_CUR_USE_ODBC );
 
-        $sql = "select
+        $sql = "select top 3
 					REG, STORE, substring(convert(VARCHAR, DDATE, 120),1,10) 'DDATE', TTIME, SEQUENCENUMBER,
-					TRANS, TRANSSTEP, RECORDTYPE, RECORDCODE, USERNO, MISC, DATA
+					TRANS, TRANSSTEP, RECORDTYPE, RECORDCODE, USERNO, MISC, DATA, EODDATE, EODTIME
 				from IDC_EOD
-				where Ddate = ? and convert(varbinary, RECORDTYPE) in (convert(varbinary, 'H'),convert(varbinary, 'F'),convert(varbinary, 'T'),convert(varbinary, 'V'))
-				order by ddate, reg, sequencenumber;";
+				where Ddate = ? 
+				order by sequencenumber;";
 
-        $stmt    = odbc_prepare($conn, $sql);
-        if ( odbc_execute($stmt, [$parameters['data']]) ) {
-            while ($record = odbc_fetch_array($stmt)) {
+        $stmt = odbc_prepare( $conn, $sql );
+        if (odbc_execute( $stmt, ['2020-02-14'] )) {
+            while ($record = odbc_fetch_array( $stmt )) {
                 $result[] = $record;
             }
 
-            if (! count($result)) {
-                $sql = "select 
-						REG, STORE, substring(convert(VARCHAR, DDATE, 120),1,10) 'DDATE', TTIME, SEQUENCENUMBER,
-						TRANS, TRANSSTEP, RECORDTYPE, RECORDCODE, USERNO, MISC, DATA
-					from IDC
-					where Ddate = ? and convert(varbinary, RECORDTYPE) in (convert(varbinary, 'H'),convert(varbinary, 'F'),convert(varbinary, 'T'),convert(varbinary, 'V'))
-					order by ddate, reg, sequencenumber;";
+            if (!count( $result )) {
+                $sql = "select top 3
+							REG, STORE, substring(convert(VARCHAR, DDATE, 120),1,10) 'DDATE', TTIME, SEQUENCENUMBER,
+							TRANS, TRANSSTEP, RECORDTYPE, RECORDCODE, USERNO, MISC, DATA, EODDATE, EODTIME
+						from IDC
+						where Ddate = ?
+						order by sequencenumber;";
 
                 $status = 0;
 
-                $stmt    = odbc_prepare($conn, $sql);
-                if ( odbc_execute($stmt, [$parameters['data']] ) ) {
-                    while ($record = odbc_fetch_array($stmt)) {
+                $stmt = odbc_prepare( $conn, $sql );
+                if (odbc_execute( $stmt, ['2020-02-14'] )) {
+                    while ($record = odbc_fetch_array( $stmt )) {
                         $result[] = $record;
                     }
                 }
             }
 
-            odbc_close($conn);
+            odbc_close( $conn );
         }
     } catch (Exception $e) {
-
-        $error = $e->getMessage();
+        $error = "ERRORE: " . $e->getMessage();
     }
 
-    header('Content-type: application/json; charset=utf8');
-    echo json_encode(['errorMessage' => $error, 'datacollect' => $result, 'status'=>$status]);
-} else if ($parameters['function'] == 'getDatacollect' ) {
-    $connection_string = "DRIVER={SQL Server};SERVER=".$ipMtx[$parameters['sede']].";PORT=1433;DATABASE=mtx";
-    try {
-        $conn = odbc_connect($connection_string,"mtxadmin","mtxadmin", SQL_CUR_USE_ODBC);
-
-        $sql = "select
-						REG, STORE, substring(convert(VARCHAR, DDATE, 120),1,10) 'DDATE', TTIME, SEQUENCENUMBER,
-						TRANS, TRANSSTEP, RECORDTYPE, RECORDCODE, USERNO, MISC, DATA
-					from IDC_EOD
-					where Ddate = ?
-					order by ddate, reg, sequencenumber;";
-
-        $stmt    = odbc_prepare($conn, $sql);
-        if ( odbc_execute($stmt, [$parameters['data']] ) ) {
-            while ($record = odbc_fetch_array($stmt)) {
-                $result[] = $record;
-            }
-
-            if (! count($result)) {
-                $sql = "select
-						REG, STORE, substring(convert(VARCHAR, DDATE, 120),1,10) 'DDATE', TTIME, SEQUENCENUMBER,
-						TRANS, TRANSSTEP, RECORDTYPE, RECORDCODE, USERNO, MISC, DATA
-					from IDC
-					where Ddate = ? 
-					order by ddate, reg, sequencenumber;";
-
-                $status = 0;
-
-                $stmt    = odbc_prepare($conn, $sql);
-                if ( odbc_execute($stmt, [$parameters['data']] ) ) {
-                    while ($record = odbc_fetch_array($stmt)) {
-                        $result[] = $record;
-                    }
-                }
-            }
-
-            odbc_close($conn);
-        }
-    } catch (Exception $e) {
-        $error = $e->getMessage();
-    }
-
-    header('Content-type: application/json; charset=utf8');
-    echo json_encode(['errorMessage' => $error, 'datacollect' => $result, 'status'=>$status]);
+    echo json_encode( $result, 1 );
 }
+
+
 ?>

@@ -22,7 +22,7 @@
         
         // costanti
         private $ivaAliquota = [ 0 => 0, 1 => 4, 2 => 10, 3 => 22, 4 => 5, 5 => 0, 6 => 0, 7 => 0 ];
-        private $ivaDescrizione = [0 => 'IVA 0',
+        private $ivaDescrizione = [0 => 'Operazione esente ai sensi art.10 D.P.R. 633/72 - DL.34/2020',
                                    1 => 'IVA 4%',
                                    2 => 'IVA 10%',
                                    3 => 'IVA 22%',
@@ -30,7 +30,7 @@
                                    5 => 'Oper.fuori campo IVA art.2 DPR 633/72',
                                    6 => 'Oper.fuori campo IVA art.2 DPR 633/72',
                                    7 => 'Oper. non soggetta IVA art.74 c.1 DPR 633/72' ];
-        private $ivaCodiceAde = [ 0 => 'N2', 1 => '', 2 => '', 3 => '', 4 => '', 5 => 'N2', 6 => 'N2', 7 => 'N2' ];
+        private $ivaCodiceAde = [ 0 => 'N4', 1 => '', 2 => '', 3 => '', 4 => '', 5 => 'N2', 6 => 'N2', 7 => 'N2' ];
 
         function __construct(array $righe, &$db) {
             $this->db = $db;    
