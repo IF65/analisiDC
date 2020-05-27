@@ -67,16 +67,17 @@
                     $articoloDescrizione = '';
                     $repartoCodice = '';
                     $pluPeso = false;
-                    if (key_exists($barcode, $this->db->barcode['data'])) {
-                        $articoloCodice = $this->db->barcode['data'][$barcode]['articoloCodice'];
-                        $articoloDescrizione = trim($this->db->articoli['data'][$articoloCodice]['articoloDescrizione']);
-                        $repartoCodice = $this->db->dimensioni['data'][$articoloCodice]['repartoCodice'];
+                    //if (key_exists($barcode, $this->db->barcode['data'])) {
+                    if (key_exists($barcode, $this->db->articoli->elencoBarcode)) {
+                        $articoloCodice = $this->db->articoli->elencoBarcode[$barcode];
+                        $articoloDescrizione = trim($this->db->articoli->elencoArticoli[$articoloCodice]['descrizione']);
+                        $repartoCodice = $this->db->articoli->elencoArticoli[$articoloCodice]['reparto'];
                     } else {
                         $barcode = substr($barcode, 0, 7);
-                        if (key_exists($barcode, $this->db->barcode['data'])) {
-                            $articoloCodice = $this->db->barcode['data'][$barcode]['articoloCodice'];
-                            $articoloDescrizione = trim($this->db->articoli['data'][$articoloCodice]['articoloDescrizione']);
-                            $repartoCodice = $this->db->dimensioni['data'][$articoloCodice]['repartoCodice'];
+                        if (key_exists($barcode, $this->db->articoli->elencoBarcode)) {
+                            $articoloCodice = $this->db->articoli->elencoBarcode[$barcode];
+                            $articoloDescrizione = trim($this->db->articoli->elencoArticoli[$articoloCodice]['descrizione']);
+                            $repartoCodice = $this->db->articoli->elencoArticoli[$articoloCodice]['reparto'];
                             $pluPeso = true;
                         }
                     }

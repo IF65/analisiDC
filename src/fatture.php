@@ -13,7 +13,7 @@
 
     if ($debug) {
         //$request = ['function' => 'creaFattura', 'sede' => '0173', 'data' => '2019-01-03', 'cassa' => '002', 'transazione' => '4522'];
-        $request = ['function' => 'creaFattura', 'sede' => '3151', 'data' => '2019-06-22', 'cassa' => '001', 'transazione' => '3485'];
+        $request = ['function' => 'creaFattura', 'sede' => '0143', 'data' => '2020-05-27', 'cassa' => '001', 'transazione' => '2218'];
     } else {
         $input = file_get_contents('php://input');
         $request = json_decode($input, true);
