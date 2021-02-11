@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="53fef98e-d46d-4d2b-a28e-0ec63b2f5b77" name="Default Changelist" comment="Funzionante step 1">
+      <change beforePath="$PROJECT_DIR$/.idea/analisiDC.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/analisiDC.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Datacollect/Fatture/Fattura.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Datacollect/Fatture/Fattura.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fatture.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatture.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,8 +44,11 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="PhpDebugGeneral" xdebug_debug_port="9001" listening_started="true" />
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 7.2">
+  <component name="PhpDebugGeneral" xdebug_debug_port="9001" listening_started="true">
+    <xdebug_debug_ports port="9001" />
+    <xdebug_debug_ports port="9003" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 7.3">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/phpspec/prophecy" />
       <path value="$PROJECT_DIR$/vendor/sebastian/version" />
@@ -82,6 +86,13 @@
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
       <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
       <path value="$PROJECT_DIR$/vendor/sebastian/type" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/complexity" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/code-unit" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/cli-parser" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/lines-of-code" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-invoker" />
     </include_path>
   </component>
   <component name="ProjectId" id="1Q09Vo0e7hk1RaHtuKh6ZwDBtZt" />
@@ -122,6 +133,11 @@
       <method v="2" />
     </configuration>
     <configuration name="fatture.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/src/fatture.php">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="PHP 7.3" />
+        </PhpTestInterpreterSettings>
+      </CommandLine>
       <method v="2" />
     </configuration>
     <recent_temporary>
@@ -248,6 +264,8 @@
       <workItem from="1605194796075" duration="1032000" />
       <workItem from="1605199914982" duration="7000" />
       <workItem from="1605774684155" duration="133000" />
+      <workItem from="1613026523861" duration="264000" />
+      <workItem from="1613026825028" duration="132000" />
     </task>
     <task id="LOCAL-00001" summary="Aggiunta documentazione">
       <created>1554750154218</created>
@@ -318,52 +336,6 @@
     <MESSAGE value="Funzionante step 1" />
     <option name="LAST_COMMIT_MESSAGE" value="Funzionante step 1" />
   </component>
-  <component name="WindowStateProjectService">
-    <state width="539" height="466" key="DebuggerActiveHint" timestamp="1590571511018">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="539" height="466" key="DebuggerActiveHint/0.23.1920.1057@0.23.1920.1057" timestamp="1590571511018" />
-    <state width="1408" height="228" key="GridCell.Tab.0.bottom" timestamp="1590582790003">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1408" height="228" key="GridCell.Tab.0.bottom/0.23.1920.1057@0.23.1920.1057" timestamp="1590582790003" />
-    <state width="1408" height="228" key="GridCell.Tab.0.center" timestamp="1590582790003">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1408" height="228" key="GridCell.Tab.0.center/0.23.1920.1057@0.23.1920.1057" timestamp="1590582790003" />
-    <state width="1408" height="228" key="GridCell.Tab.0.left" timestamp="1590582790002">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1408" height="228" key="GridCell.Tab.0.left/0.23.1920.1057@0.23.1920.1057" timestamp="1590582790002" />
-    <state width="1408" height="228" key="GridCell.Tab.0.right" timestamp="1590582790003">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1408" height="228" key="GridCell.Tab.0.right/0.23.1920.1057@0.23.1920.1057" timestamp="1590582790003" />
-    <state width="1408" height="228" key="GridCell.Tab.1.bottom" timestamp="1590582790004">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1408" height="228" key="GridCell.Tab.1.bottom/0.23.1920.1057@0.23.1920.1057" timestamp="1590582790004" />
-    <state width="1408" height="228" key="GridCell.Tab.1.center" timestamp="1590582790004">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1408" height="228" key="GridCell.Tab.1.center/0.23.1920.1057@0.23.1920.1057" timestamp="1590582790004" />
-    <state width="1408" height="228" key="GridCell.Tab.1.left" timestamp="1590582790004">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1408" height="228" key="GridCell.Tab.1.left/0.23.1920.1057@0.23.1920.1057" timestamp="1590582790004" />
-    <state width="1408" height="228" key="GridCell.Tab.1.right" timestamp="1590582790004">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1408" height="228" key="GridCell.Tab.1.right/0.23.1920.1057@0.23.1920.1057" timestamp="1590582790004" />
-    <state x="1016" y="498" key="NewPhpFileDialog" timestamp="1590582654433">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state x="1016" y="498" key="NewPhpFileDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1590582654433" />
-    <state width="725" height="469" key="XDebugger.FullValuePopup" timestamp="1590570839429">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="725" height="469" key="XDebugger.FullValuePopup/0.23.1920.1057@0.23.1920.1057" timestamp="1590570839429" />
-  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -376,11 +348,6 @@
           <url>file://$PROJECT_DIR$/examples/analisiDC.php</url>
           <line>20</line>
           <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/config.php</url>
-          <line>2</line>
-          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

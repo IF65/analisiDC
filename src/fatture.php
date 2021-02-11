@@ -13,7 +13,7 @@
 
     if ($debug) {
         //$request = ['function' => 'creaFattura', 'sede' => '0173', 'data' => '2019-01-03', 'cassa' => '002', 'transazione' => '4522'];
-        $request = ['function' => 'creaFattura', 'sede' => '0143', 'data' => '2020-05-27', 'cassa' => '001', 'transazione' => '2218'];
+        $request = ['function' => 'creaFattura', 'sede' => '0134', 'data' => '2021-02-09', 'cassa' => '005', 'transazione' => '4527'];
     } else {
         $input = file_get_contents('php://input');
         $request = json_decode($input, true);
@@ -60,10 +60,10 @@
         $db = new Database($sqlDetails);
         
         if (count($datacollect) == 0) {
-        // recupero il dc da mtx
+            // recupero il dc da mtx
             $client = new GuzzleHttp\Client();
             
-            $url = 'http://10.11.14.77/eFatture/eFatture.php';
+            /*$url = 'http://10.11.14.77/eFatture/eFatture.php';
             $headers = array('Content-Type: application/json');
             $requestData = ['function' => 'getTransaction', 'sede' => $request['sede'], 'data' => $request['data'], 'cassa' => $request['cassa'], 'transazione' => $request['transazione']];
             
@@ -80,9 +80,25 @@
             } else if ($response->getStatusCode() == 204) {
                 http_response_code(204);
                 return null;
+            }*/
+
+            $url = 'http://10.11.14.128/eDatacollect/src/eDatacollect.php';
+            $headers = array('Content-Type: application/json');
+            $requestData = ['function' => 'creazioneDatacollect', 'sede' => $request['sede'], 'data' => $request['data'], 'cassa' => $request['cassa'], 'transazione' => $request['transazione']];
+
+            $request = new GuzzleHttp\Psr7\Request("POST", $url, $headers, json_encode($requestData));
+
+            $response = $client->send($request, ['timeout' => 120]);
+            if ($response->getStatusCode() == 200) {
+                $datacollect = explode("\r\n", $response->getBody()->getContents());
+
+                $fattura = New Fattura($datacollect, $db);
+            } else if ($response->getStatusCode() == 204) {
+                http_response_code(204);
+                return null;
             }
         } else {
-            // il datacollect � gi� presente su file locale
+            // il datacollect è già presente su file locale
             $fattura = New Fattura($datacollect, $db);
         }
         
