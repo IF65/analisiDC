@@ -85,7 +85,6 @@
                 // leggo l'aliquota iva dalla prima riga informativa della vendita
                 if (preg_match('/^.{31}:i:100:.{21}:\d{4}(\d{7})/', $riga, $matches)) {
                     $ivaTipo = $matches[1]*1;
-                    //if ($ivaTipo == 0) {$ivaTipo = 6;};
                 }
                  // leggo l'indice della vendita dalla seconda riga informativa e chiudo la vendita
                 if (preg_match('/^.{31}:i:101:.{21}:(\d{4})/', $riga, $matches)) {
@@ -180,6 +179,35 @@
                 if ($vendita['quantita'] != 0) {
                     $this->righe[] = $vendita;
                 }
+            }
+
+            $totaleImponibileIvaCodice6 = 0;
+            $totaleImponibileIvaCodice7 = 0;
+            foreach ($this->vendite as $key => $vendita) {
+                if ($vendita['ivaCodice'] == 6) {
+                    $totaleImponibileIvaCodice6 += $vendita['imponibileTotale'];
+                }
+                if ($vendita['ivaCodice'] == 7) {
+                    $totaleImponibileIvaCodice7 += $vendita['imponibileTotale'];
+                }
+            }
+            if ($totaleImponibileIvaCodice6 != 0) {
+                $this->repartiIva[5]['imponibile'] -= $totaleImponibileIvaCodice6;
+
+                $this->repartiIva[6]['aliquota'] = 0;
+                $this->repartiIva[6]['descrizione'] = $this->ivaDescrizione[6];
+                $this->repartiIva[6]['codiceAde'] = 'N2';
+                $this->repartiIva[6]['imponibile'] = $totaleImponibileIvaCodice6;
+                $this->repartiIva[6]['imposta'] = 0;
+            }
+            if ($totaleImponibileIvaCodice7 != 0) {
+                $this->repartiIva[5]['imponibile'] -= $totaleImponibileIvaCodice7;
+
+                $this->repartiIva[7]['aliquota'] = 0;
+                $this->repartiIva[7]['descrizione'] = $this->ivaDescrizione[7];
+                $this->repartiIva[7]['codiceAde'] = 'N2';
+                $this->repartiIva[7]['imponibile'] = $totaleImponibileIvaCodice7;
+                $this->repartiIva[7]['imposta'] = 0;
             }
         }
         

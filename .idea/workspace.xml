@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="53fef98e-d46d-4d2b-a28e-0ec63b2f5b77" name="Default Changelist" comment="Funzionante step 1">
-      <change beforePath="$PROJECT_DIR$/.idea/analisiDC.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/analisiDC.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b2032122-d402-4b2f-87cd-75a8ecbcdc05.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/b2032122-d402-4b2f-87cd-75a8ecbcdc05.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Datacollect/Fatture/Fattura.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Datacollect/Fatture/Fattura.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fatture.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatture.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -266,6 +270,17 @@
       <workItem from="1605774684155" duration="133000" />
       <workItem from="1613026523861" duration="264000" />
       <workItem from="1613026825028" duration="132000" />
+      <workItem from="1613029306037" duration="9000" />
+      <workItem from="1613031920215" duration="31000" />
+      <workItem from="1613485174020" duration="561000" />
+      <workItem from="1615459318713" duration="54000" />
+      <workItem from="1615474063875" duration="2000" />
+      <workItem from="1617081980719" duration="2000" />
+      <workItem from="1630418117478" duration="1708000" />
+      <workItem from="1630568652809" duration="1682000" />
+      <workItem from="1630589020629" duration="230000" />
+      <workItem from="1631695896039" duration="159000" />
+      <workItem from="1631698155583" duration="2128000" />
     </task>
     <task id="LOCAL-00001" summary="Aggiunta documentazione">
       <created>1554750154218</created>
