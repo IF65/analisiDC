@@ -13,7 +13,7 @@
 
     if ($debug) {
         //$request = ['function' => 'creaFattura', 'sede' => '0173', 'data' => '2019-01-03', 'cassa' => '002', 'transazione' => '4522'];
-        $request = ['function' => 'creaFattura', 'sede' => '0125', 'data' => '2021-08-29', 'cassa' => '004', 'transazione' => '7261'];
+        $request = ['function' => 'creaFattura', 'sede' => '0134', 'data' => '2022-06-28', 'cassa' => '001', 'transazione' => '1561'];
     } else {
         $input = file_get_contents('php://input');
         $request = json_decode($input, true);
@@ -109,6 +109,7 @@
         $result['totaleFattura'] = $fattura->totale;
         $result['repartiIva'] = $fattura->repartiIva;
         $result['righe'] = $fattura->righe;
+        $result['rtServer'] = $fattura->rtServer;
         $result['importoSospeso'] = 0.0;
         
         return json_encode($result);
